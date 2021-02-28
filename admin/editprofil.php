@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+<?php
+include('../koneksi/koneksi.php');
+session_start();
+if(isset($_SESSION['id_user'])){
+$id_user = $_SESSION['id_user'];
+ $sql_d = "select `nama`, `email` from `user`
+ where `id_user` = '$id_user'";
+$query_d = mysqli_query($koneksi,$sql_d);
+while($data_d = mysqli_fetch_row($query_d)){
+ $nama= $data_d[0];
+ $email= $data_d[1];
+}
+}
+?>
 <?php include("includes/head.php") ?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -42,9 +56,15 @@
       <!-- form start -->
       </br>
       <div class="col-sm-10">
-          <div class="alert alert-danger" role="alert">Maaf data nama wajib di isi</div>
+      <?php if((!empty($_GET['notif']))&&(!empty($_GET['jenis']))){?>
+      <?php if($_GET['notif']=="editkosong"){?>
+      <div class="alert alert-danger" role="alert">Maaf data
+      <?php echo $_GET['jenis'];?> wajib di isi</div>
+      <?php }?>
+      <?php }?>
+
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="post" action="konfirmasieditprofil.php" enctype="multipart/form-data">
         <div class="card-body">          
           <div class="form-group row">
             <label for="foto" class="col-sm-12 col-form-label"><span class="text-info">
@@ -62,13 +82,13 @@
           <div class="form-group row">
             <label for="nama" class="col-sm-3 col-form-label">Nama</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="nama" id="nama" value="">
+              <input type="text" class="form-control" name="nama" id="nama" value="<?php echo $nama;?>">
             </div>
           </div>
           <div class="form-group row">
             <label for="email" class="col-sm-3 col-form-label">Email</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="email" id="email" value="">
+              <input type="text" class="form-control" name="email" id="email" value="<?php echo $email;?>">
             </div>
           </div>
         </div>

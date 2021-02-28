@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<?php
+session_start();
+$id_user = isset($_SESSION['id_user']);
+// cek sesi
+if($id_user) {
+  header("Location:profil.php");
+}
+?>
 <?php include("includes/head.php") ?>
 </head>
 <body class="hold-transition login-page">
@@ -12,10 +20,26 @@
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
-      <span class="text-danger">Maaf Username dan Password Anda Salah</span>
-      <form action="profil.php" method="post">
+      <!-- tampil notif -->
+      <?php if(!empty($_GET['gagal'])){?>
+      <?php if($_GET['gagal']=="userKosong"){?>
+      <span class="text-danger">
+      Maaf Username Tidak Boleh Kosong
+      </span>
+      <?php } else if($_GET['gagal']=="passKosong"){?>
+      <span class="text-danger">
+      Maaf Password Tidak Boleh Kosong
+      </span>
+      <?php } else {?>
+      <span class="text-danger">
+      Maaf Username dan Password Anda Salah
+      </span>
+      <?php }?>
+      <?php }?>
+      <!-- end tampil notif -->
+      <form action="konfirmasilogin.php" method="post">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Username">
+          <input type="text" class="form-control" placeholder="Username" name="username">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -23,7 +47,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password" name="password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
