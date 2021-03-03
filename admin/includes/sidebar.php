@@ -1,3 +1,13 @@
+<!-- get session -->
+<?php 
+if(session_status() === 1) {
+  session_start();
+}
+$level = "";
+if(isset($_SESSION['level'])) {
+  $level = $_SESSION['level'];
+}
+?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -80,6 +90,7 @@
               </p>
             </a>
           </li>
+          <?php if($level=="Superadmin") { ?>
           <li class="nav-item">
             <a href="user.php" class="nav-link">
               <i class="nav-icon fas fa-user-cog"></i>
@@ -88,6 +99,7 @@
               </p>
             </a>
           </li>
+          <?php } ?>
           <li class="nav-item">
             <a href="signout.php" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>

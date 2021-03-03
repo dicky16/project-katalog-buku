@@ -40,3 +40,8 @@
     autoclose: true
   });
 </script>
+<!-- jquery datatable -->
+<script>$(document).ready(function () {
+    $.noConflict();
+    var table = $('#tabel-user').DataTable();
+});</script>

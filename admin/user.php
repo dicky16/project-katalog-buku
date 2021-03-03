@@ -1,3 +1,6 @@
+<?php 
+// session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +41,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                   <form method="post" action="#">
                     <div class="row">
                         <div class="col-md-4 bottom-10">
@@ -47,13 +50,18 @@
                         <div class="col-md-5 bottom-10">
                           <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i>&nbsp; Search</button>
                         </div>
-                    </div><!-- .row -->
+                    </div>
                   </form>
-                </div><br>
+                </div><br> -->
+                <?php if((!empty($_GET['notif']))){?>
+                <?php if($_GET['notif']=='tambahberhasil') { ?>
                     <div class="alert alert-success" role="alert">Data Berhasil Ditambahkan</div>
+                <?php } else if($_GET['notif']=='editberhasil') { ?>
                     <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
+                <?php } ?>
+                <?php } ?>
                 </div>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="tabel-user">
                     <thead>                  
                       <tr>
                         <th width="5%">No</th>
@@ -64,34 +72,32 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1.</td>
-                        <td>Salnan Ratih</td>
-                        <td>salnanratih@gmail.com</td>
-                        <td>superadmin</td>
-                        <td align="center">
-                          <a href="edituser.php" class="btn btn-xs btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                          <a href="detailuser.php" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
-                          <a href="#" class="btn btn-xs btn-warning"><i class="fas fa-trash" title="Hapus"></i></a>                         
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td>Salnan Ratih</td>
-                        <td>salnanratih@gmail.com</td>
-                        <td>superadmin</td>
-                        <td align="center">
-                          <a href="edituser.php" class="btn btn-xs btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                           <a href="detailuser.php" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
-                           <a href="#" class="btn btn-xs btn-warning"><i class="fas fa-trash" title="Hapus"></i></a>                         
-                        </td>
-                      </tr>
-                      
+                      <?php
+                        $no=1;
+                        include '../koneksi/koneksi.php';
+                        $employee = mysqli_query($koneksi,"select * from user");
+                        while($row = mysqli_fetch_array($employee))
+                        {
+                          // var_dump($row['id_user']); die;
+                            echo "<tr>
+                            <td>".$no."</td>
+                            <td>".$row['nama']."</td>
+                            <td>".$row['email']."</td>
+                            <td>".$row['level']."</td>
+                            <td align='center'>
+                              <a href='edituser.php?id=".$row['id_user']."' class='btn btn-xs btn-info' title='Edit'><i class='fas fa-edit'></i></a>
+                              <a href='detailuser.php?id=".$row['id_user']."' class='btn btn-xs btn-info' title='Detail'><i class='fas fa-eye'></i></a>
+                              <a href='#' class='btn btn-xs btn-warning'><i class='fas fa-trash' title='Hapus'></i></a>                         
+                            </td>
+                        </tr>";
+                        $no++;
+                        }
+                      ?>
                     </tbody>
                   </table>  
               </div>
               <!-- /.card-body -->
-              <div class="card-footer clearfix">
+              <!-- <div class="card-footer clearfix">
                 <ul class="pagination pagination-sm m-0 float-right">
                   <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
                   <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -100,7 +106,7 @@
                   <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
                 </ul>
               </div>
-            </div>
+            </div> -->
             <!-- /.card -->
 
     </section>

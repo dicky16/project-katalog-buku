@@ -2,6 +2,25 @@
 <html>
 <head>
 <?php include("includes/head.php") ?> 
+<!-- get data user -->
+<?php
+include('../koneksi/koneksi.php');
+session_start();
+if(isset($_GET['id'])){
+$id_user = $_GET['id'];
+ $sql_d = "select * from `user`
+ where `id_user` = '$id_user'";
+$query_d = mysqli_query($koneksi,$sql_d);
+while($data_d = mysqli_fetch_row($query_d)){
+ $nama= $data_d[1];
+ $email= $data_d[2];
+ $username= $data_d[3];
+ $password= $data_d[4];
+ $lvl= $data_d[5];
+ $foto= $data_d[6];
+}
+}
+?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -19,7 +38,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="profil.php">Home</a></li>
               <li class="breadcrumb-item"><a href="user.php">Data User</a></li>
               <li class="breadcrumb-item active">Detail Data User</li>
             </ol>
@@ -46,23 +65,23 @@
                       </tr>                      
                       <tr>
                         <td><strong>Foto User<strong></td>
-                        <td><img src="foto/salnan.jpg" class="img-fluid" width="200px;"></td>
+                        <td><img src="foto/<?= $foto ?>" class="img-fluid" width="200px;"></td>
                       </tr>               
                       <tr>
                         <td width="20%"><strong>Nama<strong></td>
-                        <td width="80%">Salna Ratih</td>
+                        <td width="80%"><?= $nama ?></td>
                       </tr>                 
                       <tr>
                         <td width="20%"><strong>Email<strong></td>
-                        <td width="80%">salnanratih88@gmail.com</td>
+                        <td width="80%"><?= $email ?></td>
                       </tr>
                       <tr>
                         <td width="20%"><strong>Level<strong></td>
-                        <td width="80%">Superadmin</td>
+                        <td width="80%"><?= $lvl ?></td>
                       </tr>                 
                       <tr>
                         <td width="20%"><strong>Username<strong></td>
-                        <td width="80%">salnan</td>
+                        <td width="80%"><?= $username ?></td>
                       </tr> 
                     </tbody>
                   </table>  

@@ -42,9 +42,12 @@
       <!-- form start -->
       </br>
       <div class="col-sm-10">
-          <div class="alert alert-danger" role="alert">Maaf data nama wajib di isi</div>
+      <?php if((!empty($_GET['notif']))&&(!empty($_GET['jenis']))){?>
+        <?php if ($_GET['notif']=='tambahkosong') {?>
+          <div class="alert alert-danger" role="alert">Maaf data <?php echo $_GET['jenis']; ?> wajib di isi</div>
+      <?php }} ?>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="post" action="konfirmasitambahuser.php" enctype="multipart/form-data">
         <div class="card-body">
           <div class="form-group row">
             <label for="foto" class="col-sm-12 col-form-label"><span class="text-info"><i class="fas fa-user-circle"></i> <u>Data User</u></span></label>
@@ -85,9 +88,9 @@
           <div class="form-group row">
             <label for="level" class="col-sm-3 col-form-label">Level</label>
             <div class="col-sm-7">
-              <select class="form-control" id="jurusan">
-                <option value="superadmin">superadmin</option>
-                <option value="admin">admin</option>
+              <select class="form-control" id="level" name=level>
+                <option value="Superadmin">Superadmin</option>
+                <option value="Admin">Admin</option>
               </select>
             </div>
           </div>
@@ -99,7 +102,7 @@
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-12">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-plus"></i> Tambah</button>
+            <button type="submit" class="btn btn-info float-right" name="tambahuser"><i class="fas fa-plus"></i> Tambah</button>
           </div>  
         </div>
         <!-- /.card-footer -->

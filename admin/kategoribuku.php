@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php include("includes/head.php") ?> 
+<?php
+include("includes/head.php");
+include("../koneksi/koneksi.php");
+?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -63,35 +66,133 @@
                     </tr>
                   </thead>
                   <tbody>
+                  <?php
+                  $batas = 5;
+                  $data;
+                  if (!isset($_GET['halaman'])) {
+                      $posisi = 0;
+                      $halaman = 1;
+                  } else {
+                      $halaman = $_GET['halaman'];
+                      $posisi = ($halaman-1) * $batas;
+                  }
+                  //hitung jumlah semua data
+                  $sql_jum = "select `id_kategori_buku`, `kategori_buku` from
+                  `kategori_buku` ";
+                  if (isset($_GET["katakunci"])) {
+                      $katakunci_kategori = $_GET["katakunci"];
+                      $sql_jum .= " where `kategori_buku` LIKE '%$katakunci_kategori%'";
+                  }
+                  $sql_jum .= " order by `kategori_buku`";
+                  $query_jum = mysqli_query($koneksi, $sql_jum);
+                  $jum_data = mysqli_num_rows($query_jum);
+                  $jum_halaman = ceil($jum_data/$batas);
+                  // pagination
+                  $sql_k = "SELECT `id_kategori_buku`,`kategori_buku` FROM
+                  `kategori_buku` ";
+                  if (isset($_GET["katakunci"])) {
+                      $katakunci_kategori = $_GET["katakunci"];
+                      $sql_k .= " where `kategori_buku` LIKE
+                  '%$katakunci_kategori%'";
+                  }
+                  $sql_k .= " ORDER BY `kategori_buku` limit $posisi, $batas ";
+                  $query_d = mysqli_query($koneksi, $sql_k);
+                  while ($data_d = mysqli_fetch_row($query_d)) {
+                      $data[] = $data_d;
+                  }
+                  $no = 1;
+                  //display data to table
+                  if (!empty($data)) {
+                      for ($i=0; $i < count($data); $i++) {
+                          ?>
                     <tr>
-                      <td>1.</td>
-                      <td>Website</td>
+                      <td><?= $no ?></td>
+                      <td><?= $data[$i][1] ?></td>
                       <td align="center">
                         <a href="editkategoribuku.php" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
                         <a href="#" class="btn btn-xs btn-warning"><i class="fas fa-trash"></i> Hapus</a>
                       </td>
                     </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Mobil</td>
-                      <td align="center">
-                        <a href="editkategoribuku.php" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="#" class="btn btn-xs btn-warning"><i class="fas fa-trash"></i> Hapus</a>
-                      </td>
-                    </tr>
+                    <?php
+                    $no++;
+                      }
+                      ?>
+                      </tbody>
+                </table>
+                <?php
+                  } else {?>
                   </tbody>
                 </table>
+                <center>Tidak ada data!</center>
+                <?php
+                   }?>
               </div>
               <!-- /.card-body -->
+              <!-- mulai paginasi FE -->
               <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
+              <ul class="pagination pagination-sm m-0 float-right">
+              <?php
+              if ($jum_halaman==0) {
+                  //tidak ada halaman
+              } elseif ($jum_halaman==1) {
+                  echo "<li class='page-item'><a class='page-link'>1</a></li>";
+              } else {
+                  $sebelum = $halaman-1;
+                  $setelah = $halaman+1;
+                  if (isset($_GET["katakunci"])) {
+                      $katakunci_kategori = $_GET["katakunci"];
+                      if ($halaman!=1) {
+                          echo "<li class='page-item'>
+              <a class='page-link'
+              href='kategoribuku.php?katakunci=$katakunci_kategori&halaman=1'>First</a></li>";
+              echo "<li class='page-item'><a class='page-link'
+              href='kategoribuku.php?katakunci=$katakunci_kategori&halaman=$sebelum'>
+              «</a></li>";
+                      }
+                      for ($i=1; $i<=$jum_halaman; $i++) {
+                          if ($i!=$halaman) {
+                              echo "<li class='page-item'><a class='page-link'
+              href='kategoribuku.php?katakunci=$katakunci_kategori&halaman=$i'>$i</a></li>";
+                          } else {
+                              echo "<li class='page-item'>
+              <a class='page-link'>$i</a></li>";
+                          }
+                      }
+                      if ($halaman!=$jum_halaman) {
+                          echo "<li class='page-item'>
+              <a class='page-link'
+              href='kategoribuku.php?katakunci=$katakunci_kategori&halaman=$setelah'>»</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategoribuku.php?katakunci=$katakunci_kategori&halaman=$jum_halaman'>
+              Last</a></li>";
+                      }
+                  } else {
+                      if ($halaman!=1) {
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategoribuku.php?halaman=1'>First</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategoribuku.php?halaman=$sebelum'>«</a></li>";
+                      }
+                      for ($i=1; $i<=$jum_halaman; $i++) {
+                          if ($i!=$halaman) {
+                              echo "<li class='page-item'><a class='page-link'
+              href='kategoribuku.php?halaman=$i'>$i</a></li>";
+                          } else {
+                              echo "<li class='page-item'><a class='page-link'>$i</a></li>";
+                          }
+                      }
+                      if ($halaman!=$jum_halaman) {
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategoribuku.php?halaman=$setelah'>
+              »</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategoribuku.php?halaman=$jum_halaman'>Last</a></li>";
+                      }
+                  }
+              }?>
+              </ul>
               </div>
+              <!-- end paginasi FE -->
             </div>
             <!-- /.card -->
 
