@@ -42,21 +42,24 @@
       <!-- form start -->
       </br>
       <div class="col-sm-10">
+      <?php if(isset($_GET['notif'])) {
+        if($_GET['notif'] == "tambahkosong") { ?>
           <div class="alert alert-danger" role="alert">Maaf data kategoribuku wajib di isi</div>
+          <?php }} ?>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasikategoribuku.php">
         <div class="card-body">
           <div class="form-group row">
             <label for="kategoribuku" class="col-sm-3 col-form-label">Kategori Buku</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="kategoribuku" value="">
+              <input type="text" class="form-control" id="kategoribuku" value="" name="kategoribuku">
             </div>
           </div>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-plus"></i> Tambah</button>
+            <button type="submit" class="btn btn-info float-right" name="tambahkategoribuku"><i class="fas fa-plus"></i> Tambah</button>
           </div>  
         </div>
         <!-- /.card-footer -->

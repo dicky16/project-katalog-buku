@@ -21,6 +21,8 @@
 <script src="dist/js/global.js"></script>
 <!-- CKEditor -->
 <script src="ckeditor/ckeditor.js"></script>
+<!-- sweetalert 2 -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
   // Replace the <textarea id="editor1"> with a CKEditor
   // instance, using default configuration.

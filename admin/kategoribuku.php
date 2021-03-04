@@ -54,8 +54,12 @@ include("../koneksi/koneksi.php");
                   </form>
                 </div><br>
               <div class="col-sm-12">
-                  <div class="alert alert-success" role="alert">Data Berhasil Ditambahkan</div>
+              <?php if(isset($_GET['notif'])) {
+              if($_GET['notif'] == "tambahberhasil") { ?>
+                <div class="alert alert-success" role="alert">Data Berhasil Ditambahkan</div>
+                <?php } else if($_GET['notif'] == "editberhasil") { ?>
                   <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
+                  <?php }} ?>
               </div>
                 <table class="table table-bordered">
                   <thead>                  
@@ -68,7 +72,6 @@ include("../koneksi/koneksi.php");
                   <tbody>
                   <?php
                   $batas = 5;
-                  $data;
                   if (!isset($_GET['halaman'])) {
                       $posisi = 0;
                       $halaman = 1;
@@ -100,7 +103,7 @@ include("../koneksi/koneksi.php");
                   while ($data_d = mysqli_fetch_row($query_d)) {
                       $data[] = $data_d;
                   }
-                  $no = 1;
+                  $no = $posisi + 1;
                   //display data to table
                   if (!empty($data)) {
                       for ($i=0; $i < count($data); $i++) {
@@ -109,8 +112,8 @@ include("../koneksi/koneksi.php");
                       <td><?= $no ?></td>
                       <td><?= $data[$i][1] ?></td>
                       <td align="center">
-                        <a href="editkategoribuku.php" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="#" class="btn btn-xs btn-warning"><i class="fas fa-trash"></i> Hapus</a>
+                        <a href="editkategoribuku.php?id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="#" class="btn btn-xs btn-warning hapus" data-id="<?= $data[$i][0] ?>"><i class="fas fa-trash"></i> Hapus</a>
                       </td>
                     </tr>
                     <?php
@@ -206,5 +209,48 @@ include("../koneksi/koneksi.php");
 <!-- ./wrapper -->
 
 <?php include("includes/script.php") ?>
+<script>
+$( ".hapus" ).click(function() {
+  var id = $(this).data("id");
+  const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+  title: 'Apakah Anda yakin?',
+  text: "Anda tidak dapat membatalkan aksi ini!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Yes, delete it!',
+  cancelButtonText: 'No, cancel!',
+  reverseButtons: true
+}).then((result) => {
+  if (result.isConfirmed) {
+    swalWithBootstrapButtons.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+    setInterval(() => {
+      
+    }, 500);
+    location.replace("hapuskategoribuku.php?id="+id);
+  } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    swalWithBootstrapButtons.fire(
+      'Cancelled',
+      'Your imaginary file is safe :)',
+      'error'
+    )
+  }
+})
+});
+</script>
 </body>
 </html>

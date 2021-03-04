@@ -2,6 +2,22 @@
 <html>
 <head>
 <?php include("includes/head.php") ?> 
+<?php include("../koneksi/koneksi.php") ?> 
+<?php 
+if(isset($_GET['id'])) {
+  if(is_numeric($_GET['id'])) {
+    $id = $_GET['id'];
+    $sql_d = "select `kategori_buku` from `kategori_buku`
+    where `id_kategori_buku` = '$id'";
+    $query_d = mysqli_query($koneksi,$sql_d);
+    while($data_d = mysqli_fetch_row($query_d)){
+      $kategoribuku = $data_d[0];
+    }
+  } else {
+    echo "Hayo mau ngapain :D"; die;
+  }
+} 
+?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -42,21 +58,24 @@
       <!-- form start -->
       </br>
       <div class="col-sm-10">
+      <?php if(isset($_GET['notif'])) {
+        if($_GET['notif'] == "tambahkosong") { ?>
           <div class="alert alert-danger" role="alert">Maaf data Kategori Buku wajib di isi</div>
+          <?php }} ?>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasikategoribuku.php?id=<?= $id ?>">
         <div class="card-body">
           <div class="form-group row">
             <label for="Kategori Buku" class="col-sm-3 col-form-label">Kategori Buku</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="Kategori Buku" value="Website">
+              <input type="text" class="form-control" id="Kategori Buku" name="kategoribuku" value="<?= $kategoribuku ?>">
             </div>
           </div>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-save"></i> Simpan</button>
+            <button type="submit" class="btn btn-info float-right" name="updatekategoribuku"><i class="fas fa-save"></i> Simpan</button>
           </div>  
         </div>
         <!-- /.card-footer -->
