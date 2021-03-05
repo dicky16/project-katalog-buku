@@ -2,6 +2,21 @@
 <html>
 <head>
 <?php include("includes/head.php") ?> 
+<?php 
+include("../koneksi/koneksi.php");
+if(isset($_GET['id'])) {
+  if(is_numeric($_GET['id'])) {
+    $id = $_GET['id'];
+    $sql_d = "select `tag` from `tag` where `id_tag`='$id'";
+    $query_d = mysqli_query($koneksi,$sql_d);
+    while($data_d = mysqli_fetch_row($query_d)){
+      $tag = $data_d[0];
+    }
+  } else {
+    echo "Hayo mau ngapain :D"; die;
+  }
+} 
+?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -20,7 +35,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="katgoribuku.php">Tag</a></li>
+              <li class="breadcrumb-item"><a href="tag.php">Tag</a></li>
               <li class="breadcrumb-item active">Edit Tag</li>
             </ol>
           </div>
@@ -42,21 +57,24 @@
       <!-- form start -->
       </br>
       <div class="col-sm-10">
+      <?php if(isset($_GET['notif'])) { ?>
+      <?php if($_GET['notif'] == "editkosong") { ?>
           <div class="alert alert-danger" role="alert">Maaf data Tag wajib di isi</div>
+      <?php } } ?>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasitag.php?id=<?= $id ?>">
         <div class="card-body">
           <div class="form-group row">
             <label for="Tag" class="col-sm-3 col-form-label">Tag</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="Tag" value="PHP">
+              <input type="text" class="form-control" id="Tag" value="<?= $tag ?>" name="tag">
             </div>
           </div>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-save"></i> Simpan</button>
+            <button type="submit" class="btn btn-info float-right" name="updatetag"><i class="fas fa-save"></i> Simpan</button>
           </div>  
         </div>
         <!-- /.card-footer -->
