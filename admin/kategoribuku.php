@@ -235,10 +235,9 @@ swalWithBootstrapButtons.fire({
       'Your file has been deleted.',
       'success'
     )
-    setInterval(() => {
-      
-    }, 500);
-    location.replace("hapuskategoribuku.php?id="+id);
+    setTimeout(() => {
+      location.replace("hapuskategoribuku.php?id="+id);
+    }, 700);
   } else if (
     /* Read more about handling dismissals below */
     result.dismiss === Swal.DismissReason.cancel

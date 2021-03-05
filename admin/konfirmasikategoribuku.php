@@ -1,8 +1,8 @@
 <?php
  //akses file koneksi database
  include('../koneksi/koneksi.php');
- if (isset($_POST['tambahkategori'])) {
-     $kategori = $_POST['tambahkategoribuku'];
+ if (isset($_POST['tambahkategoribuku'])) {
+     $kategori = $_POST['kategoribuku'];
      if(empty($kategori)) {
         header("Location:tambahkategoribuku.php?notif=tambahkosong");
      } else {
