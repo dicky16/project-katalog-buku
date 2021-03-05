@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php include("includes/head.php") ?> 
+<?php 
+include("includes/head.php");
+include("../koneksi/koneksi.php"); 
+?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -50,7 +53,10 @@
                   </form>
                 </div><br>
               <div class="col-sm-12">
-                  <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
+              <?php if(isset($_GET['notif'])) {
+              if($_GET['notif'] == "editberhasil") { ?>
+                <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
+                <?php } } ?>
               </div>
                 <table class="table table-bordered">
                   <thead>                  
@@ -62,18 +68,40 @@
                     </tr>
                   </thead>
                   <tbody>
+                  <?php
+                  $sql = "SELECT * FROM `konten` order by `judul`";
+                  $query_d = mysqli_query($koneksi, $sql);
+                  while ($data_d = mysqli_fetch_row($query_d)) {
+                      $data[] = $data_d;
+                  }
+                  $no = 1;
+                  //display data to table
+                  if (!empty($data)) {
+                      for ($i=0; $i < count($data); $i++) {
+                          ?>
                     <tr>
-                      <td>1.</td>
-                      <td>About Us</td>
-                      <td>24-02-2021</td>
+                      <td><?= $no ?></td>
+                      <td><?= $data[$i][1] ?></td>
+                      <td><?= $data[$i][3] ?></td>
                       <td align="center">
-                        <a href="editkonten.php" class="btn btn-xs btn-info"><i class="fas fa-edit"></i></a>
-                        <a href="detailkonten.php" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
+                        <a href="editkonten.php?id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info"><i class="fas fa-edit"></i></a>
+                        <a href="detailkonten.php?id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
                            
                       </td>
                     </tr>
+                    <?php
+                    $no++;
+                      }
+                      ?>
+                      </tbody>
+                </table>
+                <?php
+                  } else {?>
                   </tbody>
                 </table>
+                <center>Tidak ada data!</center>
+                <?php
+                   }?>
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">

@@ -2,6 +2,17 @@
 <html>
 <head>
 <?php include("includes/head.php") ?> 
+<?php
+include("../koneksi/koneksi.php");
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $sql = "SELECT * FROM `konten` where `id_konten`='$id' order by `judul`";
+    $query_d = mysqli_query($koneksi, $sql);
+    while ($data_d = mysqli_fetch_row($query_d)) {
+        $data[] = $data_d;
+    }
+}
+?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -43,21 +54,24 @@
       <!-- form start -->
       </br></br>
       <div class="col-sm-10">
-          <div class="alert alert-danger" role="alert">Maaf judul wajib di isi</div>
+      <?php if((!empty($_GET['notif']))&&(!empty($_GET['jenis']))){?>
+        <?php if ($_GET['notif']=='editkosong') {?>
+          <div class="alert alert-danger" role="alert">Maaf data <?php echo $_GET['jenis']; ?> wajib di isi</div>
+      <?php }} ?>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasikonten.php?id=<?= $data[0][0] ?>">
         <div class="card-body">
           
           <div class="form-group row">
             <label for="nim" class="col-sm-3 col-form-label">Judul</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="nim" id="nim" value="About Us">
+              <input type="text" class="form-control" name="judul" id="nim" value="<?= $data[0][1] ?>">
             </div>
           </div>
           <div class="form-group row">
             <label for="sinopsis" class="col-sm-3 col-form-label">Isi</label>
             <div class="col-sm-7">
-              <textarea class="form-control" name="sinopsis" id="editor1" rows="12">Lorem Ipsum</textarea>
+              <textarea class="form-control" name="isi" id="editor1" rows="12"><?= $data[0][2] ?></textarea>
             </div>
           </div>     
 
@@ -68,7 +82,7 @@
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-12">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-save"></i> Simpan</button>
+            <button type="submit" class="btn btn-info float-right" name="updatekonten"><i class="fas fa-save"></i> Simpan</button>
           </div>  
         </div>
         <!-- /.card-footer -->
