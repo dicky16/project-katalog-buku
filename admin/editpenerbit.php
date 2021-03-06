@@ -2,6 +2,21 @@
 <html>
 <head>
 <?php include("includes/head.php") ?> 
+<?php 
+include("../koneksi/koneksi.php");
+if(isset($_GET['id'])) {
+  if(is_numeric($_GET['id'])) {
+    $id = $_GET['id'];
+    $sql_d = "select * from `penerbit` where `id_penerbit`='$id'";
+    $query_d = mysqli_query($koneksi,$sql_d);
+    while($data_d = mysqli_fetch_row($query_d)){
+      $data[] = $data_d;
+    }
+  } else {
+    echo "Hayo mau ngapain :D"; die;
+  }
+} 
+?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -43,27 +58,30 @@
       <!-- form start -->
       </br>
       <div class="col-sm-10">
-          <div class="alert alert-danger" role="alert">Maaf data Penerbit wajib di isi</div>
+      <?php if((!empty($_GET['notif']))&&(!empty($_GET['jenis']))){?>
+        <?php if ($_GET['notif']=='editkosong') {?>
+          <div class="alert alert-danger" role="alert">Maaf data <?php echo $_GET['jenis']; ?> wajib di isi</div>
+      <?php }} ?>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasipenerbit.php?id=<?= $data[0][0] ?>">
         <div class="card-body">
           <div class="form-group row">
             <label for="Penerbit" class="col-sm-3 col-form-label">Penerbit</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="Penerbit" value="Andi">
+              <input type="text" class="form-control" id="Penerbit" name="penerbit" value="<?= $data[0][1] ?>">
             </div>
           </div>
           <div class="form-group row">
             <label for="isi" class="col-sm-3 col-form-label">Alamat</label>
             <div class="col-sm-7">
-              <textarea class="form-control" name="alamat" id="editor1" rows="12">Yogyakarta</textarea>
+              <textarea class="form-control" name="alamat" id="editor1" rows="12"><?= $data[0][2] ?></textarea>
             </div>
           </div>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-save"></i> Simpan</button>
+            <button type="submit" class="btn btn-info float-right" name="updatepenerbit"><i class="fas fa-save"></i> Simpan</button>
           </div>  
         </div>
         <!-- /.card-footer -->

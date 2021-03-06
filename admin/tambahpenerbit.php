@@ -44,12 +44,12 @@
       <div class="col-sm-10">
           <div class="alert alert-danger" role="alert">Maaf data penerbit wajib di isi</div>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasipenerbit.php">
         <div class="card-body">
           <div class="form-group row">
             <label for="tag" class="col-sm-3 col-form-label">Penerbit</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="tag" value="">
+              <input type="text" class="form-control" name="penerbit" id="tag" value="">
             </div>
           </div>
           <div class="form-group row">
@@ -62,7 +62,7 @@
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-plus"></i> Tambah</button>
+            <button type="submit" class="btn btn-info float-right" name="tambahpenerbit"><i class="fas fa-plus"></i> Tambah</button>
           </div>  
         </div>
         <!-- /.card-footer -->
