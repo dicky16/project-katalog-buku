@@ -87,7 +87,7 @@
                             <td align='center'>
                               <a href='edituser.php?id=".$row['id_user']."' class='btn btn-xs btn-info' title='Edit'><i class='fas fa-edit'></i></a>
                               <a href='detailuser.php?id=".$row['id_user']."' class='btn btn-xs btn-info' title='Detail'><i class='fas fa-eye'></i></a>
-                              <a href='#' class='btn btn-xs btn-warning'><i class='fas fa-trash' title='Hapus'></i></a>                         
+                              <a href='#' class='btn btn-xs btn-warning hapususer' data-id='".$row['id_user']."'><i class='fas fa-trash' title='Hapus'></i></a>                         
                             </td>
                         </tr>";
                         $no++;
@@ -119,5 +119,16 @@
 <!-- ./wrapper -->
 
 <?php include("includes/script.php") ?>
+<script>
+$(document).ready(function () {
+  //datatable
+  $.noConflict();
+    var table = $('#tabel-user').DataTable();
+  
+  $( ".hapususer" ).click(function() {
+    hapus(this, "hapususer.php");
+  });
+});
+</script>
 </body>
 </html>

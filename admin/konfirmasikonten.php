@@ -4,7 +4,7 @@ include("../koneksi/koneksi.php");
 if(isset($_POST['updatekonten'])) {
     $judul = $_POST['judul'];
     $isi = $_POST['isi'];
-    $tanggal = date("Y-m-d H:i:s");
+    $tanggal = date("Y-m-d");
     if(empty($judul)) {
         header("Location:editkonten.php?id=".$_GET['id']."&notif=editkosong&jenis=judul");
      } else if(empty($isi)) {

@@ -42,8 +42,46 @@
     autoclose: true
   });
 </script>
-<!-- jquery datatable -->
-<script>$(document).ready(function () {
-    $.noConflict();
-    var table = $('#tabel-user').DataTable();
-});</script>
+<script>
+// konfirmasi hapus
+function hapus(selector,url) {
+  var id = $(selector).data("id");
+  const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
+
+swalWithBootstrapButtons.fire({
+  title: 'Apakah Anda yakin?',
+  text: "Anda tidak dapat membatalkan aksi ini!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonText: 'Yes, delete it!',
+  cancelButtonText: 'No, cancel!',
+  reverseButtons: true
+}).then((result) => {
+  if (result.isConfirmed) {
+    swalWithBootstrapButtons.fire(
+      'Deleted!',
+      'User berhasil dihapus.',
+      'success'
+    )
+    setTimeout(() => {
+      location.replace(""+url+"?id="+id);
+    }, 700);
+  } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    swalWithBootstrapButtons.fire(
+      'Cancelled',
+      'User tidak terhapus :)',
+      'error'
+    )
+  }
+})
+}
+</script>
