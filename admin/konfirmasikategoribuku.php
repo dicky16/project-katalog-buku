@@ -13,7 +13,7 @@
  }  else if(isset($_POST['updatekategoribuku'])) {
    $kategori = $_POST['kategoribuku'];
    if(empty($kategori)) {
-      header("Location:editkategoribuku.php?id=".$_GET['id']."=&notif=editkosong");
+      header("Location:editkategoribuku.php?id=".$_GET['id']."&notif=editkosong");
    } else {
       if(isset($_GET['id'])) {
          $id = $_GET['id'];

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php include("includes/head.php") ?> 
+<?php include("includes/head.php") ?>
+<?php include("../koneksi/koneksi.php") ?>  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -53,8 +54,12 @@
                   </form>
                 </div><br>
               <div class="col-sm-12">
+              <?php if(isset($_GET['notif'])) { ?>
+              <?php if($_GET['notif'] == "tambahberhasil") { ?>
                   <div class="alert alert-success" role="alert">Data Berhasil Ditambahkan</div>
+                  <?php } else if($_GET['notif'] == "editberhasil") { ?>
                   <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
+                  <?php } } ?>
               </div>
                 <table class="table table-bordered">
                   <thead>                  
@@ -65,33 +70,128 @@
                     </tr>
                   </thead>
                   <tbody>
+                  <?php
+                  $batas = 5;
+                  if (!isset($_GET['halaman'])) {
+                      $posisi = 0;
+                      $halaman = 1;
+                  } else {
+                      $halaman = $_GET['halaman'];
+                      $posisi = ($halaman-1) * $batas;
+                  }
+                  //hitung jumlah semua data
+                  $sql_jum = "select `id_kategori_blog`, `kategori_blog` from
+                  `kategori_blog` ";
+                  if (isset($_GET["katakunci"])) {
+                      $katakunci_kategori = $_GET["katakunci"];
+                      $sql_jum .= " where `kategori_blog` LIKE '%$katakunci_kategori%'";
+                  }
+                  $sql_jum .= " order by `kategori_blog`";
+                  $query_jum = mysqli_query($koneksi, $sql_jum);
+                  $jum_data = mysqli_num_rows($query_jum);
+                  $jum_halaman = ceil($jum_data/$batas);
+                  // pagination
+                  $sql_k = "SELECT `id_kategori_blog`,`kategori_blog` FROM
+                  `kategori_blog` ";
+                  if (isset($_GET["katakunci"])) {
+                      $katakunci_kategori = $_GET["katakunci"];
+                      $sql_k .= " where `kategori_blog` LIKE
+                  '%$katakunci_kategori%'";
+                  }
+                  $sql_k .= " ORDER BY `kategori_blog` limit $posisi, $batas ";
+                  $query_d = mysqli_query($koneksi, $sql_k);
+                  while ($data_d = mysqli_fetch_row($query_d)) {
+                      $data[] = $data_d;
+                  }
+                  $no = $posisi + 1;
+                  //display data to table
+                  if (!empty($data)) {
+                      for ($i=0; $i < count($data); $i++) {
+                          ?>
                     <tr>
-                      <td>1.</td>
-                      <td>Teknologi</td>
+                      <td><?= $no ?></td>
+                      <td><?= $data[$i][1] ?></td>
                       <td align="center">
-                        <a href="editkategoriblog.php" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="#" class="btn btn-xs btn-warning"><i class="fas fa-trash"></i> Hapus</a>
+                        <a href="editkategoriblog.php?id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="#" class="btn btn-xs btn-warning hapus-kategoriblog" data-id="<?= $data[$i][0] ?>"><i class="fas fa-trash"></i> Hapus</a>
                       </td>
                     </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Pemrograman</td>
-                      <td align="center">
-                        <a href="editkategoriblog.php" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="#" class="btn btn-xs btn-warning"><i class="fas fa-trash"></i> Hapus</a>
-                      </td>
-                    </tr>
+                    <?php
+                    $no++;
+                      }
+                      ?>
                   </tbody>
                 </table>
+                <?php
+                  } else {?>
+                  </tbody>
+                </table>
+                <center>Tidak ada data!</center>
+                <?php
+                   }?>
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
                 <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                <?php
+              if ($jum_halaman==0) {
+                  //tidak ada halaman
+              } elseif ($jum_halaman==1) {
+                  echo "<li class='page-item'><a class='page-link'>1</a></li>";
+              } else {
+                  $sebelum = $halaman-1;
+                  $setelah = $halaman+1;
+                  if (isset($_GET["katakunci"])) {
+                      $katakunci_kategori = $_GET["katakunci"];
+                      if ($halaman!=1) {
+                          echo "<li class='page-item'>
+              <a class='page-link'
+              href='kategoriblog.php?katakunci=$katakunci_kategori&halaman=1'>First</a></li>";
+              echo "<li class='page-item'><a class='page-link'
+              href='kategoriblog.php?katakunci=$katakunci_kategori&halaman=$sebelum'>
+              «</a></li>";
+                      }
+                      for ($i=1; $i<=$jum_halaman; $i++) {
+                          if ($i!=$halaman) {
+                              echo "<li class='page-item'><a class='page-link'
+              href='kategoriblog.php?katakunci=$katakunci_kategori&halaman=$i'>$i</a></li>";
+                          } else {
+                              echo "<li class='page-item'>
+              <a class='page-link'>$i</a></li>";
+                          }
+                      }
+                      if ($halaman!=$jum_halaman) {
+                          echo "<li class='page-item'>
+              <a class='page-link'
+              href='kategoriblog.php?katakunci=$katakunci_kategori&halaman=$setelah'>»</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategoriblog.php?katakunci=$katakunci_kategori&halaman=$jum_halaman'>
+              Last</a></li>";
+                      }
+                  } else {
+                      if ($halaman!=1) {
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategoriblog.php?halaman=1'>First</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategoriblog.php?halaman=$sebelum'>«</a></li>";
+                      }
+                      for ($i=1; $i<=$jum_halaman; $i++) {
+                          if ($i!=$halaman) {
+                              echo "<li class='page-item'><a class='page-link'
+              href='kategoriblog.php?halaman=$i'>$i</a></li>";
+                          } else {
+                              echo "<li class='page-item'><a class='page-link'>$i</a></li>";
+                          }
+                      }
+                      if ($halaman!=$jum_halaman) {
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategoriblog.php?halaman=$setelah'>
+              »</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategoriblog.php?halaman=$jum_halaman'>Last</a></li>";
+                      }
+                  }
+              }?>
                 </ul>
               </div>
             </div>
@@ -107,5 +207,12 @@
 <!-- ./wrapper -->
 
 <?php include("includes/script.php") ?>
+<script>
+$(document).ready(function () {
+  $( ".hapus-kategoriblog" ).click(function() {
+    hapus(this, "hapuskategoriblog.php");
+  });
+});
+</script>
 </body>
 </html>

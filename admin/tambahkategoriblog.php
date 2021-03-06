@@ -43,21 +43,24 @@
       <!-- form start -->
       </br>
       <div class="col-sm-10">
+      <?php if(isset($_GET['notif'])) {
+        if($_GET['notif'] == "tambahkosong") { ?>
           <div class="alert alert-danger" role="alert">Maaf data kategori blog wajib di isi</div>
+          <?php }} ?>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasikategoriblog.php">
         <div class="card-body">
           <div class="form-group row">
             <label for="kategoribuku" class="col-sm-3 col-form-label">Kategori Blog</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" id="kategoriblog" value="">
+              <input type="text" class="form-control" name="kategoriblog" value="">
             </div>
           </div>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-plus"></i> Tambah</button>
+            <button type="submit" class="btn btn-info float-right" name="tambahkategoriblog"><i class="fas fa-plus"></i> Tambah</button>
           </div>  
         </div>
         <!-- /.card-footer -->
