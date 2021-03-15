@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php include("includes/head.php") ?> 
+<?php
+include("includes/head.php");
+include("../koneksi/koneksi.php");
+?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -43,9 +46,14 @@
       <!-- form start -->
       </br></br>
       <div class="col-sm-10">
-          <div class="alert alert-danger" role="alert">Maaf judul wajib di isi</div>
+      <?php if ((!empty($_GET['notif']))&&(!empty($_GET['jenis']))) {?>
+      <?php if ($_GET['notif']=="tambahkosong") {?>
+      <div class="alert alert-danger" role="alert">Maaf data
+      <?php echo $_GET['jenis'];?> wajib di isi</div>
+      <?php }?>
+      <?php }?>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasibuku.php" enctype="multipart/form-data">
         <div class="card-body">
           
           <div class="form-group row">
@@ -60,32 +68,56 @@
           <div class="form-group row">
             <label for="kategori" class="col-sm-3 col-form-label">Kategori Buku</label>
             <div class="col-sm-7">
-              <select class="form-control" id="kategori">
-                <option value="0">- Pilih Kategori -</option>
-                <option value="Website">Website</option>
-                <option value="Mobile">Mobile</option>
+              <select class="form-control" name="kategori_buku">
+              <option value="0">- Pilih Kategori Buku -</option>
+              <?php
+              $check_kategori = '';
+              $sql_kategori_buku = "select `id_kategori_buku`,`kategori_buku` from `kategori_buku`";
+              $query_kategori_buku = mysqli_query($koneksi, $sql_kategori_buku);
+              while ($data_kategori_buku = mysqli_fetch_row($query_kategori_buku)) {
+                  if (isset($_SESSION['id_kategori'])) {
+                      if ($_SESSION['id_kategori'] == $data_kategori_buku[0]) {
+                          $check_kategori = 'selected';
+                      }
+                  } ?>
+                <option value="<?= $data_kategori_buku[0] ?>" <?= $check_kategori ?> ><?= $data_kategori_buku[1] ?></option>
+                <?php
+                $check_kategori = '';
+              } ?>
               </select>
             </div>
           </div>
           <div class="form-group row">
             <label for="nim" class="col-sm-3 col-form-label">Judul</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="nim" id="nim" value="">
+              <input type="text" class="form-control" name="judul" id="nim" value="<?php echo isset($_SESSION['judul']) ? $_SESSION['judul'] : ''; ?>">
             </div>
           </div>
           <div class="form-group row">
             <label for="pengarang" class="col-sm-3 col-form-label">Pengarang</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="pengarang" id="pengarang" value="">
+              <input type="text" class="form-control" name="pengarang" id="pengarang" value="<?php echo isset($_SESSION['judul']) ? $_SESSION['judul'] : ''; ?>">
             </div>
           </div>
           <div class="form-group row">
             <label for="kategori" class="col-sm-3 col-form-label">Penerbit</label>
             <div class="col-sm-7">
-              <select class="form-control" id="kategori">
-                <option value="0">- Pilih penerbit -</option>
-                <option value="Andi">Andi</option>
-                <option value="Lokomedia">Lokomedia</option>
+              <select class="form-control" name="penerbit">
+              <option value="0">- Pilih penerbit -</option>
+              <?php
+              $check_penerbit = '';
+              $sql_penerbit = "select `id_penerbit`,`penerbit` from `penerbit`";
+              $query_penerbit = mysqli_query($koneksi, $sql_penerbit);
+              while ($data_penerbit = mysqli_fetch_row($query_penerbit)) {
+                  if (isset($_SESSION['id_kategori'])) {
+                      if ($_SESSION['penerbit'] == $data_penerbit[0]) {
+                          $check_penerbit = 'selected';
+                      }
+                  } ?>
+                <option value="<?= $data_penerbit[0] ?>" <?= $check_penerbit ?> ><?= $data_penerbit[1] ?></option>
+                <?php
+                $check_penerbit = '';
+              } ?>
               </select>
             </div>
           </div>
@@ -93,8 +125,8 @@
             <label for="tanggal" class="col-sm-3 col-form-label">Tahun Terbit</label>
             <div class="col-sm-7">
               <div class="input-group date">
-                <input type="text" class="form-control" name="tanggal" id="datepicker-year"  autocomplete="off"
-                value="">
+                <input type="text" class="form-control" name="tahun" id="datepicker-year"  autocomplete="off"
+                value="<?php echo isset($_SESSION['judul']) ? $_SESSION['judul'] : ''; ?>">
                   <div class="input-group-append">
                     <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                   </div>
@@ -102,22 +134,42 @@
             </div>
           </div>
           <div class="form-group row">
-            <label for="tahun_terbit" class="col-sm-3 col-form-label">Tahun Terbit</label>
-            <div class="col-sm-7">
-              <input type="number" class="form-control" name="tahun_terbit" id="tahun_terbit" value="">
-            </div>
-          </div>
-          <div class="form-group row">
             <label for="sinopsis" class="col-sm-3 col-form-label">Sinopsis</label>
             <div class="col-sm-7">
-              <textarea class="form-control" name="sinopsis" id="editor1" rows="12"></textarea>
+              <textarea class="form-control" name="sinopsis" id="editor1" rows="12"><?= isset($_SESSION['sinopsis']) ? $_SESSION['sinopsis'] : '' ?></textarea>
             </div>
           </div>          
           <div class="form-group row">
             <label for="hobi" class="col-sm-3 col-form-label">Tag</label>
             <div class="col-sm-7">
-              <input type="checkbox"  name="PHP"> PHP </br>
-              <input type="checkbox"  name="MySQL"> MySQL
+            <table>
+            <tr>
+            <?php
+              $kolom = 3;
+              $i = 0;
+              $check = '';
+              $sql_tag = "select `id_tag`,`tag` from `tag`";
+                $query_tag = mysqli_query($koneksi, $sql_tag);
+                while ($data_tag = mysqli_fetch_row($query_tag)) {
+                    if ($i >= $kolom) {
+                        echo "<tr></tr>";
+                        $i = 0;
+                    }
+                    $i++;
+                    if (isset($_SESSION['tag'])) {
+                        for ($k=0; $k < count($_SESSION['tag']); $k++) {
+                            if ($_SESSION['tag'][$k] == $data_tag[0]) {
+                                $check = 'checked';
+                            }
+                        }
+                    } ?>
+                  <td><input type="checkbox"  name="tag[]" value="<?= $data_tag[0] ?>" <?= $check ?>> <?= $data_tag[1] ?></td>
+              <?php
+                $check = '';
+                }
+              ?>
+            </tr>
+            </table>
             </div>
           </div>
 
@@ -128,7 +180,7 @@
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-12">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-plus"></i> Tambah</button>
+            <button type="submit" class="btn btn-info float-right" name="tambahbuku"><i class="fas fa-plus"></i> Tambah</button>
           </div>  
         </div>
         <!-- /.card-footer -->

@@ -45,7 +45,7 @@
       <div class="col-sm-10">
           <div class="alert alert-danger" role="alert">Maaf judul wajib di isi</div>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasibuku.php" enctype="multipart/form-data">
         <div class="card-body">
           
         <div class="form-group row">
@@ -116,7 +116,7 @@
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-12">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-save"></i> Simpan</button>
+            <button type="submit" class="btn btn-info float-right" name="updatebuku"><i class="fas fa-save"></i> Simpan</button>
           </div>  
         </div>
         <!-- /.card-footer -->

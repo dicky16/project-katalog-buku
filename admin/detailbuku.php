@@ -2,6 +2,30 @@
 <html>
 <head>
 <?php include("includes/head.php") ?> 
+<?php
+include("../koneksi/koneksi.php");
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $sql = "select `id_buku`, `kategori_buku`, `judul`, `pengarang`, `penerbit`, `tahun_terbit`, `sinopsis`, `cover` 
+                  from `buku` 
+                  INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku 
+                  INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit
+                  WHERE `id_buku`='$id'";
+    $query_d = mysqli_query($koneksi, $sql);
+    while ($data_d = mysqli_fetch_row($query_d)) {
+        $data[] = $data_d;
+    }
+$tag = null;
+    $select = "SELECT `tag` FROM `tag_buku` `tb`
+    INNER JOIN tag t ON tb.id_tag = t.id_tag
+    WHERE `id_buku`='$id' order by `tag`";
+    $query_tag = mysqli_query($koneksi, $select);
+    while ($data_tag = mysqli_fetch_row($query_tag)) {
+        $tag[] = $data_tag;
+    }
+}
+
+?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -44,30 +68,38 @@
                     <tbody>                      
                       <tr>
                         <td><strong>Cover Buku<strong></td>
-                        <td><img src="cover/cover_php7.jpg" class="img-fluid" width="200px;"></td>
+                        <td><img src="cover/<?= $data[0][7] ?>" class="img-fluid" width="200px;"></td>
                       </tr>               
                       <tr>
                         <td width="20%"><strong>Kategori Buku<strong></td>
-                        <td width="80%">Website</td>
+                        <td width="80%"><?= $data[0][1] ?></td>
                       </tr>                 
                       <tr>
                         <td width="20%"><strong>Judul<strong></td>
-                        <td width="80%">PHP 7</td>
+                        <td width="80%"><?= $data[0][2] ?></td>
                       </tr>                 
                       <tr>
                         <td width="20%"><strong>Pengarang<strong></td>
-                        <td width="80%">Berta</td>
+                        <td width="80%"><?= $data[0][3] ?></td>
                       </tr>
                       <tr>
                         <td width="20%"><strong>Tahun Terbit<strong></td>
-                        <td width="80%">2019</td>
+                        <td width="80%"><?= $data[0][5] ?></td>
                       </tr>
                       <tr>
                         <td><strong>Tag<strong></td>
                         <td>
                           <ul>
-                            <li>PHP</li>
-                            <li>MySQL</li>
+                          <?php
+                          if ($tag) {
+                              for ($i=0; $i < count($tag); $i++) { ?>
+                            <li><?= $tag[$i][0] ?></li>
+                          <?php
+                          }
+                          } else { ?>
+                            <li>Tidak ada tag</li>
+                          <?php }
+                          ?>
                           </ul>
                         </td>
                       </tr>

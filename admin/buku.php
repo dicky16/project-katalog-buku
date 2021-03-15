@@ -2,6 +2,7 @@
 <html>
 <head>
 <?php include("includes/head.php") ?> 
+<?php include("../koneksi/koneksi.php") ?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -52,8 +53,12 @@
                   </form>
                 </div><br>
               <div class="col-sm-12">
+              <?php if(isset($_GET['notif'])) { ?>
+              <?php if($_GET['notif'] == "tambahberhasil") { ?>
                   <div class="alert alert-success" role="alert">Data Berhasil Ditambahkan</div>
+                  <?php } else if($_GET['notif'] == "editberhasil") { ?>
                   <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
+                  <?php } } ?>
               </div>
                   <table class="table table-bordered">
                     <thead>                  
@@ -66,40 +71,139 @@
                       </tr>
                     </thead>
                     <tbody>
+                    <?php
+                  $batas = 5;
+                  if (!isset($_GET['halaman'])) {
+                      $posisi = 0;
+                      $halaman = 1;
+                  } else {
+                      $halaman = $_GET['halaman'];
+                      $posisi = ($halaman-1) * $batas;
+                  }
+                  //hitung jumlah semua data
+                  // SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
+                  // FROM Orders
+                  // INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
+                  $sql_jum = "select `id_buku`, `kategori_buku`, `judul`, `pengarang`, `penerbit`, `tahun_terbit`, `sinopsis`, `cover` 
+                  from `buku` 
+                  INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku 
+                  INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit";
+                  if (isset($_GET["katakunci"])) {
+                      $katakunci_kategori = $_GET["katakunci"];
+                      $sql_jum .= " where `buku.judul` LIKE '%$katakunci_kategori%'";
+                  }
+                  $sql_jum .= " order by `judul`";
+                  $query_jum = mysqli_query($koneksi, $sql_jum);
+                  $jum_data = mysqli_num_rows($query_jum);
+                  $jum_halaman = ceil($jum_data/$batas);
+                  // pagination
+                  $sql_k = "select `id_buku`, `kategori_buku`, `judul`, `pengarang`, `penerbit`, `tahun_terbit`, `sinopsis`, `cover` 
+                  from `buku` 
+                  INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku 
+                  INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit";
+                  if (isset($_GET["katakunci"])) {
+                      $katakunci_kategori = $_GET["katakunci"];
+                      $sql_k .= " where `judul` LIKE
+                  '%$katakunci_kategori%'";
+                  }
+                  $sql_k .= " ORDER BY `judul` limit $posisi, $batas ";
+                  $query_d = mysqli_query($koneksi, $sql_k);
+                  while ($data_d = mysqli_fetch_row($query_d)) {
+                      $data[] = $data_d;
+                  }
+                  // var_dump($data); die;
+                  $no = $posisi + 1;
+                  //display data to table
+                  if (!empty($data)) {
+                      for ($i=0; $i < count($data); $i++) {
+                          ?>
                       <tr>
-                        <td>1.</td>
-                        <td>Website</td>
-                        <td>Pemrograman Web dengan PHP 7</td>
-                        <td>Informatika</td>
+                        <td><?= $no ?></td>
+                        <td><?= $data[$i][1] ?></td>
+                        <td><?= $data[$i][2] ?></td>
+                        <td><?= $data[$i][4] ?></td>
                         <td align="center">
-                          <a href="editbuku.php" class="btn btn-xs btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                          <a href="detailbuku.php" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
-                          <a href="#" class="btn btn-xs btn-warning"><i class="fas fa-trash" title="Hapus"></i></a>                         
+                          <a href="editbuku.php?id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Edit"><i class="fas fa-edit"></i></a>
+                          <a href="detailbuku.php?id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
+                          <a href="#" class="btn btn-xs btn-warning hapus-buku" data-id="<?= $data[$i][0] ?>"><i class="fas fa-trash" title="Hapus"></i></a>                         
                         </td>
                       </tr>
-                      <tr>
-                        <td>2.</td>
-                        <td>Machine Learning</td>
-                        <td>Machine Learning Tingkat Dasar dan Lanjut</td>
-                        <td>Informatika</td>
-                        <td align="center">
-                          <a href="editbuku.php" class="btn btn-xs btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                           <a href="detailbuku.php" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
-                           <a href="#" class="btn btn-xs btn-warning"><i class="fas fa-trash" title="Hapus"></i></a>                         
-                        </td>
-                      </tr>
-                      
-                    </tbody>
-                  </table>  
+                      <?php
+                    $no++;
+                      }
+                      ?>
+                  </tbody>
+                </table>
+                <?php
+                  } else {?>
+                  </tbody>
+                </table>
+                <center>Tidak ada data!</center>
+                <?php
+                   }?>  
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
                 <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                <?php
+              if ($jum_halaman==0) {
+                  //tidak ada halaman
+              } elseif ($jum_halaman==1) {
+                  echo "<li class='page-item'><a class='page-link'>1</a></li>";
+              } else {
+                  $sebelum = $halaman-1;
+                  $setelah = $halaman+1;
+                  if (isset($_GET["katakunci"])) {
+                      $katakunci_kategori = $_GET["katakunci"];
+                      if ($halaman!=1) {
+                          echo "<li class='page-item'>
+              <a class='page-link'
+              href='buku.php?katakunci=$katakunci_kategori&halaman=1'>First</a></li>";
+              echo "<li class='page-item'><a class='page-link'
+              href='buku.php?katakunci=$katakunci_kategori&halaman=$sebelum'>
+              «</a></li>";
+                      }
+                      for ($i=1; $i<=$jum_halaman; $i++) {
+                          if ($i!=$halaman) {
+                              echo "<li class='page-item'><a class='page-link'
+              href='buku.php?katakunci=$katakunci_kategori&halaman=$i'>$i</a></li>";
+                          } else {
+                              echo "<li class='page-item'>
+              <a class='page-link'>$i</a></li>";
+                          }
+                      }
+                      if ($halaman!=$jum_halaman) {
+                          echo "<li class='page-item'>
+              <a class='page-link'
+              href='buku.php?katakunci=$katakunci_kategori&halaman=$setelah'>»</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='buku.php?katakunci=$katakunci_kategori&halaman=$jum_halaman'>
+              Last</a></li>";
+                      }
+                  } else {
+                      if ($halaman!=1) {
+                          echo "<li class='page-item'><a class='page-link'
+              href='buku.php?halaman=1'>First</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='buku.php?halaman=$sebelum'>«</a></li>";
+                      }
+                      for ($i=1; $i<=$jum_halaman; $i++) {
+                          if ($i!=$halaman) {
+                              echo "<li class='page-item'><a class='page-link'
+              href='buku.php?halaman=$i'>$i</a></li>";
+                          } else {
+                              echo "<li class='page-item'><a class='page-link'>$i</a></li>";
+                          }
+                      }
+                      if ($halaman!=$jum_halaman) {
+                          echo "<li class='page-item'><a class='page-link'
+              href='buku.php?halaman=$setelah'>
+              »</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='buku.php?halaman=$jum_halaman'>Last</a></li>";
+                      }
+                  }
+              }?>
                 </ul>
               </div>
             </div>
@@ -115,5 +219,12 @@
 <!-- ./wrapper -->
 
 <?php include("includes/script.php") ?>
+<script>
+$(document).ready(function () {
+  $( ".hapus-buku" ).click(function() {
+    hapus(this, "hapusbuku.php");
+  });
+});
+</script>
 </body>
 </html>
