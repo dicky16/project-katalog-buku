@@ -35,8 +35,10 @@ include("../koneksi/koneksi.php");
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title" style="margin-top:5px;"><i class="fas fa-list-ul"></i> Daftar  Konten</h3>
-                <div class="card-tools">
-                </div>
+               
+                
+               
+                
               </div>
               <!-- /.card-header -->
               <div class="card-body">
