@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+<?php include("../koneksi/koneksi.php");
+ $sql_buku = "select `id_buku`, `id_kategori_buku`,`kategori_buku`, `judul`, `pengarang`, `penerbit`, `tahun_terbit`, `sinopsis`, `cover` 
+ from `buku` 
+ INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku 
+ INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit
+ where id_buku='".$_GET['id']."' ";
+ $query_buku = mysqli_query($koneksi, $sql_buku);
+ while($data_buku = mysqli_fetch_row($query_buku)) {
+   $data_buku= $data_buku;
+   //var_dump($data_buku[1]);
+   //die;
+ }
+?>
 <?php include("includes/head.php") ?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -62,9 +75,27 @@
             <div class="col-sm-7">
               <select class="form-control" id="kategori">
                 <option value="0">- Pilih Kategori -</option>
-                <option value="Website" selected>Website</option>
-                <option value="Mobile">Mobile</option>
-              </select>
+                <?php
+              $check_kategori = '';
+              $sql_kategori_buku = "select `id_kategori_buku`,`kategori_buku` from `kategori_buku`";
+              $query_kategori_buku = mysqli_query($koneksi, $sql_kategori_buku);
+              while ($data_kategori_buku = mysqli_fetch_row($query_kategori_buku)) {
+                //var_dump($data_buku[0][1]);
+                //die;
+
+                if ($data_buku[1]==$data_kategori_buku[0]){
+                  $check_kategori = 'selected';
+                }  
+                if (isset($_SESSION['id_kategori'])) {
+                      if ($_SESSION['id_kategori'] == $data_kategori_buku[0]) {
+                          $check_kategori = 'selected';
+                      }
+                  } ?>
+                <option value="<?= $data_kategori_buku[0] ?>" <?= $check_kategori ?> ><?= $data_kategori_buku[1] ?></option>
+                <?php
+                $check_kategori = '';
+              } ?>
+                            </select>
             </div>
           </div>
           <div class="form-group row">

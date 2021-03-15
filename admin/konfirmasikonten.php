@@ -14,5 +14,6 @@ if(isset($_POST['updatekonten'])) {
         $sql = "update `konten` set `judul`='$judul', `isi`='$isi', `tanggal`='$tanggal' where `id_konten`='$id'";
         mysqli_query($koneksi,$sql);
         header("Location:konten.php?notif=editberhasil");
+    
     }
 }
