@@ -24,7 +24,7 @@ if(isset($_SESSION['level'])) {
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="profil.php" class="nav-link">
+            <a href="index.php?include=profil" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Profil
@@ -41,25 +41,25 @@ if(isset($_SESSION['level'])) {
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="kategoribuku.php" class="nav-link">
+                <a href="index.php?include=kategori-buku" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori Buku</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="tag.php" class="nav-link">
+                <a href="tag" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tag</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="penerbit.php" class="nav-link">
+                <a href="index.php?include=penerbit" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Penerbit</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="kategoriblog.php" class="nav-link">
+                <a href="index.php?include=kategoriblog" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori Blog</p>
                 </a>
@@ -67,7 +67,7 @@ if(isset($_SESSION['level'])) {
             </ul>
           </li>
           <li class="nav-item">
-            <a href="konten.php" class="nav-link">
+            <a href="index.php?include=konten" class="nav-link">
               <i class="nav-icon fas fa-file-alt"></i>
               <p>
                 Konten
@@ -75,7 +75,7 @@ if(isset($_SESSION['level'])) {
             </a>
           </li>
           <li class="nav-item">
-            <a href="buku.php" class="nav-link">
+            <a href="index.php?include=buku" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Buku
@@ -83,7 +83,7 @@ if(isset($_SESSION['level'])) {
             </a>
           </li>
           <li class="nav-item">
-            <a href="blog.php" class="nav-link">
+            <a href="index.php?include=blog" class="nav-link">
               <i class="nav-icon fab fa-blogger"></i>
               <p>
                 Blog
@@ -92,7 +92,7 @@ if(isset($_SESSION['level'])) {
           </li>
           <?php if($level=="Superadmin") { ?>
           <li class="nav-item">
-            <a href="user.php" class="nav-link">
+            <a href="index.php?include=user" class="nav-link">
               <i class="nav-icon fas fa-user-cog"></i>
               <p>
                 Pengaturan User
@@ -101,7 +101,7 @@ if(isset($_SESSION['level'])) {
           </li>
           <?php } ?>
           <li class="nav-item">
-            <a href="signout.php" class="nav-link">
+            <a href="index.php?include=logout" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Sign Out
