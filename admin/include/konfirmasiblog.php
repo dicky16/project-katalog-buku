@@ -25,4 +25,35 @@ if (isset($_POST['tambahblog'])) {
         $_SESSION['notif'] = "tambahberhasil";
         header("Location:blog");
     }
+} else if (isset($_POST['updateblog'])) {
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+        $id_kategoriblog = $_POST['id-kategori-blog'];
+        $id_user = $_SESSION['id_user'];
+        $judul = $_POST['judul'];
+        $tanggal = date("Y-m-d");
+        $isi = $_POST['isi'];
+     
+        if (empty($id_kategoriblog)) {
+            $_SESSION['notif'] = "editkosong";
+            $_SESSION['jenis'] = "kategori blog";
+            header("Location:edit-blog");
+        } elseif (empty($judul)) {
+            $_SESSION['notif'] = "editkosong";
+            $_SESSION['jenis'] = "judul";
+            header("Location:edit-blog");
+        } elseif (empty($isi)) {
+            $_SESSION['notif'] = "editkosong";
+            $_SESSION['jenis'] = "isi";
+            header("Location:edit-blog");
+        } else {
+            $sql_i = "UPDATE `blog` SET `id_kategori_blog` = '$id_kategoriblog',
+             `tanggal` = '$tanggal', `judul` = '$judul',
+              `isi` = '$isi' 
+              WHERE `blog`.`id_blog` = $id";
+            mysqli_query($koneksi, $sql_i);
+            $_SESSION['notif'] = "editberhasil";
+            header("Location:blog");
+        }
+    }
 }

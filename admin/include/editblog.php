@@ -123,6 +123,8 @@
 </div>
 <!-- ./wrapper -->
 
-<?php include("includes/script.php") ?>
+<?php include("includes/script.php");
+unset($_SESSION['notif']);
+unset($_SESSION['jenis']); ?>
 </body>
 </html>
