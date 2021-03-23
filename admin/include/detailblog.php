@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+<?php include("../koneksi/koneksi.php");
+ $sql_blog = "select id_blog, kategori_blog.kategori_blog, `judul`, `isi`, `tanggal`, user.nama 
+ from blog 
+ INNER JOIN kategori_blog ON blog.id_kategori_blog = kategori_blog.id_kategori_blog 
+ INNER JOIN user ON blog.id_user = user.id_user
+ where id_blog='".$_GET['id']."' ";
+ $query_blog = mysqli_query($koneksi, $sql_blog);
+ while ($data_blog = mysqli_fetch_row($query_blog)) {
+     $data_blog_detail = $data_blog;
+ }
+ ?>
 <?php include("includes/head.php") ?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -21,7 +32,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="blog.php">Data Blog</a></li>
+              <li class="breadcrumb-item"><a href="blog">Data Blog</a></li>
               <li class="breadcrumb-item active">Detail Data Blog</li>
             </ol>
           </div>
@@ -34,7 +45,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-tools">
-                  <a href="blog.php" class="btn btn-sm btn-warning float-right">
+                  <a href="blog" class="btn btn-sm btn-warning float-right">
                   <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
                 </div>
               </div>
@@ -44,30 +55,23 @@
                     <tbody>                 
                       <tr>
                         <td width="20%"><strong>Tanggal<strong></td>
-                        <td width="80%">24-2-2021</td>
+                        <td width="80%"><?= $data_blog_detail[4] ?></td>
                       </tr>              
                       <tr>
                         <td width="20%"><strong>Kategori Blog<strong></td>
-                        <td width="80%">Teknologi</td>
+                        <td width="80%"><?= $data_blog_detail[1] ?></td>
                       </tr>                 
                       <tr>
                         <td width="20%"><strong>Judul<strong></td>
-                        <td width="80%">Teknologi Terkini</td>
+                        <td width="80%"><?= $data_blog_detail[2] ?></td>
                       </tr> 
                       <tr>
                         <td width="20%"><strong>Penulis<strong></td>
-                        <td width="80%">Salnan Ratih</td>
+                        <td width="80%"><?= $data_blog_detail[5] ?></td>
                       </tr>
                       <tr>
                         <td width="20%"><strong>Isi<strong></td>
-                        <td width="80%">Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                        when an unknown printer took a galley of type and scrambled it to make a type 
-                        specimen book. It has survived not only five centuries, but also the leap into 
-                        electronic typesetting, remaining essentially unchanged. It was popularised in the
-                         1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
-                          recently with desktop publishing software like Aldus PageMaker including versions
-                           of Lorem Ipsum.</td>
+                        <td width="80%"><?= $data_blog_detail[3] ?></td>
                       </tr>
                     </tbody>
                   </table>  

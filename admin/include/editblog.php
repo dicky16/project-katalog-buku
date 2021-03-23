@@ -2,7 +2,7 @@
 <html>
 <head>
 <?php include("../koneksi/koneksi.php");
- $sql_blog = "select id_blog, kategori_blog.kategori_blog, `judul`, `isi`, `tanggal`, user.nama 
+ $sql_blog = "select id_blog, kategori_blog.kategori_blog, `judul`, `isi`, `tanggal`, user.nama, kategori_blog.id_kategori_blog
  from blog 
  INNER JOIN kategori_blog ON blog.id_kategori_blog = kategori_blog.id_kategori_blog 
  INNER JOIN user ON blog.id_user = user.id_user
@@ -31,7 +31,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="blog.php">Data Blog</a></li>
+              <li class="breadcrumb-item"><a href="blog">Data Blog</a></li>
               <li class="breadcrumb-item active">Edit Data Blog</li>
             </ol>
           </div>
@@ -46,7 +46,7 @@
       <div class="card-header">
         <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Edit Data Blog</h3>
         <div class="card-tools">
-          <a href="blog.php" class="btn btn-sm btn-warning float-right">
+          <a href="blog" class="btn btn-sm btn-warning float-right">
           <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
         </div>
       </div>
@@ -74,12 +74,8 @@
               $sql_kategori_blog = "select `id_kategori_blog`,`kategori_blog` from `kategori_blog`";
               $query_kategori_blog = mysqli_query($koneksi, $sql_kategori_blog);
               while ($data_kategori_blog = mysqli_fetch_row($query_kategori_blog)) {
-                  if (isset($_SESSION['id_kategori'])) {
-                      if ($_SESSION['id_kategori'] == $data_kategori_blog[0]) {
-                          $check_kategori = 'selected';
-                      }
-                  } elseif (!empty($data_blog_edit[0][0])) {
-                      if ($data_blog_edit[0]==$data_kategori_blog[0]) {
+                  if (!empty($data_blog_edit[0])) {
+                      if ($data_blog_edit[6]==$data_kategori_blog[0]) {
                           $check_kategori = 'selected';
                       }
                   } ?>

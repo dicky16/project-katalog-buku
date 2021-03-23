@@ -43,24 +43,33 @@
       <!-- form start -->
       </br></br>
       <div class="col-sm-10">
-          <div class="alert alert-danger" role="alert">Maaf judul wajib di isi</div>
+      <?php if ((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))) {?>
+      <?php if ($_SESSION['notif']=="tambahkosong") {?>
+      <div class="alert alert-danger" role="alert">Maaf data
+      <?php echo $_SESSION['jenis'];?> wajib di isi</div>
+      <?php }?>
+      <?php }?>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasi-blog">
         <div class="card-body">
           <div class="form-group row">
             <label for="kategori" class="col-sm-3 col-form-label">Kategori Blog</label>
             <div class="col-sm-7">
-              <select class="form-control" id="kategori">
+              <select class="form-control" name="id-kategori-blog">
                 <option value="0">- Pilih Kategori -</option>
-                <option value="Teknologi">Teknologi</option>
-                <option value="Pemrograman">Pemrograman</option>
+                <?php
+              $sql_kategori_blog = "select `id_kategori_blog`,`kategori_blog` from `kategori_blog`";
+              $query_kategori_blog = mysqli_query($koneksi, $sql_kategori_blog);
+              while ($data_kategori_blog = mysqli_fetch_row($query_kategori_blog)) {?>
+                <option value="<?= $data_kategori_blog[0] ?>"><?= $data_kategori_blog[1] ?></option>
+                 <?php } ?>
               </select>
             </div>
           </div>
           <div class="form-group row">
             <label for="nim" class="col-sm-3 col-form-label">Judul</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="nim" id="nim" value="">
+              <input type="text" class="form-control" name="judul" value="">
             </div>
           </div>
           <div class="form-group row">
@@ -77,7 +86,7 @@
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-12">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-plus"></i> Tambah</button>
+            <button type="submit" class="btn btn-info float-right" name="tambahblog"><i class="fas fa-plus"></i> Tambah</button>
           </div>  
         </div>
         <!-- /.card-footer -->
@@ -94,6 +103,10 @@
 </div>
 <!-- ./wrapper -->
 
+<?php 
+unset($_SESSION['notif']);
+unset($_SESSION['jenis']); 
+?>
 <?php include("includes/script.php") ?>
 </body>
 </html>

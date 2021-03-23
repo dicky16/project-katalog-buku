@@ -31,11 +31,19 @@ if (isset($_GET["include"])) {
         } else if($include=="edit-kategori-buku") {
             include("include/editkategoribuku.php");
         } else if($include=="hapus-kategori-buku") {
-            include("include/hapuskategoribuku.php");
-        } else if($include=="blog") {
+            include("include/hapuskategoribuku.php"); //end kategori buku
+        } else if($include=="blog") { //blog
             include("include/blog.php");
         } else if($include=="edit-blog") {
             include("include/editblog.php");
+        } else if($include=="tambah-blog") {
+            include("include/tambahblog.php");
+        } else if($include=="konfirmasi-blog") {
+            include("include/konfirmasiblog.php");
+        } else if($include=="detail-blog") {
+            include("include/detailblog.php");
+        } else if($include=="set-session") {
+            include("include/setsession.php");
         } else {
             include("include/profil.php");
         }
