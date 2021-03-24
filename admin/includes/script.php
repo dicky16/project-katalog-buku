@@ -70,7 +70,7 @@ swalWithBootstrapButtons.fire({
       'success'
     )
     setTimeout(() => {
-      location.replace(""+url+"?id="+id);
+      location.replace(""+url+"-id-"+id);
     }, 700);
   } else if (
     /* Read more about handling dismissals below */

@@ -26,8 +26,8 @@ if (isset($_POST['tambahblog'])) {
         header("Location:blog");
     }
 } else if (isset($_POST['updateblog'])) {
-    if (isset($_GET['id'])) {
-        $id = $_GET['id'];
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
         $id_kategoriblog = $_POST['id-kategori-blog'];
         $id_user = $_SESSION['id_user'];
         $judul = $_POST['judul'];

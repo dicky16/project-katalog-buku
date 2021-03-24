@@ -42,6 +42,8 @@ if (isset($_GET["include"])) {
             include("include/konfirmasiblog.php");
         } else if($include=="detail-blog") {
             include("include/detailblog.php");
+        } else if($include=="hapus-blog") {
+            include("include/hapusblog.php"); // end blog
         } else if($include=="set-session") {
             include("include/setsession.php");
         } else {

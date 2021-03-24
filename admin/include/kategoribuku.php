@@ -36,17 +36,17 @@ include("../koneksi/koneksi.php");
               <div class="card-header">
                 <h3 class="card-title" style="margin-top:5px;"><i class="fas fa-list-ul"></i> Daftar  Kategori Buku</h3>
                 <div class="card-tools">
-                  <a href="?include=tambah-kategori-buku" class="btn btn-sm btn-info float-right"><i class="fas fa-plus"></i> Tambah  Kategori Buku</a>
+                  <a href="tambah-kategori-buku" class="btn btn-sm btn-info float-right"><i class="fas fa-plus"></i> Tambah  Kategori Buku</a>
                 </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
               <div class="col-md-12">
-                  <form method="get" action="?include=kategori-buku&">
+                  <form method="POST" action="set-session">
                     <div class="row">
                         <div class="col-md-4 bottom-10">
-                          <input type="hidden" name="include" value="kategori-buku">
-                          <input type="text" class="form-control" id="kata_kunci" name="katakunci">
+                          <input type="hidden" name="tujuan" value="kategori-buku">
+                          <input type="text" class="form-control" name="katakunci">
                         </div>
                         <div class="col-md-5 bottom-10">
                           <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i>&nbsp; Search</button>
@@ -55,12 +55,13 @@ include("../koneksi/koneksi.php");
                   </form>
                 </div><br>
               <div class="col-sm-12">
-              <?php if(isset($_GET['notif'])) {
-              if($_GET['notif'] == "tambahberhasil") { ?>
+              <?php if (isset($_SESSION['notif'])) {
+    if ($_SESSION['notif'] == "tambahberhasil") { ?>
                 <div class="alert alert-success" role="alert">Data Berhasil Ditambahkan</div>
-                <?php } else if($_GET['notif'] == "editberhasil") { ?>
+                <?php } elseif ($_SESSION['notif'] == "editberhasil") { ?>
                   <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
-                  <?php }} ?>
+                  <?php }
+} ?>
               </div>
                 <table class="table table-bordered">
                   <thead>                  
@@ -83,8 +84,8 @@ include("../koneksi/koneksi.php");
                   //hitung jumlah semua data
                   $sql_jum = "select `id_kategori_buku`, `kategori_buku` from
                   `kategori_buku` ";
-                  if (isset($_GET["katakunci"])) {
-                      $katakunci_kategori = $_GET["katakunci"];
+                  if (isset($_SESSION["katakunci"])) {
+                      $katakunci_kategori = $_SESSION["katakunci"];
                       $sql_jum .= " where `kategori_buku` LIKE '%$katakunci_kategori%'";
                   }
                   $sql_jum .= " order by `kategori_buku`";
@@ -94,8 +95,8 @@ include("../koneksi/koneksi.php");
                   // pagination
                   $sql_k = "SELECT `id_kategori_buku`,`kategori_buku` FROM
                   `kategori_buku` ";
-                  if (isset($_GET["katakunci"])) {
-                      $katakunci_kategori = $_GET["katakunci"];
+                  if (isset($_SESSION["katakunci"])) {
+                      $katakunci_kategori = $_SESSION["katakunci"];
                       $sql_k .= " where `kategori_buku` LIKE
                   '%$katakunci_kategori%'";
                   }
@@ -113,14 +114,13 @@ include("../koneksi/koneksi.php");
                       <td><?= $no ?></td>
                       <td><?= $data[$i][1] ?></td>
                       <td align="center">
-                        <a href="?include=edit-kategori-buku&id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="#" class="btn btn-xs btn-warning hapus" data-id="<?= $data[$i][0] ?>"><i class="fas fa-trash"></i> Hapus</a>
+                        <a href="edit-kategori-buku-id-<?= $data[$i][0] ?>" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="#" class="btn btn-xs btn-warning hapus-kategori-buku" data-id="<?= $data[$i][0] ?>"><i class="fas fa-trash"></i> Hapus</a>
                       </td>
                     </tr>
                     <?php
                     $no++;
-                      }
-                      ?>
+                      } ?>
                       </tbody>
                 </table>
                 <?php
@@ -143,20 +143,20 @@ include("../koneksi/koneksi.php");
               } else {
                   $sebelum = $halaman-1;
                   $setelah = $halaman+1;
-                  if (isset($_GET["katakunci"])) {
-                      $katakunci_kategori = $_GET["katakunci"];
+                  if (isset($_SESSION["katakunci"])) {
+                      $katakunci_kategori = $_SESSION["katakunci"];
                       if ($halaman!=1) {
                           echo "<li class='page-item'>
               <a class='page-link'
-              href='?include=kategori-buku&katakunci=$katakunci_kategori&halaman=1'>First</a></li>";
-              echo "<li class='page-item'><a class='page-link'
-              href='?include=kategori-buku&katakunci=$katakunci_kategori&halaman=$sebelum'>
+              href='kategori-buku-halaman-1'>First</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategori-buku-halaman-$sebelum'>
               «</a></li>";
                       }
                       for ($i=1; $i<=$jum_halaman; $i++) {
                           if ($i!=$halaman) {
                               echo "<li class='page-item'><a class='page-link'
-              href='?include=kategori-buku&katakunci=$katakunci_kategori&halaman=$i'>$i</a></li>";
+              href='kategori-buku-halaman-$i'>$i</a></li>";
                           } else {
                               echo "<li class='page-item'>
               <a class='page-link'>$i</a></li>";
@@ -165,32 +165,32 @@ include("../koneksi/koneksi.php");
                       if ($halaman!=$jum_halaman) {
                           echo "<li class='page-item'>
               <a class='page-link'
-              href='?include=kategori-buku&katakunci=$katakunci_kategori&halaman=$setelah'>»</a></li>";
+              href='kategori-buku-halaman-$setelah'>»</a></li>";
                           echo "<li class='page-item'><a class='page-link'
-              href='?include=kategori-buku&katakunci=$katakunci_kategori&halaman=$jum_halaman'>
+              href='kategori-buku-halaman-$jum_halaman'>
               Last</a></li>";
                       }
                   } else {
                       if ($halaman!=1) {
                           echo "<li class='page-item'><a class='page-link'
-              href='?include=kategori-buku&halaman=1'>First</a></li>";
+              href='kategori-buku-halaman-1'>First</a></li>";
                           echo "<li class='page-item'><a class='page-link'
-              href='?include=kategori-buku&halaman=$sebelum'>«</a></li>";
+              href='kategori-buku-halaman-$sebelum'>«</a></li>";
                       }
                       for ($i=1; $i<=$jum_halaman; $i++) {
                           if ($i!=$halaman) {
                               echo "<li class='page-item'><a class='page-link'
-              href='?include=kategori-buku&halaman=$i'>$i</a></li>";
+              href='kategori-buku-halaman-$i'>$i</a></li>";
                           } else {
                               echo "<li class='page-item'><a class='page-link'>$i</a></li>";
                           }
                       }
                       if ($halaman!=$jum_halaman) {
                           echo "<li class='page-item'><a class='page-link'
-              href='?include=kategori-buku&halaman=$setelah'>
+              href='kategori-buku-halaman-$setelah'>
               »</a></li>";
                           echo "<li class='page-item'><a class='page-link'
-              href='?include=kategori-buku&halaman=$jum_halaman'>Last</a></li>";
+              href='kategori-buku-halaman-$jum_halaman'>Last</a></li>";
                       }
                   }
               }?>
@@ -205,51 +205,19 @@ include("../koneksi/koneksi.php");
   </div>
   <!-- /.content-wrapper -->
   <?php include("includes/footer.php") ?>
+  <?php
+  unset($_SESSION['notif']);
+  ?>
 
 </div>
 <!-- ./wrapper -->
 
 <?php include("includes/script.php") ?>
 <script>
-$( ".hapus" ).click(function() {
-  var id = $(this).data("id");
-  const swalWithBootstrapButtons = Swal.mixin({
-  customClass: {
-    confirmButton: 'btn btn-success',
-    cancelButton: 'btn btn-danger'
-  },
-  buttonsStyling: false
-})
-
-swalWithBootstrapButtons.fire({
-  title: 'Apakah Anda yakin?',
-  text: "Anda tidak dapat membatalkan aksi ini!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonText: 'Yes, delete it!',
-  cancelButtonText: 'No, cancel!',
-  reverseButtons: true
-}).then((result) => {
-  if (result.isConfirmed) {
-    swalWithBootstrapButtons.fire(
-      'Deleted!',
-      'Your file has been deleted.',
-      'success'
-    )
-    setTimeout(() => {
-      location.replace("?include=hapus-kategori-buku&id="+id);
-    }, 700);
-  } else if (
-    /* Read more about handling dismissals below */
-    result.dismiss === Swal.DismissReason.cancel
-  ) {
-    swalWithBootstrapButtons.fire(
-      'Cancelled',
-      'Your imaginary file is safe :)',
-      'error'
-    )
-  }
-})
+$(document).ready(function () {
+  $( ".hapus-kategori-buku" ).click(function() {
+    hapus(this, "hapus-kategori-buku");
+  });
 });
 </script>
 </body>

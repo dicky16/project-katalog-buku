@@ -5,4 +5,4 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([-a-z]*)$ index.php?include=$1 [L]
 RewriteRule ^([-a-z]+)-halaman-([0-9]+)$ index.php?include=$1&halaman=$2 [QSA,NC,L]
 RewriteRule ^([-a-z]+)-katakunci-([-a-z]+)$ index.php?include=$1&katakunci=$2 [QSA,NC,L]
-RewriteRule ^([-a-z]+)-([0-9]+)$ index.php?include=$1&id=$2 [QSA,NC,L]
+RewriteRule ^([-a-z]+)-id-([0-9]+)$ index.php?include=$1&id=$2 [QSA,NC,L]

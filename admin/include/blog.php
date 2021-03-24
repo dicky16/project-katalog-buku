@@ -120,9 +120,9 @@
                         <td><?= $data[$i][2] ?></td>
                         <td><?= $data[$i][3] ?></td>
                         <td align="center">
-                          <a href="edit-blog-<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                          <a href="detail-blog-<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
-                          <a href="#" class="btn btn-xs btn-warning"><i class="fas fa-trash" title="Hapus"></i></a>                         
+                          <a href="edit-blog-id-<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Edit"><i class="fas fa-edit"></i></a>
+                          <a href="detail-blog-id-<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
+                          <a href="#" class="btn btn-xs btn-warning hapus-blog" data-id="<?= $data[$i][0] ?>"><i class="fas fa-trash" title="Hapus"></i></a>                         
                         </td>
                       </tr>
                       <?php
@@ -155,15 +155,15 @@
                       if ($halaman!=1) {
                           echo "<li class='page-item'>
               <a class='page-link'
-              href='blog-katakunci-$katakunci_kategori-halaman-1'>First</a></li>";
-              echo "<li class='page-item'><a class='page-link'
-              href='blog-katakunci-$katakunci_kategori-halaman-$sebelum'>
+              href='blog-halaman-1'>First</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='blog-halaman-$sebelum'>
               «</a></li>";
                       }
                       for ($i=1; $i<=$jum_halaman; $i++) {
                           if ($i!=$halaman) {
                               echo "<li class='page-item'><a class='page-link'
-              href='blog-katakunci-$katakunci_kategori-halaman-$i'>$i</a></li>";
+              href='blog-halaman-$i'>$i</a></li>";
                           } else {
                               echo "<li class='page-item'>
               <a class='page-link'>$i</a></li>";
@@ -172,9 +172,9 @@
                       if ($halaman!=$jum_halaman) {
                           echo "<li class='page-item'>
               <a class='page-link'
-              href='blog-katakunci-$katakunci_kategori-halaman-$setelah'>»</a></li>";
+              href='blog-halaman-$setelah'>»</a></li>";
                           echo "<li class='page-item'><a class='page-link'
-              href='blog-katakunci-$katakunci_kategori-halaman-$jum_halaman'>
+              href='blog-halaman-$jum_halaman'>
               Last</a></li>";
                       }
                   } else {
@@ -214,8 +214,14 @@
 
 </div>
 <!-- ./wrapper -->
-<?php unset($_SESSION['notif']);
-unset($_SESSION['katakunci']); ?>
+<?php unset($_SESSION['notif']); ?>
 <?php include("includes/script.php") ?>
+<script>
+$(document).ready(function () {
+  $( ".hapus-blog" ).click(function() {
+    hapus(this, "hapus-blog");
+  });
+});
+</script>
 </body>
 </html>

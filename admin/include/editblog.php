@@ -61,13 +61,13 @@
       <?php }?>
       <?php }?>
       </div>
-      <form class="form-horizontal">
+      <form class="form-horizontal" method="POST" action="konfirmasi-blog">
         <div class="card-body">
           
         <div class="form-group row">
             <label for="kategori" class="col-sm-3 col-form-label">Kategori Blog</label>
             <div class="col-sm-7">
-              <select class="form-control" id="kategori">
+              <select class="form-control" name="id-kategori-blog">
                 <option value="0">- Pilih Kategori -</option>
                 <?php
               $check_kategori = '';
@@ -89,7 +89,8 @@
           <div class="form-group row">
             <label for="nim" class="col-sm-3 col-form-label">Judul</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="nim" id="nim" value="<?= $data_blog_edit[2] ?>">
+              <input type="text" class="form-control" name="judul" id="nim" value="<?= $data_blog_edit[2] ?>">
+              <input type="hidden" name="id" value="<?= $data_blog_edit[0] ?>">
             </div>
           </div>
           <div class="form-group row">

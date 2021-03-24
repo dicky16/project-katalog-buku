@@ -63,7 +63,7 @@ if(isset($_GET['id'])) {
           <div class="alert alert-danger" role="alert">Maaf data Kategori Buku wajib di isi</div>
           <?php }} ?>
       </div>
-      <form class="form-horizontal" method="POST" action="?include=konfirmasi-kategori-buku&id=<?= $id ?>">
+      <form class="form-horizontal" method="POST" action="konfirmasi-kategori-buku-id-<?= $id ?>">
         <div class="card-body">
           <div class="form-group row">
             <label for="Kategori Buku" class="col-sm-3 col-form-label">Kategori Buku</label>

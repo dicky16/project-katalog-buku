@@ -42,12 +42,12 @@
       <!-- form start -->
       </br>
       <div class="col-sm-10">
-      <?php if(isset($_GET['notif'])) {
-        if($_GET['notif'] == "tambahkosong") { ?>
+      <?php if(isset($_SESSION['notif'])) {
+        if($_SESSION['notif'] == "tambahkosong") { ?>
           <div class="alert alert-danger" role="alert">Maaf data kategoribuku wajib di isi</div>
           <?php }} ?>
       </div>
-      <form class="form-horizontal" method="POST" action="?include=konfirmasi-kategori-buku">
+      <form class="form-horizontal" method="POST" action="konfirmasi-kategori-buku">
         <div class="card-body">
           <div class="form-group row">
             <label for="kategoribuku" class="col-sm-3 col-form-label">Kategori Buku</label>
@@ -75,7 +75,7 @@
 
 </div>
 <!-- ./wrapper -->
-
+<?php unset($_SESSION['notif']); ?>
 <?php include("includes/script.php") ?>
 </body>
 </html>
