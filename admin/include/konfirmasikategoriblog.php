@@ -1,6 +1,5 @@
 <?php
  //akses file koneksi database
- include('../koneksi/koneksi.php');
  if (isset($_POST['tambahkategoriblog'])) {
      $kategori = $_POST['kategoriblog'];
      if(empty($kategori)) {

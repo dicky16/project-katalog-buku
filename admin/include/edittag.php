@@ -3,7 +3,6 @@
 <head>
 <?php include("includes/head.php") ?> 
 <?php 
-include("../koneksi/koneksi.php");
 if(isset($_GET['id'])) {
   if(is_numeric($_GET['id'])) {
     $id = $_GET['id'];
@@ -57,12 +56,12 @@ if(isset($_GET['id'])) {
       <!-- form start -->
       </br>
       <div class="col-sm-10">
-      <?php if(isset($_GET['notif'])) { ?>
-      <?php if($_GET['notif'] == "editkosong") { ?>
+      <?php if(isset($_SESSION['notif'])) { ?>
+      <?php if($_SESSION['notif'] == "editkosong") { ?>
           <div class="alert alert-danger" role="alert">Maaf data Tag wajib di isi</div>
       <?php } } ?>
       </div>
-      <form class="form-horizontal" method="POST" action="konfirmasitag.php?id=<?= $id ?>">
+      <form class="form-horizontal" method="POST" action="konfirmasi-tag-id-<?= $id ?>">
         <div class="card-body">
           <div class="form-group row">
             <label for="Tag" class="col-sm-3 col-form-label">Tag</label>

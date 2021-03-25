@@ -3,7 +3,6 @@
 <head>
 <?php include("includes/head.php") ?> 
 <?php 
-include("../koneksi/koneksi.php");
 if(isset($_GET['id'])) {
   if(is_numeric($_GET['id'])) {
     $id = $_GET['id'];
@@ -58,12 +57,12 @@ if(isset($_GET['id'])) {
       <!-- form start -->
       </br>
       <div class="col-sm-10">
-      <?php if((!empty($_GET['notif']))&&(!empty($_GET['jenis']))){?>
-        <?php if ($_GET['notif']=='editkosong') {?>
+      <?php if((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))){?>
+        <?php if ($_SESSION['notif']=='editkosong') {?>
           <div class="alert alert-danger" role="alert">Maaf data <?php echo $_GET['jenis']; ?> wajib di isi</div>
       <?php }} ?>
       </div>
-      <form class="form-horizontal" method="POST" action="konfirmasipenerbit.php?id=<?= $data[0][0] ?>">
+      <form class="form-horizontal" method="POST" action="konfirmasi-penerbit-id-<?= $data[0][0] ?>">
         <div class="card-body">
           <div class="form-group row">
             <label for="Penerbit" class="col-sm-3 col-form-label">Penerbit</label>

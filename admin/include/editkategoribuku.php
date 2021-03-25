@@ -2,7 +2,6 @@
 <html>
 <head>
 <?php include("includes/head.php") ?> 
-<?php include("../koneksi/koneksi.php") ?> 
 <?php 
 if(isset($_GET['id'])) {
   if(is_numeric($_GET['id'])) {

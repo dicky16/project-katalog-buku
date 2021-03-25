@@ -13,25 +13,16 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
       <!-- tampil notif -->
-      <?php if (!empty($_GET['gagal'])) {?>
-      <?php if ($_GET['gagal']=="userKosong") {?>
+      <?php if(isset($_SESSION['gagal_login'])) {
+        $msg = $_SESSION['gagal_login']; ?>
       <span class="text-danger">
-      Maaf Username Tidak Boleh Kosong
+      <?= $msg ?>
+      <?php } ?>
       </span>
-      <?php } elseif ($_GET['gagal']=="passKosong") {?>
-      <span class="text-danger">
-      Maaf Password Tidak Boleh Kosong
-      </span>
-      <?php } else {?>
-      <span class="text-danger">
-      Maaf Username dan Password Anda Salah
-      </span>
-      <?php }?>
-      <?php }?>
       <!-- end tampil notif -->
-      <form action="index.php?include=konfirmasi-login" method="post">
+      <form action="konfirmasi-login" method="post">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Username" name="username">
+          <input type="text" class="form-control" placeholder="Username atau email" name="username">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>

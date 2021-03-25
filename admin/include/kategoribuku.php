@@ -3,7 +3,6 @@
 <head>
 <?php
 include("includes/head.php");
-include("../koneksi/koneksi.php");
 ?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -56,12 +55,12 @@ include("../koneksi/koneksi.php");
                 </div><br>
               <div class="col-sm-12">
               <?php if (isset($_SESSION['notif'])) {
-    if ($_SESSION['notif'] == "tambahberhasil") { ?>
+              if ($_SESSION['notif'] == "tambahberhasil") { ?>
                 <div class="alert alert-success" role="alert">Data Berhasil Ditambahkan</div>
                 <?php } elseif ($_SESSION['notif'] == "editberhasil") { ?>
                   <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
                   <?php }
-} ?>
+              } ?>
               </div>
                 <table class="table table-bordered">
                   <thead>                  

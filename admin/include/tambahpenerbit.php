@@ -42,9 +42,14 @@
       <!-- form start -->
       </br>
       <div class="col-sm-10">
-          <div class="alert alert-danger" role="alert">Maaf data penerbit wajib di isi</div>
+      <?php if ((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))) {?>
+      <?php if ($_SESSION['notif']=="tambahkosong") {?>
+      <div class="alert alert-danger" role="alert">Maaf data
+      <?php echo $_SESSION['jenis'];?> wajib di isi</div>
+      <?php }?>
+      <?php }?>
       </div>
-      <form class="form-horizontal" method="POST" action="konfirmasipenerbit.php">
+      <form class="form-horizontal" method="POST" action="konfirmasi-penerbit">
         <div class="card-body">
           <div class="form-group row">
             <label for="tag" class="col-sm-3 col-form-label">Penerbit</label>
@@ -78,7 +83,10 @@
 
 </div>
 <!-- ./wrapper -->
-
+<?php 
+unset($_SESSION['notif']);
+unset($_SESSION['jenis']); 
+?>
 <?php include("includes/script.php") ?>
 </body>
 </html>

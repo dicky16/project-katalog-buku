@@ -42,12 +42,12 @@
       <!-- form start -->
       </br>
       <div class="col-sm-10">
-      <?php if(isset($_GET['notif'])) { ?>
-      <?php if($_GET['notif'] == "tambahkosong") { ?>
+      <?php if(isset($_SESSION['notif'])) { ?>
+      <?php if($_SESSION['notif'] == "tambahkosong") { ?>
           <div class="alert alert-danger" role="alert">Maaf data tag wajib di isi</div>
       <?php } } ?>
       </div>
-      <form class="form-horizontal" method="POST" action="konfirmasitag.php">
+      <form class="form-horizontal" method="POST" action="konfirmasi-tag">
         <div class="card-body">
           <div class="form-group row">
             <label for="tag" class="col-sm-3 col-form-label">Tag</label>

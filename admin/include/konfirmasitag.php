@@ -1,22 +1,25 @@
 <?php
-include("../koneksi/koneksi.php");
 if(isset($_POST['tambahtag'])) {
     $tag = $_POST['tag'];
      if(empty($tag)) {
-        header("Location:tambahtag.php?notif=tambahkosong");
+        $_SESSION['notif'] = 'tambahkosong';
+        header("Location:tambah-tag");
      } else {
         $sql = "INSERT INTO `tag` (`tag`) VALUES ('$tag');";
         mysqli_query($koneksi,$sql);
-        header("Location:tag.php?notif=tambahberhasil");
+        $_SESSION['notif'] = 'tambahberhasil';
+        header("Location:tag");
      }
 } else if(isset($_POST['updatetag'])) {
     $id = $_GET['id'];
     $tag = $_POST['tag'];
      if(empty($tag)) {
-        header("Location:edittag.php?notif=editkosong");
+      $_SESSION['notif'] = 'editkosong';
+        header("Location:edit-tag-id-".$id);
      } else {
         $sql = "UPDATE `tag` SET `tag`='$tag' where `id_tag`='$id'";
         mysqli_query($koneksi,$sql);
-        header("Location:tag.php?notif=editberhasil");
+        $_SESSION['notif'] = 'editberhasil';
+        header("Location:tag");
      }
 }
