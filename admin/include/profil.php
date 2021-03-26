@@ -2,12 +2,8 @@
 <html>
 <head>
 <?php
-$id_user = $_SESSION['id_user'];
-// cek sesi
-if(!$id_user) {
-  header("Location:index.php");
-}
 //get profil
+$id_user = $_SESSION['id_user'];
 $sql = "select `nama`, `email`,`foto` from `user`
 where `id_user`='$id_user'";
 //echo $sql;
@@ -50,14 +46,14 @@ $foto = $data[2];
             <div class="card">
               <div class="card-header">
                 <div class="card-tools">
-                  <a href="editprofil.php" class="btn btn-sm btn-info float-right"><i class="fas fa-edit"></i> Edit Profil</a>
+                  <a href="edit-profil" class="btn btn-sm btn-info float-right"><i class="fas fa-edit"></i> Edit Profil</a>
                 </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="col-sm-12">
-                <?php if(!empty($_GET['notif'])){
-                if($_GET['notif']=="editberhasil"){?>
+                <?php if(!empty($_SESSION['notif'])){
+                if($_SESSION['notif']=="editberhasil"){?>
                 <div class="alert alert-success" role="alert">
                 Data Berhasil Diubah</div>
                 <?php }?>
@@ -96,7 +92,10 @@ $foto = $data[2];
 
 </div>
 <!-- ./wrapper -->
-
+<?php
+unset($_SESSION['notif']);
+unset($_SESSION['jenis']);
+?>
 <?php include("includes/script.php") ?>
 </body>
 </html>

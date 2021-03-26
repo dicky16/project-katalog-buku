@@ -3,7 +3,6 @@
 <head>
 <?php include("includes/head.php") ?> 
 <?php
-include("../koneksi/koneksi.php");
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = "SELECT * FROM `konten` where `id_konten`='$id' order by `judul`";
@@ -45,7 +44,7 @@ if (isset($_GET['id'])) {
             <div class="card">
               <div class="card-header">
                 <div class="card-tools">
-                  <a href="konten.php" class="btn btn-sm btn-warning float-right">
+                  <a href="konten" class="btn btn-sm btn-warning float-right">
                   <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
                 </div>
               </div>

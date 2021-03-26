@@ -3,7 +3,6 @@
 <head>
 <?php 
 include("includes/head.php");
-include("../koneksi/koneksi.php"); 
 ?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -55,8 +54,8 @@ include("../koneksi/koneksi.php");
                   </form>
                 </div><br>
               <div class="col-sm-12">
-              <?php if(isset($_GET['notif'])) {
-              if($_GET['notif'] == "editberhasil") { ?>
+              <?php if(isset($_SESSION['notif'])) {
+              if($_SESSION['notif'] == "editberhasil") { ?>
                 <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
                 <?php } } ?>
               </div>
@@ -86,8 +85,8 @@ include("../koneksi/koneksi.php");
                       <td><?= $data[$i][1] ?></td>
                       <td><?= $data[$i][3] ?></td>
                       <td align="center">
-                        <a href="editkonten.php?id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info"><i class="fas fa-edit"></i></a>
-                        <a href="detailkonten.php?id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
+                        <a href="edit-konten-id-<?= $data[$i][0] ?>" class="btn btn-xs btn-info"><i class="fas fa-edit"></i></a>
+                        <a href="detail-konten-id-<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
                            
                       </td>
                     </tr>
@@ -106,15 +105,6 @@ include("../koneksi/koneksi.php");
                    }?>
               </div>
               <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
-              </div>
             </div>
             <!-- /.card -->
 
@@ -126,7 +116,10 @@ include("../koneksi/koneksi.php");
 
 </div>
 <!-- ./wrapper -->
-
+<?php
+unset($_SESSION['notif']);
+unset($_SESSION['jenis']);
+?>
 <?php include("includes/script.php") ?>
 </body>
 </html>

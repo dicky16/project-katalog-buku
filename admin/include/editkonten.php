@@ -3,7 +3,6 @@
 <head>
 <?php include("includes/head.php") ?> 
 <?php
-include("../koneksi/koneksi.php");
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = "SELECT * FROM `konten` where `id_konten`='$id' order by `judul`";
@@ -54,12 +53,12 @@ if (isset($_GET['id'])) {
       <!-- form start -->
       </br></br>
       <div class="col-sm-10">
-      <?php if((!empty($_GET['notif']))&&(!empty($_GET['jenis']))){?>
-        <?php if ($_GET['notif']=='editkosong') {?>
-          <div class="alert alert-danger" role="alert">Maaf data <?php echo $_GET['jenis']; ?> wajib di isi</div>
+      <?php if((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))){?>
+        <?php if ($_SESSION['notif']=='editkosong') {?>
+          <div class="alert alert-danger" role="alert">Maaf data <?php echo $_SESSION['jenis']; ?> wajib di isi</div>
       <?php }} ?>
       </div>
-      <form class="form-horizontal" method="POST" action="konfirmasikonten.php?id=<?= $data[0][0] ?>">
+      <form class="form-horizontal" method="POST" action="konfirmasi-konten-id-<?= $data[0][0] ?>">
         <div class="card-body">
           
           <div class="form-group row">

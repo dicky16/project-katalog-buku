@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php include("../koneksi/koneksi.php");
+<?php 
  $sql_buku = "select `id_buku`, `kategori_buku`, `judul`, `pengarang`, `penerbit`, `tahun_terbit`, `sinopsis`, `cover` 
  from `buku` 
  INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku 
@@ -38,7 +38,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="buku.php">Data Buku</a></li>
+              <li class="breadcrumb-item"><a href="buku">Data Buku</a></li>
               <li class="breadcrumb-item active">Edit Data Buku</li>
             </ol>
           </div>
@@ -53,7 +53,7 @@
       <div class="card-header">
         <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Edit Data Buku</h3>
         <div class="card-tools">
-          <a href="buku.php" class="btn btn-sm btn-warning float-right">
+          <a href="buku" class="btn btn-sm btn-warning float-right">
           <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
         </div>
       </div>
@@ -61,14 +61,14 @@
       <!-- form start -->
       </br></br>
       <div class="col-sm-10">
-      <?php if ((!empty($_GET['notif']))&&(!empty($_GET['jenis']))) {?>
-      <?php if ($_GET['notif']=="editkosong") {?>
+      <?php if ((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))) {?>
+      <?php if ($_SESSION['notif']=="editkosong") {?>
       <div class="alert alert-danger" role="alert">Maaf data
-      <?php echo $_GET['jenis'];?> wajib di isi</div>
+      <?php echo $_SESSION['jenis'];?> wajib di isi</div>
       <?php }?>
       <?php }?>
       </div>
-      <form class="form-horizontal" method="POST" action="konfirmasibuku.php?id=<?= $_GET['id'] ?>" enctype="multipart/form-data">
+      <form class="form-horizontal" method="POST" action="konfirmasi-buku-id-<?= $_GET['id'] ?>" enctype="multipart/form-data">
         <div class="card-body">
           
         <div class="form-group row">
@@ -128,8 +128,8 @@
               $sql_penerbit = "select `id_penerbit`,`penerbit` from `penerbit`";
               $query_penerbit = mysqli_query($koneksi, $sql_penerbit);
               while ($data_penerbit = mysqli_fetch_row($query_penerbit)) {
-                  if (isset($_SESSION['id_penerbit'])) {
-                      if ($_SESSION['id_penerbit'] == $data_penerbit[0]) {
+                  if (isset($_SESSION['penerbit'])) {
+                      if ($_SESSION['penerbit'] == $data_penerbit[0]) {
                           $check_penerbit = 'selected';
                       }
                   } elseif (isset($_GET['id'])) {
@@ -218,7 +218,10 @@
 
 </div>
 <!-- ./wrapper -->
-
+<?php
+unset($_SESSION['notif']);
+unset($_SESSION['jenis']);
+?>
 <?php include("includes/script.php") ?>
 </body>
 </html>

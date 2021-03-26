@@ -1,5 +1,4 @@
 <?php
-include('../koneksi/koneksi.php');
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     if (is_numeric($id)) {
@@ -11,6 +10,6 @@ if (isset($_GET['id'])) {
         unlink("cover/$coverhapus");
         $sql = "DELETE from  `buku` where `id_buku`='$id'";
         mysqli_query($koneksi, $sql);
-        header("Location:buku.php");
+        header("Location:buku");
     }
 }

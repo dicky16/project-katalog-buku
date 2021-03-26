@@ -2,8 +2,6 @@
 <html>
 <head>
 <?php
-include('../koneksi/koneksi.php');
-session_start();
 if(isset($_SESSION['id_user'])){
 $id_user = $_SESSION['id_user'];
  $sql_d = "select `nama`, `email` from `user`
@@ -56,15 +54,15 @@ while($data_d = mysqli_fetch_row($query_d)){
       <!-- form start -->
       </br>
       <div class="col-sm-10">
-      <?php if((!empty($_GET['notif']))&&(!empty($_GET['jenis']))){?>
-      <?php if($_GET['notif']=="editkosong"){?>
+      <?php if((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))){?>
+      <?php if($_SESSION['notif']=="editkosong"){?>
       <div class="alert alert-danger" role="alert">Maaf data
-      <?php echo $_GET['jenis'];?> wajib di isi</div>
+      <?php echo $_SESSION['jenis'];?> wajib di isi</div>
       <?php }?>
       <?php }?>
 
       </div>
-      <form class="form-horizontal" method="post" action="konfirmasieditprofil.php" enctype="multipart/form-data">
+      <form class="form-horizontal" method="post" action="konfirmasi-edit-profil" enctype="multipart/form-data">
         <div class="card-body">          
           <div class="form-group row">
             <label for="foto" class="col-sm-12 col-form-label"><span class="text-info">
@@ -113,5 +111,9 @@ while($data_d = mysqli_fetch_row($query_d)){
 <!-- ./wrapper -->
 
 <?php include("includes/script.php") ?>
+<?php 
+unset($_SESSION['notif']);
+unset($_SESSION['jenis']);
+?>
 </body>
 </html>

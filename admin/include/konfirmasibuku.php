@@ -1,7 +1,5 @@
 <?php
  //akses file koneksi database
- include('../koneksi/koneksi.php');
- session_start();
  if (isset($_POST['tambahbuku'])) {
      $id_kategoribuku = $_POST['kategori_buku'];
      $judul = $_POST['judul'];
@@ -11,7 +9,6 @@
      $sinopsis = $_POST['sinopsis'];
      $cover = $_FILES['cover']['name'];
      $tag = $_POST['tag'];
-     
      $_SESSION['id_kategori'] = $id_kategoribuku;
      $_SESSION['judul'] = $judul;
      $_SESSION['pengarang'] = $pengarang;
@@ -19,22 +16,39 @@
      $_SESSION['tahun_terbit'] = $tahun_terbit;
      $_SESSION['sinopsis'] = $sinopsis;
      $_SESSION['tag'] = $tag;
+
      if (empty($id_kategoribuku)) {
-         header("Location:tambahbuku.php?notif=tambahkosong&jenis=kategoribuku");
+         $_SESSION['notif'] = 'tambahkosong';
+         $_SESSION['jenis'] = 'kategoribuku';
+         header("Location:tambah-buku");
      } elseif (empty($judul)) {
-         header("Location:tambahbuku.php?notif=tambahkosong&jenis=judul");
+         $_SESSION['notif'] = 'tambahkosong';
+         $_SESSION['jenis'] = 'judul';
+         header("Location:tambah-buku");
      } elseif (empty($pengarang)) {
-         header("Location:tambahbuku.php?notif=tambahkosong&jenis=pengarang");
+         $_SESSION['notif'] = 'tambahkosong';
+         $_SESSION['jenis'] = 'pengarang';
+         header("Location:tambah-buku");
      } elseif (empty($penerbit)) {
-         header("Location:tambahbuku.php?notif=tambahkosong&jenis=penerbit");
+         $_SESSION['notif'] = 'tambahkosong';
+         $_SESSION['jenis'] = 'penerbit';
+         header("Location:tambah-buku");
      } elseif (empty($tahun_terbit)) {
-         header("Location:tambahbuku.php?notif=tambahkosong&jenis=tahunterbit");
+         $_SESSION['notif'] = 'tambahkosong';
+         $_SESSION['jenis'] = 'tahun terbit';
+         header("Location:tambah-buku");
      } elseif (empty($sinopsis)) {
-         header("Location:tambahbuku.php?notif=tambahkosong&jenis=sinopsis");
+         $_SESSION['notif'] = 'tambahkosong';
+         $_SESSION['jenis'] = 'sinopsis';
+         header("Location:tambah-buku");
      } elseif (empty($tag)) {
-         header("Location:tambahbuku.php?notif=tambahkosong&jenis=tag");
+         $_SESSION['notif'] = 'tambahkosong';
+         $_SESSION['jenis'] = 'tag';
+         header("Location:tambah-buku");
      } elseif (empty($cover)) {
-         header("Location:tambahbuku.php?notif=tambahkosong&jenis=cover");
+         $_SESSION['notif'] = 'tambahkosong';
+         $_SESSION['jenis'] = 'cover';
+         header("Location:tambah-buku");
      } else {
          $nama_cover = date('His')."-".$cover;
          $lokasi_file = $_FILES['cover']['tmp_name'];
@@ -64,7 +78,8 @@
              unset($_SESSION['tahun_terbit']);
              unset($_SESSION['sinopsis']);
              unset($_SESSION['tag']);
-             header("Location:buku.php?notif=tambahberhasil");
+             $_SESSION['notif'] = 'tambahberhasil';
+             header("Location:buku");
          }
      }
  } elseif (isset($_POST['updatebuku'])) {
@@ -85,22 +100,41 @@
          $_SESSION['tahun_terbit'] = $tahun_terbit;
          $_SESSION['sinopsis'] = $sinopsis;
          $_SESSION['tag'] = $tag;
+         
+         //  if (empty($id_kategoribuku)) {
+         //      header("Location:edit-buku-id-".$_GET['id']);
          if (empty($id_kategoribuku)) {
-             header("Location:editbuku.php?id=".$_GET['id']."&notif=editkosong&jenis=kategoribuku");
+             $_SESSION['notif'] = 'editkosong';
+             $_SESSION['jenis'] = 'kategoribuku';
+             header("Location:edit-buku-id-".$_GET['id']);
          } elseif (empty($judul)) {
-             header("Location:editbuku.php?id=".$_GET['id']."&notif=editkosong&jenis=judul");
+             $_SESSION['notif'] = 'editkosong';
+             $_SESSION['jenis'] = 'judul';
+             header("Location:edit-buku-id-".$_GET['id']);
          } elseif (empty($pengarang)) {
-             header("Location:editbuku.php?id=".$_GET['id']."&notif=editkosong&jenis=pengarang");
+             $_SESSION['notif'] = 'editkosong';
+             $_SESSION['jenis'] = 'pengarang';
+             header("Location:edit-buku-id-".$_GET['id']);
          } elseif (empty($penerbit)) {
-             header("Location:editbuku.php?id=".$_GET['id']."&notif=editkosong&jenis=penerbit");
+             $_SESSION['notif'] = 'editkosong';
+             $_SESSION['jenis'] = 'penerbit';
+             header("Location:edit-buku-id-".$_GET['id']);
          } elseif (empty($tahun_terbit)) {
-             header("Location:editbuku.php?id=".$_GET['id']."&notif=editkosong&jenis=tahunterbit");
+             $_SESSION['notif'] = 'editkosong';
+             $_SESSION['jenis'] = 'tahun terbit';
+             header("Location:edit-buku-id-".$_GET['id']);
          } elseif (empty($sinopsis)) {
-             header("Location:editbuku.php?id=".$_GET['id']."&notif=editkosong&jenis=sinopsis");
+             $_SESSION['notif'] = 'editkosong';
+             $_SESSION['jenis'] = 'sinopsis';
+             header("Location:edit-buku-id-".$_GET['id']);
          } elseif (empty($tag)) {
-             header("Location:editbuku.php?id=".$_GET['id']."&notif=editkosong&jenis=tag");
+             $_SESSION['notif'] = 'editkosong';
+             $_SESSION['jenis'] = 'tag';
+             header("Location:edit-buku-id-".$_GET['id']);
          } elseif (empty($cover)) {
-             header("Location:editbuku.php?id=".$_GET['id']."&notif=editkosong&jenis=cover");
+             $_SESSION['notif'] = 'editkosong';
+             $_SESSION['jenis'] = 'cover';
+             header("Location:edit-buku-id-".$_GET['id']);
          } else {
              $id = $_GET['id'];
              $nama_cover = date('His')."-".$cover;
@@ -112,8 +146,8 @@
              while ($cover = mysqli_fetch_row($query_d)) {
                  $coverhapus = $cover[0];
              }
-             if($coverhapus) {
-                unlink("cover/$coverhapus");
+             if ($coverhapus) {
+                 unlink("cover/$coverhapus");
              }
              //end hapus cover
              if (move_uploaded_file($lokasi_file, $direktori)) {
@@ -124,9 +158,9 @@
                  mysqli_query($koneksi, $sql);
              }
              //hapus tag
-             if(isset($_GET['id'])) {
-                $sql_hapus_tag = "delete from `tag_buku` where `id_buku`='$id'";
-                mysqli_query($koneksi, $sql_hapus_tag);
+             if (isset($_GET['id'])) {
+                 $sql_hapus_tag = "delete from `tag_buku` where `id_buku`='$id'";
+                 mysqli_query($koneksi, $sql_hapus_tag);
              }
              //insert tag
              if (isset($_POST['tag'])) {
@@ -145,7 +179,8 @@
              unset($_SESSION['tahun_terbit']);
              unset($_SESSION['sinopsis']);
              unset($_SESSION['tag']);
-             header("Location:buku.php?notif=editberhasil");
+             $_SESSION['notif'] = 'editberhasil';
+             header("Location:buku");
          }
      }
  }

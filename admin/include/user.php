@@ -36,27 +36,15 @@
               <div class="card-header">
                 <h3 class="card-title" style="margin-top:5px;"><i class="fas fa-list-ul"></i> Data User</h3>
                 <div class="card-tools">
-                  <a href="tambahuser.php" class="btn btn-sm btn-info float-right"><i class="fas fa-plus"></i> Tambah User</a>
+                  <a href="tambah-user" class="btn btn-sm btn-info float-right"><i class="fas fa-plus"></i> Tambah User</a>
                 </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <!-- <div class="col-md-12">
-                  <form method="post" action="#">
-                    <div class="row">
-                        <div class="col-md-4 bottom-10">
-                          <input type="text" class="form-control" id="kata_kunci" name="kunci2">
-                        </div>
-                        <div class="col-md-5 bottom-10">
-                          <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i>&nbsp; Search</button>
-                        </div>
-                    </div>
-                  </form>
-                </div><br> -->
-                <?php if((!empty($_GET['notif']))){?>
-                <?php if($_GET['notif']=='tambahberhasil') { ?>
+                <?php if((!empty($_SESSION['notif']))){?>
+                <?php if($_SESSION['notif']=='tambahberhasil') { ?>
                     <div class="alert alert-success" role="alert">Data Berhasil Ditambahkan</div>
-                <?php } else if($_GET['notif']=='editberhasil') { ?>
+                <?php } else if($_SESSION['notif']=='editberhasil') { ?>
                     <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
                 <?php } ?>
                 <?php } ?>
@@ -74,7 +62,6 @@
                     <tbody>
                       <?php
                         $no=1;
-                        include '../koneksi/koneksi.php';
                         $employee = mysqli_query($koneksi,"select * from user");
                         while($row = mysqli_fetch_array($employee))
                         {
@@ -85,8 +72,8 @@
                             <td>".$row['email']."</td>
                             <td>".$row['level']."</td>
                             <td align='center'>
-                              <a href='edituser.php?id=".$row['id_user']."' class='btn btn-xs btn-info' title='Edit'><i class='fas fa-edit'></i></a>
-                              <a href='detailuser.php?id=".$row['id_user']."' class='btn btn-xs btn-info' title='Detail'><i class='fas fa-eye'></i></a>
+                              <a href='edit-user-id-".$row['id_user']."' class='btn btn-xs btn-info' title='Edit'><i class='fas fa-edit'></i></a>
+                              <a href='detail-user-id=".$row['id_user']."' class='btn btn-xs btn-info' title='Detail'><i class='fas fa-eye'></i></a>
                               <a href='#' class='btn btn-xs btn-warning hapususer' data-id='".$row['id_user']."'><i class='fas fa-trash' title='Hapus'></i></a>                         
                             </td>
                         </tr>";
@@ -96,18 +83,6 @@
                     </tbody>
                   </table>  
               </div>
-              <!-- /.card-body -->
-              <!-- <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
-              </div>
-            </div> -->
-            <!-- /.card -->
 
     </section>
     <!-- /.content -->
@@ -126,7 +101,7 @@ $(document).ready(function () {
     var table = $('#tabel-user').DataTable();
   
   $( ".hapususer" ).click(function() {
-    hapus(this, "hapususer.php");
+    hapus(this, "hapus-user");
   });
 });
 </script>

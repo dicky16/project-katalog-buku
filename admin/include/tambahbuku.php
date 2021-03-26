@@ -3,7 +3,6 @@
 <head>
 <?php
 include("includes/head.php");
-include("../koneksi/koneksi.php");
 ?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -23,7 +22,7 @@ include("../koneksi/koneksi.php");
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="buku.php">Data Buku</a></li>
+              <li class="breadcrumb-item"><a href="buku">Data Buku</a></li>
               <li class="breadcrumb-item active">Tambah Buku</li>
             </ol>
           </div>
@@ -38,7 +37,7 @@ include("../koneksi/koneksi.php");
       <div class="card-header">
         <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Tambah Data Buku</h3>
         <div class="card-tools">
-          <a href="buku.php" class="btn btn-sm btn-warning float-right">
+          <a href="buku" class="btn btn-sm btn-warning float-right">
           <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
         </div>
       </div>
@@ -46,14 +45,14 @@ include("../koneksi/koneksi.php");
       <!-- form start -->
       </br></br>
       <div class="col-sm-10">
-      <?php if ((!empty($_GET['notif']))&&(!empty($_GET['jenis']))) {?>
-      <?php if ($_GET['notif']=="tambahkosong") {?>
+      <?php if ((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))) {?>
+      <?php if ($_SESSION['notif']=="tambahkosong") {?>
       <div class="alert alert-danger" role="alert">Maaf data
-      <?php echo $_GET['jenis'];?> wajib di isi</div>
+      <?php echo $_SESSION['jenis'];?> wajib di isi</div>
       <?php }?>
       <?php }?>
       </div>
-      <form class="form-horizontal" method="POST" action="konfirmasibuku.php" enctype="multipart/form-data">
+      <form class="form-horizontal" method="POST" action="konfirmasi-buku" enctype="multipart/form-data">
         <div class="card-body">
           
           <div class="form-group row">
@@ -96,7 +95,7 @@ include("../koneksi/koneksi.php");
           <div class="form-group row">
             <label for="pengarang" class="col-sm-3 col-form-label">Pengarang</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="pengarang" id="pengarang" value="<?php echo isset($_SESSION['judul']) ? $_SESSION['judul'] : ''; ?>">
+              <input type="text" class="form-control" name="pengarang" id="pengarang" value="<?php echo isset($_SESSION['pengarang']) ? $_SESSION['pengarang'] : ''; ?>">
             </div>
           </div>
           <div class="form-group row">
@@ -109,7 +108,7 @@ include("../koneksi/koneksi.php");
               $sql_penerbit = "select `id_penerbit`,`penerbit` from `penerbit`";
               $query_penerbit = mysqli_query($koneksi, $sql_penerbit);
               while ($data_penerbit = mysqli_fetch_row($query_penerbit)) {
-                  if (isset($_SESSION['id_kategori'])) {
+                  if (isset($_SESSION['penerbit'])) {
                       if ($_SESSION['penerbit'] == $data_penerbit[0]) {
                           $check_penerbit = 'selected';
                       }
@@ -126,7 +125,7 @@ include("../koneksi/koneksi.php");
             <div class="col-sm-7">
               <div class="input-group date">
                 <input type="text" class="form-control" name="tahun" id="datepicker-year"  autocomplete="off"
-                value="<?php echo isset($_SESSION['judul']) ? $_SESSION['judul'] : ''; ?>">
+                value="<?php echo isset($_SESSION['tahun_terbit']) ? $_SESSION['tahun_terbit'] : ''; ?>">
                   <div class="input-group-append">
                     <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
                   </div>
@@ -196,7 +195,10 @@ include("../koneksi/koneksi.php");
 
 </div>
 <!-- ./wrapper -->
-
+<?php
+unset($_SESSION['notif']);
+unset($_SESSION['jenis']);
+?>
 <?php include("includes/script.php") ?>
 </body>
 </html>

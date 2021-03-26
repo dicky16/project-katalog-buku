@@ -2,7 +2,6 @@
 <html>
 <head>
 <?php include("includes/head.php") ?>
-<?php include("../koneksi/koneksi.php") ?>  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -34,30 +33,30 @@
               <div class="card-header">
                 <h3 class="card-title" style="margin-top:5px;"><i class="fas fa-list-ul"></i> Daftar  Kategori Blog</h3>
                 <div class="card-tools">
-                  <a href="tambahkategoriblog.php" class="btn btn-sm btn-info float-right">
+                  <a href="tambah-kategori-blog" class="btn btn-sm btn-info float-right">
                   <i class="fas fa-plus"></i> Tambah  Kategori Blog</a>
                 </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
               <div class="col-md-12">
-                  <form method="" action="">
+              <form method="POST" action="set-session">
                     <div class="row">
                         <div class="col-md-4 bottom-10">
-                          <input type="text" class="form-control" id="kata_kunci" name="katakunci">
+                          <input type="hidden" name="tujuan" value="kategori-blog">
+                          <input type="text" class="form-control" name="katakunci">
                         </div>
                         <div class="col-md-5 bottom-10">
-                          <button type="submit" class="btn btn-primary">
-                          <i class="fas fa-search"></i>&nbsp; Search</button>
+                          <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i>&nbsp; Search</button>
                         </div>
                     </div><!-- .row -->
                   </form>
                 </div><br>
               <div class="col-sm-12">
-              <?php if(isset($_GET['notif'])) { ?>
-              <?php if($_GET['notif'] == "tambahberhasil") { ?>
+              <?php if(isset($_SESSION['notif'])) { ?>
+              <?php if($_SESSION['notif'] == "tambahberhasil") { ?>
                   <div class="alert alert-success" role="alert">Data Berhasil Ditambahkan</div>
-                  <?php } else if($_GET['notif'] == "editberhasil") { ?>
+                  <?php } else if($_SESSION['notif'] == "editberhasil") { ?>
                   <div class="alert alert-success" role="alert">Data Berhasil Diubah</div>
                   <?php } } ?>
               </div>
@@ -82,8 +81,8 @@
                   //hitung jumlah semua data
                   $sql_jum = "select `id_kategori_blog`, `kategori_blog` from
                   `kategori_blog` ";
-                  if (isset($_GET["katakunci"])) {
-                      $katakunci_kategori = $_GET["katakunci"];
+                  if (isset($_SESSION["katakunci"])) {
+                      $katakunci_kategori = $_SESSION["katakunci"];
                       $sql_jum .= " where `kategori_blog` LIKE '%$katakunci_kategori%'";
                   }
                   $sql_jum .= " order by `kategori_blog`";
@@ -93,8 +92,8 @@
                   // pagination
                   $sql_k = "SELECT `id_kategori_blog`,`kategori_blog` FROM
                   `kategori_blog` ";
-                  if (isset($_GET["katakunci"])) {
-                      $katakunci_kategori = $_GET["katakunci"];
+                  if (isset($_SESSION["katakunci"])) {
+                      $katakunci_kategori = $_SESSION["katakunci"];
                       $sql_k .= " where `kategori_blog` LIKE
                   '%$katakunci_kategori%'";
                   }
@@ -112,7 +111,7 @@
                       <td><?= $no ?></td>
                       <td><?= $data[$i][1] ?></td>
                       <td align="center">
-                        <a href="editkategoriblog.php?id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="edit-kategori-blog-id-<?= $data[$i][0] ?>" class="btn btn-xs btn-info"><i class="fas fa-edit"></i> Edit</a>
                         <a href="#" class="btn btn-xs btn-warning hapus-kategoriblog" data-id="<?= $data[$i][0] ?>"><i class="fas fa-trash"></i> Hapus</a>
                       </td>
                     </tr>
@@ -141,20 +140,20 @@
               } else {
                   $sebelum = $halaman-1;
                   $setelah = $halaman+1;
-                  if (isset($_GET["katakunci"])) {
-                      $katakunci_kategori = $_GET["katakunci"];
+                  if (isset($_SESSION["katakunci"])) {
+                      $katakunci_kategori = $_SESSION["katakunci"];
                       if ($halaman!=1) {
                           echo "<li class='page-item'>
               <a class='page-link'
-              href='kategoriblog.php?katakunci=$katakunci_kategori&halaman=1'>First</a></li>";
-              echo "<li class='page-item'><a class='page-link'
-              href='kategoriblog.php?katakunci=$katakunci_kategori&halaman=$sebelum'>
+              href='kategori-blog-halaman-1'>First</a></li>";
+                          echo "<li class='page-item'><a class='page-link'
+              href='kategori-blog-halaman-$sebelum'>
               «</a></li>";
                       }
                       for ($i=1; $i<=$jum_halaman; $i++) {
                           if ($i!=$halaman) {
                               echo "<li class='page-item'><a class='page-link'
-              href='kategoriblog.php?katakunci=$katakunci_kategori&halaman=$i'>$i</a></li>";
+              href='kategori-blog-halaman-$i'>$i</a></li>";
                           } else {
                               echo "<li class='page-item'>
               <a class='page-link'>$i</a></li>";
@@ -163,32 +162,32 @@
                       if ($halaman!=$jum_halaman) {
                           echo "<li class='page-item'>
               <a class='page-link'
-              href='kategoriblog.php?katakunci=$katakunci_kategori&halaman=$setelah'>»</a></li>";
+              href='kategori-blog-halaman-$setelah'>»</a></li>";
                           echo "<li class='page-item'><a class='page-link'
-              href='kategoriblog.php?katakunci=$katakunci_kategori&halaman=$jum_halaman'>
+              href='kategori-blog-halaman-$jum_halaman'>
               Last</a></li>";
                       }
                   } else {
                       if ($halaman!=1) {
                           echo "<li class='page-item'><a class='page-link'
-              href='kategoriblog.php?halaman=1'>First</a></li>";
+              href='kategori-blog-halaman-1'>First</a></li>";
                           echo "<li class='page-item'><a class='page-link'
-              href='kategoriblog.php?halaman=$sebelum'>«</a></li>";
+              href='kategori-blog-halaman-$sebelum'>«</a></li>";
                       }
                       for ($i=1; $i<=$jum_halaman; $i++) {
                           if ($i!=$halaman) {
                               echo "<li class='page-item'><a class='page-link'
-              href='kategoriblog.php?halaman=$i'>$i</a></li>";
+              href='kategori-blog-halaman-$i'>$i</a></li>";
                           } else {
                               echo "<li class='page-item'><a class='page-link'>$i</a></li>";
                           }
                       }
                       if ($halaman!=$jum_halaman) {
                           echo "<li class='page-item'><a class='page-link'
-              href='kategoriblog.php?halaman=$setelah'>
+              href='kategori-blog-halaman-$setelah'>
               »</a></li>";
                           echo "<li class='page-item'><a class='page-link'
-              href='kategoriblog.php?halaman=$jum_halaman'>Last</a></li>";
+              href='kategori-blog-halaman-$jum_halaman'>Last</a></li>";
                       }
                   }
               }?>
@@ -207,10 +206,13 @@
 <!-- ./wrapper -->
 
 <?php include("includes/script.php") ?>
+<?php
+unset($_SESSION['notif']);
+?>
 <script>
 $(document).ready(function () {
   $( ".hapus-kategoriblog" ).click(function() {
-    hapus(this, "hapuskategoriblog.php");
+    hapus(this, "hapus-kategori-blog");
   });
 });
 </script>
