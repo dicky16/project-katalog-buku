@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- get data user by id -->
 <?php 
-// session_start();
-include('../koneksi/koneksi.php');
 if(isset($_GET['id'])) {
   $edit_id = $_GET['id'];
   $sql_d = "select * from `user`
@@ -40,7 +37,7 @@ if(isset($_GET['id'])) {
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="user.php">Data User</a></li>
+              <li class="breadcrumb-item"><a href="user">Data User</a></li>
               <li class="breadcrumb-item active">Edit Data User</li>
             </ol>
           </div>
@@ -55,19 +52,19 @@ if(isset($_GET['id'])) {
       <div class="card-header">
         <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Edit Data User</h3>
         <div class="card-tools">
-          <a href="user.php" class="btn btn-sm btn-warning float-right"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
+          <a href="user" class="btn btn-sm btn-warning float-right"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
         </div>
       </div>
       <!-- /.card-header -->
       <!-- form start -->
       </br>
       <div class="col-sm-10">
-      <?php if((!empty($_GET['notif']))&&(!empty($_GET['jenis']))){?>
-        <?php if ($_GET['notif']=='editkosong') {?>
-          <div class="alert alert-danger" role="alert">Maaf data <?php echo $_GET['jenis']; ?> wajib di isi</div>
+      <?php if((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))){?>
+        <?php if ($_SESSION['notif']=='editkosong') {?>
+          <div class="alert alert-danger" role="alert">Maaf data <?php echo $_SESSION['jenis']; ?> wajib di isi</div>
       <?php }} ?>
       </div>
-      <form class="form-horizontal" method="post" action="konfirmasiedituser.php?id=<?php echo $edit_id ?>" enctype="multipart/form-data">
+      <form class="form-horizontal" method="post" action="konfirmasi-edit-user-id-<?php echo $edit_id ?>" enctype="multipart/form-data">
       <div class="card-body">
           <div class="form-group row">
             <label for="foto" class="col-sm-12 col-form-label"><span class="text-info"><i class="fas fa-user-circle"></i> <u>Data User</u></span></label>
@@ -141,7 +138,10 @@ if(isset($_GET['id'])) {
 
 </div>
 <!-- ./wrapper -->
-
+<?php
+unset($_SESSION['notif']);
+unset($_SESSION['jenis']);
+?>
 <?php include("includes/script.php") ?>
 <script>
 $("#level").val("<?php echo $rule ?>");

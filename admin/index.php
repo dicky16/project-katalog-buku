@@ -102,14 +102,22 @@ if (isset($_GET["include"])) {
         } else if($include=="edit-buku") {
             include("include/editbuku.php");
         } else if($include=="hapus-buku") {
-            include("include/hapusbuku.php"); //edn buku
+            include("include/hapusbuku.php"); //end buku
         } 
         else if($include=="user") { // user
             include("include/user.php");
-        } else if($include=="tambah-user") { // user
+        } else if($include=="tambah-user") {
             include("include/tambahuser.php");
-        } else if($include=="konfirmasi-user") { // user
+        } else if($include=="konfirmasi-user") {
             include("include/konfirmasiuser.php");
+        } else if($include=="konfirmasi-tambah-user") {
+            include("include/konfirmasitambahuser.php");
+        } else if($include=="edit-user") {
+            include("include/edituser.php");
+        } else if($include=="konfirmasi-edit-user") {
+            include("include/konfirmasiedituser.php");
+        } else if($include=="hapus-user") {
+            include("include/hapususer.php");
         }
         else if($include=="set-session") {
             include("include/setsession.php");

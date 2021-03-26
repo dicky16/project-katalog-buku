@@ -1,8 +1,5 @@
 <!-- get session -->
 <?php 
-if(session_status() === 1) {
-  session_start();
-}
 $level = "";
 if(isset($_SESSION['level'])) {
   $level = $_SESSION['level'];

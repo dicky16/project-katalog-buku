@@ -1,6 +1,5 @@
 <?php
  //akses file koneksi database
- include('../koneksi/koneksi.php');
  $edit_id = $_GET['id'];
  //get foto
  $sql_f = "SELECT `foto` FROM `user` WHERE `id_user`=".$edit_id;
@@ -15,14 +14,28 @@
      $username = $_POST['username'];
      $password = $_POST['password'];
      $level = $_POST['level'];
-     if(empty($nama)) {
-        header("Location:edituser.php?notif=editkosong&jenis=nama");
-     } else if(empty($email)) {
-        header("Location:edituser.php?notif=editkosong&jenis=email");
-     } else if(empty($username)) {
-        header("Location:edituser.php?notif=editkosong&jenis=username");
-     } else if(empty($level)) {
-        header("Location:edituser.php?notif=editkosong&jenis=level");
+
+     $_SESSION['nama'] = $nama;
+     $_SESSION['email'] = $email;
+     $_SESSION['username'] = $username;
+     $_SESSION['level'] = $level;
+
+     if (empty($nama)) {
+         $_SESSION['notif'] = "editkosong";
+         $_SESSION['jenis'] = "nama";
+         header("Location:edit-user-id-".$_GET['id']);
+     } elseif (empty($email)) {
+         $_SESSION['notif'] = "editkosong";
+         $_SESSION['jenis'] = "email";
+         header("Location:edit-user-id-".$_GET['id']);
+     } elseif (empty($username)) {
+         $_SESSION['notif'] = "editkosong";
+         $_SESSION['jenis'] = "username";
+         header("Location:edit-user-id-".$_GET['id']);
+     } elseif (empty($level)) {
+         $_SESSION['notif'] = "editkosong";
+         $_SESSION['jenis'] = "level";
+         header("Location:edit-user-id-".$_GET['id']);
      } else {
         if(!empty($foto) && !empty($password)) {
          $lokasi_file = $_FILES['foto']['tmp_name'];
@@ -49,6 +62,11 @@
          $sql = "update `user` set `nama`='$nama', `email`='$email', `username`='$username', `level`='$level' where id_user='$edit_id'";
          mysqli_query($koneksi,$sql);
         }
-        header("Location:user.php?notif=editberhasil");
+        $_SESSION['notif'] = "editberhasil";
+         unset($_SESSION['nama']);
+         unset($_SESSION['email']);
+         unset($_SESSION['username']);
+         unset($_SESSION['level']);
+        header("Location:user");
      }
  }
