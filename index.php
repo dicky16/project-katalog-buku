@@ -1,3 +1,7 @@
+<?php
+include("koneksi/koneksi.php");
+include("fungsi/fungsi.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +14,8 @@ if (isset($_GET["page"])) {
         //pemanggilan ke halaman-halaman menu admin
       if ($page=="blog") { //kategori buku
         include("blog.php");
+      } else if($page == "detail-blog") {
+        include("detailblog.php");
       } else {
         include("beranda.php");
       }

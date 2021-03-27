@@ -1,3 +1,15 @@
+<?php
+// data blog
+$sql_blog = "select id_blog, kategori_blog.kategori_blog, `judul`, `tanggal`, user.nama, isi
+          from blog 
+          INNER JOIN kategori_blog ON blog.id_kategori_blog = kategori_blog.id_kategori_blog 
+          INNER JOIN user ON blog.id_user = user.id_user";
+$query_blog = mysqli_query($koneksi, $sql_blog);
+while ($data_b = mysqli_fetch_assoc($query_blog)) {
+  $data_blog[] = $data_b;
+}
+// var_dump($data_blog); die;
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -14,43 +26,7 @@
     <title>Katalog Buku</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-        <a class="navbar-brand" href="#">Katalog Buku</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <div class="collapse navbar-collapse" id="navbarsExample07">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="aboutus.php">About Us</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Kategori</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown07">
-                    <a class="dropdown-item" href="daftarbuku.php">Java</a>
-                    <a class="dropdown-item" href="daftarbuku.php">PHP</a>
-                    <a class="dropdown-item" href="daftarbuku.php">HTML</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="blog.php">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contactus.php">Contact Us</a>
-                </li>
-            </ul>
-            <form class="form-inline mt-2 mt-md-0">
-              <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-        </div>
-    </nav>
+    <?php include('section/nav.php') ?>
     <section id="carousel-item">
         <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -214,12 +190,15 @@
         <div class="container">
             <h2>Blog Terbaru</h2><br>
             <div class="row mb-2">
+              <?php foreach ($data_blog as $blog) {
+                // var_dump($blog['id_blog']); die;
+                ?>
                 <div class="col-md-6">
                     <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                         <div class="col p-4 d-flex flex-column position-static bg-light">
-                        <strong class="d-inline-block mb-2 text-success">World</strong>
-                        <h3 class="mb-0"><a href="detailblog.php">Duis id ante eu lorem accumsan blandit eget in mi</a></h3>
-                        <div class="mb-1 text-muted">Nov 12</div>
+                        <strong class="d-inline-block mb-2 text-success"><?= $blog['judul'] ?></strong>
+                        <h3 class="mb-0"><a href="detail-blog-id-<?= $blog['id_blog']; ?>" ><?= pecah_kalimat($blog['isi']) ?></a></h3>
+                        <div class="mb-1 text-muted"><?= tanggal_indonesia($blog['tanggal']) ?></div>
                         <!--<p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>-->
                         <!-- <a href="#" class="stretched-link">Continue reading</a> -->
                         </div>
@@ -228,49 +207,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                        <div class="col p-4 d-flex flex-column position-static bg-light">
-                        <strong class="d-inline-block mb-2 text-success">Design</strong>
-                        <h3 class="mb-0"><a href="detailblog.php">Class aptent taciti sociosqu ad litora torquent per conubia nostra</a></h3>
-                        <div class="mb-1 text-muted">Nov 11</div>
-                        <!--<p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>-->
-                        <!-- <a href="#" class="stretched-link">Continue reading</a> -->
-                        </div>
-                        <div class="col-auto d-none d-lg-block">
-                            <img src="images/blog.jpg" class="img-fluid" title="book title here">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                        <div class="col p-4 d-flex flex-column position-static bg-light">
-                        <strong class="d-inline-block mb-2 text-success">World</strong>
-                        <h3 class="mb-0"><a href="detailblog.php">Maecenas id sapien nec diam pellentesque porta eu interdum ante</a></h3>
-                        <div class="mb-1 text-muted">Nov 12</div>
-                        <!--<p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>-->
-                        <!-- <a href="#" class="stretched-link">Continue reading</a> -->
-                        </div>
-                        <div class="col-auto d-none d-lg-block">
-                            <img src="images/blog.jpg" class="img-fluid" title="book title here">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                        <div class="col p-4 d-flex flex-column position-static bg-light">
-                        <strong class="d-inline-block mb-2 text-success">Design</strong>
-                        <h3 class="mb-0"><a href="detailblog.php">Aenean facilisis suscipit mi, sit amet egestas diam gravida quis.</a></h3>
-                        <div class="mb-1 text-muted">Nov 11</div>
-                        <!--<p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>-->
-                        <!-- <a href="#" class="stretched-link">Continue reading</a> -->
-                        </div>
-                        <div class="col-auto d-none d-lg-block">
-                            <img src="images/blog.jpg" class="img-fluid" title="book title here">
-                        </div>
-                    </div>
-                </div>
-
+              <?php } ?>
             </div>
         </div>
     </section>
