@@ -22,3 +22,12 @@ function pecah_kalimat($isi) {
     $isi_array = explode(".", $isi);
     return $isi_array[0];
 }
+
+function getDataUser($koneksi, $sql)
+{
+	$query = mysqli_query($koneksi, $sql);
+	while ($data = mysqli_fetch_assoc($query)) {
+		$data_user[] = $data;
+	}
+	return $data_user;
+}
