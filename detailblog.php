@@ -55,33 +55,35 @@ while ($data_k_detail = mysqli_fetch_assoc($query_kategori_blog_detail)) {
       
           <aside class="col-md-3 blog-sidebar">
       
-            <div class="p-4">
+          <div class="p-4">
               <h4 class="font-italic">Categories</h4>
               <ol class="list-unstyled mb-0">
-              <?php 
-              $i = 0;
-              foreach ($data_kategori_blog_detail as $kategori_blog_detail) {
-                // var_dump($data_kategori_blog_detail); die;
-                  ?>
-                <a class="dropdown-item" href="daftarbuku_kategori-<?= $kategori_blog_detail['kategori_blog'] ?>"><?= $kategori_blog_detail['kategori_blog'] ?></a>
-              <?php } ?>
+                <?php
+                $sql_kategori_blog = "select * from kategori_blog";
+                $data_kategori_blog = getDataUser($koneksi, $sql_kategori_blog);
+                foreach ($data_kategori_blog as $kategori_blog) {
+                    ?>
+                    <li><a href="blog_kategori-<?= $kategori_blog['kategori_blog'] ?>"><?= $kategori_blog['kategori_blog'] ?></a></li>
+                <?php
+                } ?>
             </div>
       
             <div class="p-4">
               <h4 class="font-italic">Archives</h4>
               <ol class="list-unstyled mb-0">
-                <li><a href="#">March 2014</a></li>
-                <li><a href="#">February 2014</a></li>
-                <li><a href="#">January 2014</a></li>
-                <li><a href="#">December 2013</a></li>
-                <li><a href="#">November 2013</a></li>
-                <li><a href="#">October 2013</a></li>
-                <li><a href="#">September 2013</a></li>
-                <li><a href="#">August 2013</a></li>
-                <li><a href="#">July 2013</a></li>
-                <li><a href="#">June 2013</a></li>
-                <li><a href="#">May 2013</a></li>
-                <li><a href="#">April 2013</a></li>
+              <?php
+              $sql_archives = "select tanggal from blog";
+              $data_archives = getDataUser($koneksi, $sql_archives);
+              $data_archives_array[0] = tanggal_arsip($data_archives[0]['tanggal']);
+              for ($i=0; $i < count($data_archives); $i++) {
+                  if (!is_numeric(array_search(tanggal_arsip($data_archives[$i]['tanggal']), $data_archives_array))) {
+                      array_push($data_archives_array, tanggal_arsip($data_archives[$i]['tanggal']));
+                  }
+              }
+              ?>
+              <?php foreach ($data_archives_array as $arsip) { ?>
+                <li><a href="#"><?= $arsip ?></a></li>
+              <?php } ?>
               </ol>
             </div>
       

@@ -5,6 +5,7 @@ include("fungsi/fungsi.php");
 <!DOCTYPE html>
 <html>
 <head>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 </head>
 <?php
 //cek ada get include

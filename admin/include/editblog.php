@@ -54,10 +54,10 @@
       <!-- form start -->
       </br></br>
       <div class="col-sm-10">
-      <?php if ((!empty($_GET['notif']))&&(!empty($_GET['jenis']))) {?>
-      <?php if ($_GET['notif']=="editkosong") {?>
+      <?php if ((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))) {?>
+      <?php if ($_SESSION['notif']=="editkosong") {?>
       <div class="alert alert-danger" role="alert">Maaf data
-      <?php echo $_GET['jenis'];?> wajib di isi</div>
+      <?php echo $_SESSION['jenis'];?> wajib di isi</div>
       <?php }?>
       <?php }?>
       </div>

@@ -3,3 +3,6 @@ Options All -Indexes
 RewriteEngine On
 RewriteRule ^([-a-z]*)$ index.php?page=$1 [L]
 RewriteRule ^([-a-z]+)-id-([0-9]+)$ index.php?page=$1&id=$2 [QSA,NC,L]
+RewriteRule ^([-a-z]+)-halaman-([0-9]+)$ index.php?page=$1&halaman=$2 [QSA,NC,L]
+RewriteRule ^([-a-z]+)_kategori-([a-z]+)$ index.php?page=$1&kategori=$2 [QSA,NC,L]
+RewriteRule ^([-a-z]+)_bulan-([0-9]+)-tahun-([0-9]+)$ index.php?page=$1&bulan=$2&tahun=$3 [QSA,NC,L]
