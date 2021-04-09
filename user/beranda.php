@@ -33,14 +33,14 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="slideshow/slide-2.jpg"" class="d-block w-100" alt="...">
+                <img src="slideshow/slide-2.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Second slide label</h5>
                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="slideshow/slide-3.jpg"" class="d-block w-100" alt="...">
+                <img src="slideshow/slide-3.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Third slide label</h5>
                   <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
@@ -84,7 +84,7 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
                   ?>
               <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                  <img src="admin/cover/<?= $buku['cover'] ?>" class="img-fluid" alt="Books Collection" title="<?= $buku['id_buku'] ?>">
+                  <img src="../admin/cover/<?= $buku['cover'] ?>" class="img-fluid" alt="Books Collection" title="<?= $buku['id_buku'] ?>">
                   <div class="card-body bg-warning">
                     <p class="card-text"><?= $buku['judul'] ?></p>
                     <div class="d-flex justify-content-between align-items-center">
