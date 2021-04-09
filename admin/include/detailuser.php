@@ -4,8 +4,6 @@
 <?php include("includes/head.php") ?> 
 <!-- get data user -->
 <?php
-include('../koneksi/koneksi.php');
-session_start();
 if(isset($_GET['id'])){
 $id_user = $_GET['id'];
  $sql_d = "select * from `user`
@@ -38,8 +36,8 @@ while($data_d = mysqli_fetch_row($query_d)){
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="profil.php">Home</a></li>
-              <li class="breadcrumb-item"><a href="user.php">Data User</a></li>
+              <li class="breadcrumb-item"><a href="profil">Home</a></li>
+              <li class="breadcrumb-item"><a href="user">Data User</a></li>
               <li class="breadcrumb-item active">Detail Data User</li>
             </ol>
           </div>
@@ -52,7 +50,7 @@ while($data_d = mysqli_fetch_row($query_d)){
             <div class="card">
               <div class="card-header">
                 <div class="card-tools">
-                  <a href="user.php" class="btn btn-sm btn-warning float-right">
+                  <a href="user" class="btn btn-sm btn-warning float-right">
                   <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
                 </div>
               </div>

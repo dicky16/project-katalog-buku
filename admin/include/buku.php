@@ -121,7 +121,7 @@
                         <td><?= $data[$i][4] ?></td>
                         <td align="center">
                           <a href="edit-buku-id-<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                          <a href="detail-buku-id=<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
+                          <a href="detail-buku-id-<?= $data[$i][0] ?>" class="btn btn-xs btn-info" title="Detail"><i class="fas fa-eye"></i></a>
                           <a href="#" class="btn btn-xs btn-warning hapus-buku" data-id="<?= $data[$i][0] ?>"><i class="fas fa-trash" title="Hapus"></i></a>                         
                         </td>
                       </tr>

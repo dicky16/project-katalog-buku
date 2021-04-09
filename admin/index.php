@@ -101,6 +101,8 @@ if (isset($_GET["include"])) {
             include("include/konfirmasibuku.php");
         } else if($include=="edit-buku") {
             include("include/editbuku.php");
+        } else if($include=="detail-buku") {
+            include("include/detailbuku.php");
         } else if($include=="hapus-buku") {
             include("include/hapusbuku.php"); //end buku
         } 
@@ -116,6 +118,8 @@ if (isset($_GET["include"])) {
             include("include/edituser.php");
         } else if($include=="konfirmasi-edit-user") {
             include("include/konfirmasiedituser.php");
+        } else if($include=="detail-user") {
+            include("include/detailuser.php");
         } else if($include=="hapus-user") {
             include("include/hapususer.php");
         }
