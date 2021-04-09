@@ -67,7 +67,7 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
                   <p class="lead"><?= $data_headline[0]['isi'] ?></p>
                 </div>
                 <div class="col-md-5">
-                    <img src="images/undraw_book_lover_mkck.png" class="img-fluid mx-auto featurette-image">
+                    <img src="user/images/undraw_book_lover_mkck.png" class="img-fluid mx-auto featurette-image">
                   <!--<svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 500x500"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>-->
                 </div>
             </div>
@@ -84,7 +84,7 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
                   ?>
               <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                  <img src="../admin/cover/<?= $buku['cover'] ?>" class="img-fluid" alt="Books Collection" title="<?= $buku['id_buku'] ?>">
+                  <img src="admin/cover/<?= $buku['cover'] ?>" class="img-fluid" alt="<?= $buku['judul'] ?>" title="<?= $buku['judul'] ?>">
                   <div class="card-body bg-warning">
                     <p class="card-text"><?= $buku['judul'] ?></p>
                     <div class="d-flex justify-content-between align-items-center">
