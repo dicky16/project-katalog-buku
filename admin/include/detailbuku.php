@@ -43,8 +43,8 @@ $tag = null;
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="buku.php">Data Buku</a></li>
+              <li class="breadcrumb-item"><a href="profil">Home</a></li>
+              <li class="breadcrumb-item"><a href="buku">Data Buku</a></li>
               <li class="breadcrumb-item active">Detail Data Buku</li>
             </ol>
           </div>
@@ -57,7 +57,7 @@ $tag = null;
             <div class="card">
               <div class="card-header">
                 <div class="card-tools">
-                  <a href="buku.php" class="btn btn-sm btn-warning float-right">
+                  <a href="buku" class="btn btn-sm btn-warning float-right">
                   <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
                 </div>
               </div>

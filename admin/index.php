@@ -101,6 +101,8 @@ if (isset($_GET["include"])) {
             include("include/konfirmasibuku.php");
         } else if($include=="edit-buku") {
             include("include/editbuku.php");
+        } else if($include=="detail-buku") {
+            include("include/detailbuku.php");
         } else if($include=="hapus-buku") {
             include("include/hapusbuku.php"); //end buku
         } 
