@@ -59,71 +59,59 @@
     <section id="katalog-wrapper">
       <main role="main" class="container">
         <div class="row">
+        <?php 
+            $sql = "select buku.*, kategori_buku.kategori_buku, penerbit.penerbit
+            from `buku` 
+            INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku 
+            INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit
+            WHERE id_buku='".$_GET['id']."'";
+            $data_detailbuku = getDataUser($koneksi, $sql); ?>
           <div class="col-md-9 katalog-detail">
             <div class="table-responsive">
               <table class="table table-bordered">
                 <tr>
-                  <td width="40%" rowspan="6"><img src="imgbook/books.jpg" class="img-fluid" alt="Books Collection" title="Books"></td>
-                  <td colspan="2"><h4>Suspendisse blandit dapibus lacus, a gravida ex euismod ut</h4></td>
+                  <td width="40%" rowspan="6"><img src="admin/cover/<?= $data_detailbuku[0]['cover'] ?>" class="img-fluid" alt="Books Collection" title="Books"></td>
+                  <td colspan="2"><?= $data_detailbuku[0]['judul'] ?></td>
                 </tr>
                 <tr>
                   <td width="17%"><strong>Penulis</strong></td>
-                  <td width="43%">Surianto Rustan</td>
+                  <td width="43%"><?= $data_detailbuku[0]['pengarang'] ?></td>
                 </tr>
                 <tr>
                   <td><strong>Penerbit</strong></td>
-                  <td>UB Press</td>
+                  <td><?= $data_detailbuku[0]['penerbit'] ?></td>
                 </tr>
                 <tr>
                   <td><strong>Tahun Terbit</strong></td>
-                  <td>2019</td>
+                  <td><?= $data_detailbuku[0]['tahun_terbit'] ?></td>
                 </tr>
                 <tr>
                   <td><strong>Kategori Buku</strong></td>
-                  <td>Machine Learning</td>
+                  <td><?= $data_detailbuku[0]['kategori_buku'] ?></td>
                 </tr>
                 <tr>
+                
                   <td><strong>Tag</strong></td>
-                  <td><a href="#">Deep Learning</a>, <a href="#">Phyton</a>, <a href="#">Machine Learning</a>, 
-                    <a href="#">Deep Learning</a>, <a href="#">Phyton</a>, <a href="#">Machine Learning</a>
+                  <td>
+                  <?php $sql_tag="select tag.tag from tag_buku inner join tag on tag_buku.id_tag = tag.id_tag
+                where tag_buku.id_buku='".$_GET['id']."'";
+                $data_tag= getDataUser($koneksi, $sql_tag);
+                foreach ($data_tag as $tag) {?>
+                  <a href="#"><?= $tag['tag'] ?>,</a>
+                <?php }
+                ?>
+                  
                   </td>
                 </tr>
                 <tr>
                   <td colspan="3">
                     <h5>Sinopsis</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean at dapibus ex. Nullam arcu erat, 
-                      vehicula elementum cursus vitae, gravida bibendum purus. Morbi mollis cursus gravida. Sed vel ultricies nunc. 
-                      Aenean fringilla sollicitudin nisi nec vulputate. Suspendisse quis justo erat. 
-                      Nullam sagittis, augue ut eleifend consectetur, orci augue cursus mauris, in facilisis lectus est sit amet erat. 
-                      Suspendisse blandit dapibus lacus, a gravida ex euismod ut. Morbi ac dictum lectus, et vulputate sapien. 
-                      Aliquam et enim tincidunt, accumsan sapien id, feugiat mauris. Phasellus at suscipit est.</p>
-
-                    <p>Aliquam lorem nisi, auctor quis vulputate ac, consequat quis mauris. Class aptent taciti sociosqu ad litora 
-                      torquent per conubia nostra, per inceptos himenaeos.</p>
-                      <ol>
-                        <li>Curabitur malesuada vulputate elit, at sodales neque accumsan nec</li>
-                        <li>Ut ut est ut nisi dignissim imperdiet id quis sem</li>
-                        <li>Nam non vestibulum mauris. Nullam ac suscipit dolor, vitae fermentum nibh</li>
-                        <li>Proin vestibulum semper tempor. Donec vitae sagittis lectus, id congue ante</li>
-                        <li>Phasellus aliquam augue sit amet imperdiet semper</li>
-                        <li>Aenean eu dolor at ipsum commodo ornare a nec felis</li>
-                        <li>In sit amet tellus eu elit accumsan consequat quis sed mi</li>
-                      </ol>
-
-                    <p>Phasellus sagittis magna ac velit accumsan vehicula. Nunc sodales mi a nisl elementum, ut facilisis tortor vehicula. 
-                      Suspendisse tempor leo nunc. Donec laoreet leo sit amet consequat auctor. Sed facilisis tellus nisi, at 
-                      ullamcorper lorem rutrum iaculis. Suspendisse potenti. Proin venenatis felis quis nibh ultricies, vitae interdum 
-                      ligula consectetur. Nam fermentum nunc ut viverra cursus. Sed ac purus molestie, faucibus dui sed, imperdiet lacus.
-                      Mauris elementum vel turpis vel finibus. In id convallis quam, nec mollis nisl. Mauris faucibus finibus ultrices. 
-                      Suspendisse eu nulla nibh. Nam nec laoreet erat. Donec mauris nibh, molestie non luctus et, sagittis quis mauris. 
-                      Duis at enim ut augue sollicitudin aliquam.</p>
+                    <?= $data_detailbuku[0]['sinopsis'] ?>
                   </td>
                 </tr>
               </table>
-            </div><!-- .table-responsive -->
-
+            </div><!-- .table-responsive --> 
           </div><!-- /.blog-main -->
-      
           <aside class="col-md-3 katalog-sidebar">
       
             
@@ -158,7 +146,7 @@
           </aside><!-- /.blog-sidebar -->
       
         </div><!-- /.row -->
-      
+        
       </main><!-- /.container -->
     </section><br><br>
     <footer class="bg-primary text-dark">

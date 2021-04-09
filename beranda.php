@@ -87,21 +87,29 @@ while ($data_b = mysqli_fetch_assoc($query_blog)) {
         <div class="container">
             <h2>Koleksi Terbaru</h2>
             <div class="row">
+            <?php 
+            $sql = "select buku.*, kategori_buku.kategori_buku, penerbit.penerbit
+            from `buku` 
+            INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku 
+            INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit";
+            $data_buku = getDataUser($koneksi, $sql);
+            foreach ($data_buku as $buku) { ?>
               <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                  <img src="imgbook/books.jpg" class="img-fluid" alt="Books Collection" title="Books">
+                  <img src="admin/cover/<?= $buku['cover'] ?>" class="img-fluid" alt="Books Collection" title="Books">
                   <div class="card-body bg-warning">
-                    <p class="card-text">MENGUASAI CODEIGNITER 4 KASUS MEMBUAT APLIKASI PMB KAMPUS</p>
+                    <p class="card-text"><?= $buku['judul'] ?></p>
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="btn-group">
-                       <a href="detailbuku.php" class="btn btn-primary stretched-link">Detail</a>
+                       <a href="detail-buku-id-<?= $buku['id_buku'] ?>" class="btn btn-primary stretched-link">Detail</a>
                       </div>
-                      <small class="text-muted">Lokomedia</small>
+                      <small class="text-muted"><?= $buku['penerbit'] ?></small>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <?php } ?>
+              <!-- <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                   <img src="imgbook/books.jpg" class="img-fluid" alt="Books Collection" title="Books">
                   <div class="card-body bg-warning">
@@ -172,7 +180,7 @@ while ($data_b = mysqli_fetch_assoc($query_blog)) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
               
             </div>
           </div>

@@ -16,6 +16,8 @@ if (isset($_GET["page"])) {
         include("blog.php");
       } else if($page == "detail-blog") {
         include("detailblog.php");
+      } else if($page == "detail-buku") {
+        include("detailbuku.php");
       } else {
         include("beranda.php");
       }
