@@ -78,6 +78,11 @@ if (isset($_GET["page"])) {
       if ($page=="blog") { //kategori buku
         include("user/blog.php");
       } else if($page == "detail-blog") {
+<<<<<<< HEAD
+        include("detailblog.php");
+      } else if($page == "detail-buku") {
+        include("detailbuku.php");
+=======
         include("user/detailblog.php");
       } else if($page == "about-us") {
         include("user/aboutus.php");
@@ -87,6 +92,7 @@ if (isset($_GET["page"])) {
         include("user/contactus.php");
       } else if($page == "detail-buku") {
         include("user/detailbuku.php");
+>>>>>>> 11155a68fe59a268feb58a652b963a19ecfafd2d
       } else {
         include("user/beranda.php");
       }
