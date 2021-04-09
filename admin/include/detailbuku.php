@@ -3,7 +3,6 @@
 <head>
 <?php include("includes/head.php") ?> 
 <?php
-include("../koneksi/koneksi.php");
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $sql = "select `id_buku`, `kategori_buku`, `judul`, `pengarang`, `penerbit`, `tahun_terbit`, `sinopsis`, `cover` 

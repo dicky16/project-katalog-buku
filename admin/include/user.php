@@ -73,7 +73,7 @@
                             <td>".$row['level']."</td>
                             <td align='center'>
                               <a href='edit-user-id-".$row['id_user']."' class='btn btn-xs btn-info' title='Edit'><i class='fas fa-edit'></i></a>
-                              <a href='detail-user-id=".$row['id_user']."' class='btn btn-xs btn-info' title='Detail'><i class='fas fa-eye'></i></a>
+                              <a href='detail-user-id-".$row['id_user']."' class='btn btn-xs btn-info' title='Detail'><i class='fas fa-eye'></i></a>
                               <a href='#' class='btn btn-xs btn-warning hapususer' data-id='".$row['id_user']."'><i class='fas fa-trash' title='Hapus'></i></a>                         
                             </td>
                         </tr>";

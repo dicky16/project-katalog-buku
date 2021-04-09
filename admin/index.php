@@ -116,6 +116,8 @@ if (isset($_GET["include"])) {
             include("include/edituser.php");
         } else if($include=="konfirmasi-edit-user") {
             include("include/konfirmasiedituser.php");
+        } else if($include=="detail-user") {
+            include("include/detailuser.php");
         } else if($include=="hapus-user") {
             include("include/hapususer.php");
         }

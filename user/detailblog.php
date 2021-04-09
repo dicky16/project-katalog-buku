@@ -16,23 +16,6 @@ while ($data_k_detail = mysqli_fetch_assoc($query_kategori_blog_detail)) {
     $data_kategori_blog_detail[] = $data_k_detail;
 }
 ?>
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
-
-    <!-- Global CSS-->
-    <link rel="stylesheet" href="dist/css/style.css">
-
-    <title>Katalog Buku</title>
-  </head>
-  <body>
-  <?php include('section/nav.php') ?>
     <section id="blog-header">
       <div class="container">
         <h1 class="text-white">BLOG</h1>
@@ -81,8 +64,9 @@ while ($data_k_detail = mysqli_fetch_assoc($query_kategori_blog_detail)) {
                   }
               }
               ?>
-              <?php foreach ($data_archives_array as $arsip) { ?>
-                <li><a href="#"><?= $arsip ?></a></li>
+              <?php foreach ($data_archives_array as $arsip) {
+                $arsip_array = nama_bulan_to_angka($arsip); ?>
+                <li><a href="blog_bulan-<?= $arsip_array[0] ?>-tahun-<?= $arsip_array[1] ?>"><?= $arsip ?></a></li>
               <?php } ?>
               </ol>
             </div>
@@ -94,17 +78,3 @@ while ($data_k_detail = mysqli_fetch_assoc($query_kategori_blog_detail)) {
       
       </main><!-- /.container -->
     </section><br><br>
-    <footer class="bg-primary text-dark">
-        <div class="container">
-          <p class="float-right">
-            <a href="#" class="text-white">Back to top</a>
-          </p>
-          <p>&copy; <b>2021 Vokasi UB.</b> All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Optional JavaScript; choose one of the two! -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-</html>

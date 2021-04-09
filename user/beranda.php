@@ -9,24 +9,14 @@ while ($data_b = mysqli_fetch_assoc($query_blog)) {
   $data_blog[] = $data_b;
 }
 // var_dump($data_blog); die;
+//data buku
+$sql = "select buku.*, kategori_buku.*, penerbit.*
+          from buku 
+          INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku
+          INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit";
+          $sql .=" ORDER BY `judul` limit 6";
+          $data_buku = getDataUser($koneksi, $sql);
 ?>
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
-
-    <!-- Global CSS-->
-    <link rel="stylesheet" href="dist/css/style.css">
-
-    <title>Katalog Buku</title>
-  </head>
-  <body>
-    <?php include('section/nav.php') ?>
     <section id="carousel-item">
         <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -71,8 +61,10 @@ while ($data_b = mysqli_fetch_assoc($query_blog)) {
         <div class="container">
             <div class="row featurette">
                 <div class="col-md-7">
-                  <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-                  <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+                <?php $sql_headline = "select * from konten";
+                $data_headline = getDataUser($koneksi, $sql_headline); ?>
+                  <h2 class="featurette-heading"><?= $data_headline[0]['judul'] ?></h2>
+                  <p class="lead"><?= $data_headline[0]['isi'] ?></p>
                 </div>
                 <div class="col-md-5">
                     <img src="images/undraw_book_lover_mkck.png" class="img-fluid mx-auto featurette-image">
@@ -87,92 +79,27 @@ while ($data_b = mysqli_fetch_assoc($query_blog)) {
         <div class="container">
             <h2>Koleksi Terbaru</h2>
             <div class="row">
+            <?php
+              foreach ($data_buku as $buku) {
+                  ?>
               <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                  <img src="imgbook/books.jpg" class="img-fluid" alt="Books Collection" title="Books">
+                  <img src="admin/cover/<?= $buku['cover'] ?>" class="img-fluid" alt="Books Collection" title="<?= $buku['id_buku'] ?>">
                   <div class="card-body bg-warning">
-                    <p class="card-text">MENGUASAI CODEIGNITER 4 KASUS MEMBUAT APLIKASI PMB KAMPUS</p>
+                    <p class="card-text"><?= $buku['judul'] ?></p>
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="btn-group">
-                       <a href="detailbuku.php" class="btn btn-primary stretched-link">Detail</a>
+                       <a href="detail-buku-id-<?= $buku['id_buku'] ?>" class="btn btn-primary stretched-link">Detail</a>
                       </div>
-                      <small class="text-muted">Lokomedia</small>
+                      <small class="text-muted"><?= $buku['penerbit'] ?></small>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                  <img src="imgbook/books.jpg" class="img-fluid" alt="Books Collection" title="Books">
-                  <div class="card-body bg-warning">
-                    <p class="card-text">MENGUASAI CODEIGNITER 4 KASUS MEMBUAT APLIKASI PMB KAMPUS</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <a href="detailbuku.php" class="btn btn-primary stretched-link">Detail</a>
-                      </div>
-                      <small class="text-muted">Lokomedia</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                  <img src="imgbook/books.jpg" class="img-fluid" alt="Books Collection" title="Books">
-                  <div class="card-body bg-warning">
-                    <p class="card-text">MENGUASAI CODEIGNITER 4 KASUS MEMBUAT APLIKASI PMB KAMPUS</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <a href="detailbuku.php" class="btn btn-primary stretched-link">Detail</a>
-                      </div>
-                      <small class="text-muted">Lokomedia</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-      
-              
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                  <img src="imgbook/books.jpg" class="img-fluid" alt="Books Collection" title="Books">
-                  <div class="card-body bg-warning">
-                    <p class="card-text">MENGUASAI CODEIGNITER 4 KASUS MEMBUAT APLIKASI PMB KAMPUS</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                      <a href="detailbuku.php" class="btn btn-primary stretched-link">Detail</a>
-                      </div>
-                      <small class="text-muted">Lokomedia</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                  <img src="imgbook/books.jpg" class="img-fluid" alt="Books Collection" title="Books">
-                  <div class="card-body bg-warning">
-                    <p class="card-text">MENGUASAI CODEIGNITER 4 KASUS MEMBUAT APLIKASI PMB KAMPUS</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                      <a href="detailbuku.php" class="btn btn-primary stretched-link">Detail</a>
-                      </div>
-                      <small class="text-muted">Lokomedia</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                  <img src="imgbook/books.jpg" class="img-fluid" alt="Books Collection" title="Books">
-                  <div class="card-body bg-warning">
-                    <p class="card-text">MENGUASAI CODEIGNITER 4 KASUS MEMBUAT APLIKASI PMB KAMPUS</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                         <a href="detailbuku.php" class="btn btn-primary stretched-link">Detail</a>
-                      </div>
-                      <small class="text-muted">Lokomedia</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <?php
+              } ?>
+
+              <div class="col text-right"><a href="daftar-buku" class="btn btn-primary stretched-link">Lihat Semua</a></div>
               
             </div>
           </div>
@@ -211,17 +138,3 @@ while ($data_b = mysqli_fetch_assoc($query_blog)) {
             </div>
         </div>
     </section>
-    <footer class="bg-primary text-dark">
-        <div class="container">
-          <p class="float-right">
-            <a href="#" class="text-white">Back to top</a>
-          </p>
-          <p>&copy; <b>2021 Vokasi UB.</b> All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Optional JavaScript; choose one of the two! -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-</html>
