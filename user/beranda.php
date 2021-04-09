@@ -126,11 +126,9 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
                         <strong class="d-inline-block mb-2 text-success"><?= $blog['judul'] ?></strong>
                         <h3 class="mb-0"><a href="detail-blog-id-<?= $blog['id_blog']; ?>" ><?= pecah_kalimat($blog['isi']) ?></a></h3>
                         <div class="mb-1 text-muted"><?= tanggal_indonesia($blog['tanggal']) ?></div>
-                        <!--<p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>-->
-                        <!-- <a href="#" class="stretched-link">Continue reading</a> -->
                         </div>
                         <div class="col-auto d-none d-lg-block">
-                            <img src="images/blog.jpg" class="img-fluid" title="book title here">
+                            <img src="user/images/blog.jpg" class="img-fluid" title="<?= $blog['judul'] ?>">
                         </div>
                     </div>
                 </div>
