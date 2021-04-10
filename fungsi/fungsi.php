@@ -71,7 +71,14 @@ function nama_bulan_to_angka($tanggal){
 
 function pecah_kalimat($isi) {
     $isi_array = explode(".", $isi);
-    return $isi_array[0];
+	$pecah_spasi = explode(" ", $isi_array[0]);
+	if(count($pecah_spasi) > 8) {
+		$data = $pecah_spasi[0]." ".$pecah_spasi[1]." ".$pecah_spasi[2]." ".$pecah_spasi[3]
+		." ".$pecah_spasi[4]." ".$pecah_spasi[5]." ".$pecah_spasi[6]." ".$pecah_spasi[7].$pecah_spasi[8];
+	} else {
+		$data = $isi_array[0];
+	}
+    return $data;
 }
 
 function getDataUser($koneksi, $sql)
