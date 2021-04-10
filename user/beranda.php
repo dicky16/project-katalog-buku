@@ -3,7 +3,8 @@
 $sql_blog = "select id_blog, kategori_blog.kategori_blog, `judul`, `tanggal`, user.nama, isi
           from blog 
           INNER JOIN kategori_blog ON blog.id_kategori_blog = kategori_blog.id_kategori_blog 
-          INNER JOIN user ON blog.id_user = user.id_user";
+          INNER JOIN user ON blog.id_user = user.id_user
+          order by id_blog desc";
 $query_blog = mysqli_query($koneksi, $sql_blog);
 while ($data_b = mysqli_fetch_assoc($query_blog)) {
   $data_blog[] = $data_b;
@@ -118,7 +119,6 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
             <h2>Blog Terbaru</h2><br>
             <div class="row mb-2">
               <?php foreach ($data_blog as $blog) {
-                // var_dump($blog['id_blog']); die;
                 ?>
                 <div class="col-md-6">
                     <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">

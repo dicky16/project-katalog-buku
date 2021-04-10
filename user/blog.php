@@ -60,16 +60,16 @@
           }
           $sql .=" ORDER BY `judul` limit $posisi, $batas";
           $data_blog = getDataUser($koneksi, $sql);
-          // var_dump($data_blog); die;
           if ($data_blog) {
               foreach ($data_blog as $blog) {
-                  // var_dump($blog); die?>
+                $isi_blog = str_word_count($blog['isi']) > 60 ? substr($blog['isi'],0,400)."..." : $blog['isi'];
+                ?>
             <div class="blog-post">
               <h2 class="blog-post-title"><a href="detail-blog-id-<?= $blog['id_blog'] ?>"><?= $blog['judul'] ?></a></h2>
               <p class="blog-post-meta"><?= tanggal_indonesia($blog['tanggal']) ?> by <a href="#"><?= $blog['nama'] ?></a></p>
               <!--<img src="slideshow/slide-1.jpg" class="img-fluid" alt="Responsive image"><br><br>-->
       
-              <?= $blog['isi'] ?>
+              <?= $isi_blog ?>
               <br>
                 <a href="detail-blog-id-<?= $blog['id_blog'] ?>" class="btn btn-primary">Continue reading..</a>
               </div><!-- /.blog-post --><br><br>
