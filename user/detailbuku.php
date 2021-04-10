@@ -92,6 +92,7 @@
                     if ($_GET['id'] == $buku_terkait['id_buku']) {
                     } else {
                         ?>
+                        
                   <li><a href="detail-buku-id-<?= $buku_terkait['id_buku'] ?>"><?= $buku_terkait['judul'] ?></a></li>
               <?php
                     }
