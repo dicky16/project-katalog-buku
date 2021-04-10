@@ -40,11 +40,11 @@
                 
                   <td><strong>Tag</strong></td>
                   <td>
-                  <?php $sql_tag="select tag.tag from tag_buku inner join tag on tag_buku.id_tag = tag.id_tag
+                  <?php $sql_tag="select tag.* from tag_buku inner join tag on tag_buku.id_tag = tag.id_tag
                 where tag_buku.id_buku='".$_GET['id']."'";
                 $data_tag= getDataUser($koneksi, $sql_tag);
                 foreach ($data_tag as $tag) {?>
-                  <a href="#"><?= $tag['tag'] ?>,</a>
+                  <a href="daftar-buku_tag-<?= $tag['id_tag'] ?>"><?= $tag['tag'] ?>,</a>
                 <?php }
                 ?>
                   
@@ -65,29 +65,80 @@
            <div class="pl-4 pb-4">
               <h4 class="font-italic">Buku Terkait</h4>
               <ol class="list-unstyled mb-0">
-                <li><a href="#">Data Mining</a></li>
-                <li><a href="#">Implementasi Neural Network</a></li>
-                <li><a href="#">Deep Learning untuk Machine Learning</a></li>
-                <li><a href="#">Python untuk Machine Learning</a></li>
+              <?php 
+              $sql_tag_buku="select id_buku from tag_buku inner join tag on tag_buku.id_tag = tag.id_tag";
+              $sql_tag_buku .=" where";
+              for ($i=0; $i < count($data_tag) - 1; $i++) { 
+                $sql_tag_buku .=" tag_buku.id_tag=".$data_tag[$i]['id_tag']." OR";
+              }
+              $sql_tag_buku .=" tag_buku.id_tag=".$data_tag[count($data_tag) - 1]['id_tag'];
+              $id_buku= getDataUser($koneksi, $sql_tag_buku);
+              // var_dump($id_buku); die;
+              $sql_buku_terkait = "select buku.*, kategori_buku.kategori_buku, penerbit.penerbit
+              from `buku` 
+              INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku 
+              INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit";
+              $data_buku_terkait = getDataUser($koneksi, $sql_buku_terkait);
+              $sql_buku_terkait .=" where";
+              for ($i=0; $i < count($id_buku) - 1; $i++) { 
+                $sql_buku_terkait .=" buku.id_buku=".$id_buku[$i]['id_buku']." OR";
+              }
+              $sql_buku_terkait .=" buku.id_buku=".$id_buku[count($id_buku) - 1]['id_buku'];
+              $sql_buku_terkait .=" ORDER BY `judul` limit 6";
+              $data_buku_terkait = getDataUser($koneksi, $sql_buku_terkait);
+              // var_dump($data_buku_terkait); die;
+              foreach ($data_buku_terkait as $buku_terkait) {
+                if (isset($_GET['id'])) {
+                    if ($_GET['id'] == $buku_terkait['id_buku']) {
+                    } else {
+                        ?>
+                  <li><a href="detail-buku-id-<?= $buku_terkait['id_buku'] ?>"><?= $buku_terkait['judul'] ?></a></li>
+              <?php
+                    }
+                }
+              }  ?>
               </ol>
             </div>
 
             <div class="pl-4 pb-4">
               <h4 class="font-italic">Categories</h4>
               <ol class="list-unstyled mb-0">
-                <li><a href="#">Umum</a></li>
-                <li><a href="#">PHP</a></li>
-                <li><a href="#">Java</a></li>
-                <li><a href="#">Database</a></li>
-                <li><a href="#">Techno</a></li>
+              <?php
+                $sql_kategori_buku = "select kategori_buku.*
+                from buku 
+                INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku
+                INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit";
+                $data_kategori_buku = getDataUser($koneksi, $sql_kategori_buku);
+                $result = array();
+                foreach ($data_kategori_buku as $key => $value){
+                  if(!in_array($value, $result))
+                    $result[$key]=$value;
+                }
+                foreach ($result as $kategori_buku) {
+                    ?>
+                    <li><a href="daftar-buku_kategori-<?= $kategori_buku['id_kategori_buku'] ?>"><?= $kategori_buku['kategori_buku'] ?></a></li>
+                <?php
+                } ?>
+              </ol>
             </div>
       
             <div class="p-4">
               <h4 class="font-italic">Tag</h4>
               <ol class="list-unstyled">
-                <li><a href="#">PHP</a></li>
-                <li><a href="#">MySQL</a></li>
-                <li><a href="#">Javascript</a></li>
+              <?php
+                $sql_tag = "select tag.* from tag_buku
+                INNER JOIN tag ON tag_buku.id_tag = tag.id_tag";
+                $data_tag = getDataUser($koneksi, $sql_tag);
+                $data_tag_array = array();
+                foreach ($data_tag as $key => $value){
+                  if(!in_array($value, $data_tag_array))
+                    $data_tag_array[$key]=$value;
+                }
+                foreach ($data_tag_array as $tag) {
+                    ?>
+                    <li><a href="daftar-buku_tag-<?= $tag['id_tag'] ?>"><?= $tag['tag'] ?></a></li>
+                <?php
+                } ?>
               </ol>
             </div>
           </aside><!-- /.blog-sidebar -->

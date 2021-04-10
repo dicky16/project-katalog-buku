@@ -37,7 +37,6 @@
           } else if(isset($_GET['tag'])) {
             $sql_cari_id_buku = "select id_buku from tag_buku where id_tag='".$_GET['tag']."'";
             $id_buku = getDataUser($koneksi, $sql_cari_id_buku);
-            // var_dump($id_buku); die;
             $sql .=" where";
             for ($i=0; $i < count($id_buku) - 1; $i++) { 
               $sql .=" buku.id_buku=".$id_buku[$i]['id_buku']." OR";
@@ -46,7 +45,6 @@
           }
           $sql .=" ORDER BY `judul` limit $posisi, $batas";
           $data_buku = getDataUser($koneksi, $sql);
-          // var_dump($data_buku); die;
           ?>
     <section id="blog-header">
       <div class="container">
@@ -64,6 +62,8 @@
           $sql_tag = "select * from tag where id_tag='".$_GET['tag']."'";
           $tag = getDataUser($koneksi, $sql_tag);
           echo "TAGS: ".$tag[0]['tag'];
+        } else if(isset($_SESSION['search'])) {
+          echo "Hasil Pencari: ".$_SESSION['search'];
         } else {
           echo "";
         } ?></h2><br><br>
@@ -174,12 +174,12 @@
                   if(!in_array($value, $result))
                     $result[$key]=$value;
                 }
-                // var_dump($result); die;
                 foreach ($result as $kategori_buku) {
                     ?>
                     <li><a href="daftar-buku_kategori-<?= $kategori_buku['id_kategori_buku'] ?>"><?= $kategori_buku['kategori_buku'] ?></a></li>
                 <?php
                 } ?>
+                </ol>
             </div>
       
             <div class="p-4">

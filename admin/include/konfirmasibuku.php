@@ -131,56 +131,84 @@
              $_SESSION['notif'] = 'editkosong';
              $_SESSION['jenis'] = 'tag';
              header("Location:edit-buku-id-".$_GET['id']);
-         } elseif (empty($cover)) {
-             $_SESSION['notif'] = 'editkosong';
-             $_SESSION['jenis'] = 'cover';
-             header("Location:edit-buku-id-".$_GET['id']);
          } else {
-             $id = $_GET['id'];
-             $nama_cover = date('His')."-".$cover;
-             $lokasi_file = $_FILES['cover']['tmp_name'];
-             $direktori = 'cover/'.$nama_cover;
-             //hapus cover di folder server
-             $sql_d = "select `cover` from `buku` where `id_buku`='$id'";
-             $query_d = mysqli_query($koneksi, $sql_d);
-             while ($cover = mysqli_fetch_row($query_d)) {
-                 $coverhapus = $cover[0];
-             }
-             if ($coverhapus) {
-                 unlink("cover/$coverhapus");
-             }
-             //end hapus cover
-             if (move_uploaded_file($lokasi_file, $direktori)) {
-                 $sql = "UPDATE `buku` SET `id_kategori_buku` = '$id_kategoribuku', `judul` = '$judul', 
+             if(empty($cover)) {
+                $sql = "UPDATE `buku` SET `id_kategori_buku` = '$id_kategoribuku', `judul` = '$judul', 
+                 `pengarang` = '$pengarang', `id_penerbit` = '$penerbit', `tahun_terbit` = '$tahun_terbit', 
+                 `sinopsis` = '$sinopsis' 
+                 WHERE `buku`.`id_buku` = '$id';";
+                     mysqli_query($koneksi, $sql);
+                     //hapus tag
+                 if (isset($_GET['id'])) {
+                    $sql_hapus_tag = "delete from `tag_buku` where `id_buku`='$id'";
+                    mysqli_query($koneksi, $sql_hapus_tag);
+                }
+                //insert tag
+                if (isset($_POST['tag'])) {
+                    $jumlah_tag = count($_POST['tag']);
+                    for ($i=0; $i < $jumlah_tag; $i++) {
+                        $tag[] = $_POST['tag'][$i];
+                        $sql_tag = "INSERT INTO `tag_buku` (`id_buku`, `id_tag`) 
+                  VALUES ('$id', '$tag[$i]');";
+                        mysqli_query($koneksi, $sql_tag);
+                    }
+                }
+                unset($_SESSION['id_kategori']);
+                unset($_SESSION['judul']);
+                unset($_SESSION['pengarang']);
+                unset($_SESSION['penerbit']);
+                unset($_SESSION['tahun_terbit']);
+                unset($_SESSION['sinopsis']);
+                unset($_SESSION['tag']);
+                $_SESSION['notif'] = 'editberhasil';
+                header("Location:buku");
+             } else {
+                 $id = $_GET['id'];
+                 $nama_cover = date('His')."-".$cover;
+                 $lokasi_file = $_FILES['cover']['tmp_name'];
+                 $direktori = 'cover/'.$nama_cover;
+                 //hapus cover di folder server
+                 $sql_d = "select `cover` from `buku` where `id_buku`='$id'";
+                 $query_d = mysqli_query($koneksi, $sql_d);
+                 while ($cover = mysqli_fetch_row($query_d)) {
+                     $coverhapus = $cover[0];
+                 }
+                 if ($coverhapus) {
+                     unlink("cover/$coverhapus");
+                 }
+                 //end hapus cover
+                 if (move_uploaded_file($lokasi_file, $direktori)) {
+                     $sql = "UPDATE `buku` SET `id_kategori_buku` = '$id_kategoribuku', `judul` = '$judul', 
                  `pengarang` = '$pengarang', `id_penerbit` = '$penerbit', `tahun_terbit` = '$tahun_terbit', 
                  `sinopsis` = '$sinopsis', `cover` = '$nama_cover' 
                  WHERE `buku`.`id_buku` = '$id';";
-                 mysqli_query($koneksi, $sql);
-             }
-             //hapus tag
-             if (isset($_GET['id'])) {
-                 $sql_hapus_tag = "delete from `tag_buku` where `id_buku`='$id'";
-                 mysqli_query($koneksi, $sql_hapus_tag);
-             }
-             //insert tag
-             if (isset($_POST['tag'])) {
-                 $jumlah_tag = count($_POST['tag']);
-                 for ($i=0; $i < $jumlah_tag; $i++) {
-                     $tag[] = $_POST['tag'][$i];
-                     $sql_tag = "INSERT INTO `tag_buku` (`id_buku`, `id_tag`) 
-                   VALUES ('$id', '$tag[$i]');";
-                     mysqli_query($koneksi, $sql_tag);
+                     mysqli_query($koneksi, $sql);
                  }
+                 //hapus tag
+                 if (isset($_GET['id'])) {
+                     $sql_hapus_tag = "delete from `tag_buku` where `id_buku`='$id'";
+                     mysqli_query($koneksi, $sql_hapus_tag);
+                 }
+                 //insert tag
+                 if (isset($_POST['tag'])) {
+                     $jumlah_tag = count($_POST['tag']);
+                     for ($i=0; $i < $jumlah_tag; $i++) {
+                         $tag[] = $_POST['tag'][$i];
+                         $sql_tag = "INSERT INTO `tag_buku` (`id_buku`, `id_tag`) 
+                   VALUES ('$id', '$tag[$i]');";
+                         mysqli_query($koneksi, $sql_tag);
+                     }
+                 }
+                 unset($_SESSION['id_kategori']);
+                 unset($_SESSION['judul']);
+                 unset($_SESSION['pengarang']);
+                 unset($_SESSION['penerbit']);
+                 unset($_SESSION['tahun_terbit']);
+                 unset($_SESSION['sinopsis']);
+                 unset($_SESSION['tag']);
+                 $_SESSION['notif'] = 'editberhasil';
+                 header("Location:buku");
              }
-             unset($_SESSION['id_kategori']);
-             unset($_SESSION['judul']);
-             unset($_SESSION['pengarang']);
-             unset($_SESSION['penerbit']);
-             unset($_SESSION['tahun_terbit']);
-             unset($_SESSION['sinopsis']);
-             unset($_SESSION['tag']);
-             $_SESSION['notif'] = 'editberhasil';
-             header("Location:buku");
          }
      }
  }

@@ -1,6 +1,7 @@
 <?php
 include("koneksi/koneksi.php");
 include("fungsi/fungsi.php");
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,6 +15,34 @@ include("fungsi/fungsi.php");
 <link rel="stylesheet" href="user/dist/css/style.css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 <title>Katalog Buku</title>
+<style>
+.typeahead__container, .typeahead__field, .typeahead__filter, .typeahead__query {
+    position: relative;
+}
+.typeahead__dropdown, .typeahead__list {
+    position: absolute;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background-clip: padding-box;
+}
+    /* -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    box-sizing: border-box;
+    position: relative; */
+</style>
 </head>
 <body>
 <?php
@@ -24,9 +53,10 @@ $sql_kategori_buku = "select kategori_buku.*
                 INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit limit 5";
                 $data_kategori_buku = getDataUser($koneksi, $sql_kategori_buku);
                 $result = array();
-                foreach ($data_kategori_buku as $key => $value){
-                  if(!in_array($value, $result))
-                    $result[$key]=$value;
+                foreach ($data_kategori_buku as $key => $value) {
+                    if (!in_array($value, $result)) {
+                        $result[$key]=$value;
+                    }
                 }
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -63,9 +93,14 @@ $sql_kategori_buku = "select kategori_buku.*
                 </li>
             </ul>
             <form class="form-inline mt-2 mt-md-0">
-              <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+
+            <div class="typeahead__container cancel result">
+              <input class="form-control mr-sm-2" id="search" name="search" type="text" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class='icon-search'></i></button>
+              <div id="display-search"></div>
+            </div>
             </form>
+
         </div>
         </div>
     </nav>
@@ -77,24 +112,18 @@ if (isset($_GET["page"])) {
         //pemanggilan ke halaman-halaman menu admin
       if ($page=="blog") { //kategori buku
         include("user/blog.php");
-      } else if($page == "detail-blog") {
-<<<<<<< HEAD
-        include("detailblog.php");
-      } else if($page == "detail-buku") {
-        include("detailbuku.php");
-=======
-        include("user/detailblog.php");
-      } else if($page == "about-us") {
-        include("user/aboutus.php");
-      } else if($page == "daftar-buku") {
-        include("user/daftarbuku.php");
-      } else if($page == "contact-us") {
-        include("user/contactus.php");
-      } else if($page == "detail-buku") {
-        include("user/detailbuku.php");
->>>>>>> 11155a68fe59a268feb58a652b963a19ecfafd2d
+      } elseif ($page == "detail-blog") {
+          include("user/detailblog.php");
+      } elseif ($page == "about-us") {
+          include("user/aboutus.php");
+      } elseif ($page == "daftar-buku") {
+          include("user/daftarbuku.php");
+      } elseif ($page == "contact-us") {
+          include("user/contactus.php");
+      } elseif ($page == "detail-buku") {
+          include("user/detailbuku.php");
       } else {
-        include("user/beranda.php");
+          include("user/beranda.php");
       }
 }
 ?>
@@ -107,7 +136,38 @@ if (isset($_GET["page"])) {
   </div>
 </footer>
 <!-- Optional JavaScript; choose one of the two! -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="user/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+$( "#search" ).keyup(function() {
+  $("#display-search").empty();
+  var key = $("#search").val();
+  console.log("jalan " + key);
+  if(key) {
+    $.post( "user/search.php", { data: key})
+      .done(function( data ) {
+      console.log(data);
+      for (let index = 0; index < data.length; index++) {
+        // const element = array[index];
+        
+    $("#display-search").html('<div class="typeahead__result">'+
+      '<ul class="typeahead__list">'+
+      '<li class="typeahead__item typeahead__group-default" data-group="default" data-index="0">'+
+      '<a href="detail-buku-id-'+data[index].id_buku+'">'+
+      '<span class="typeahead__display">'+
+      '<strong>'+data[index].judul+''+
+      '</span>'+
+      '</a>'+
+      '</li>'+
+      '</ul>'+
+      '</div>');
+    }
+    });
+  } else {
+    $("#display-search").empty();
+  }
+});
+</script>
 </body>
 </html>
