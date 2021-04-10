@@ -124,7 +124,7 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
                     <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                         <div class="col p-4 d-flex flex-column position-static bg-light">
                         <strong class="d-inline-block mb-2 text-success"><?= $blog['judul'] ?></strong>
-                        <h3 class="mb-0"><a href="detail-blog-id-<?= $blog['id_blog']; ?>" ><?= pecah_kalimat($blog['isi']) ?></a></h3>
+                        <h3 class="mb-0"><a href="detail-blog-id-<?= $blog['id_blog']; ?>" ><?= $blog['judul'] ?></a></h3>
                         <div class="mb-1 text-muted"><?= tanggal_indonesia($blog['tanggal']) ?></div>
                         </div>
                         <div class="col-auto d-none d-lg-block">
