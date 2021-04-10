@@ -108,7 +108,6 @@
                   while ($data_d = mysqli_fetch_row($query_d)) {
                       $data[] = $data_d;
                   }
-                  // var_dump($data); die;
                   $no = $posisi + 1;
                   //display data to table
                   if (!empty($data)) {
