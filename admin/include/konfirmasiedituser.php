@@ -39,6 +39,7 @@
      } else {
         if(!empty($foto) && !empty($password)) {
          $lokasi_file = $_FILES['foto']['tmp_name'];
+         $foto = date('His')."-".$foto;
          $direktori = "foto/".$foto;
          unlink("foto/$foto_old");
          $password = MD5($password);
@@ -48,6 +49,7 @@
          mysqli_query($koneksi,$sql);
         } else if(!empty($foto)) {
          $lokasi_file = $_FILES['foto']['tmp_name'];
+         $foto = date('His')."-".$foto;
          $direktori = "foto/".$foto;
          unlink("foto/$foto_old");
          if (move_uploaded_file($lokasi_file, $direktori)) {
