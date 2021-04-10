@@ -92,7 +92,10 @@
 
 </div>
 <!-- ./wrapper -->
-
+<?php
+unset($_SESSION['notif']);
+unset($_SESSION['jenis']);
+?>
 <?php include("includes/script.php") ?>
 <script>
 $(document).ready(function () {
