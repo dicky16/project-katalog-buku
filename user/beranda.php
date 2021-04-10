@@ -105,14 +105,14 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
           </div>
     </section><br><br><!-- #product-item -->
     
-    <section id="quotes-item" class="bg-light" style="min-height: 80px;padding:40px 0px 0px 0px;">
+    <!-- <section id="quotes-item" class="bg-light" style="min-height: 80px;padding:40px 0px 0px 0px;">
         <div class="container">
             <blockquote class="blockquote text-center">
                 <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                 <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
             </blockquote>
         </div>
-    </section><br><br>
+    </section><br><br> -->
     <section id="blog-item" class="mb-4">
         <div class="container">
             <h2>Blog Terbaru</h2><br>
