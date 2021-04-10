@@ -41,6 +41,7 @@
      } else {
          $password = MD5($password);
          $lokasi_file = $_FILES['foto']['tmp_name'];
+         $foto = date('His')."-".$foto;
          $direktori = "foto/".$foto;
          if (move_uploaded_file($lokasi_file, $direktori)) {
              $sql = "INSERT INTO `user` (`nama`, `email`, `username`, `password`, `level`, `foto`) VALUES ('$nama', '$email', '$username', '$password', '$level', '$foto');";
