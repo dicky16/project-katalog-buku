@@ -63,12 +63,14 @@ session_start();
 $sql_kategori_buku = "select kategori_buku.*
                 from buku 
                 INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku
-                INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit limit 5";
+                INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit";
                 $data_kategori_buku = getDataUser($koneksi, $sql_kategori_buku);
                 $result = array();
                 foreach ($data_kategori_buku as $key => $value) {
                     if (!in_array($value, $result)) {
-                        $result[$key]=$value;
+                        if (count($result) < 5) {
+                            $result[$key]=$value;
+                        }
                     }
                 }
 ?>

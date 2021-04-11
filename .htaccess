@@ -12,4 +12,5 @@ RewriteRule ^([-a-z]+)_kategori-([a-z]+)-halaman-([0-9]+)$ index.php?page=$1&kat
 RewriteRule ^([-a-z]+)_bulan-([0-9]+)-tahun-([0-9]+)-halaman-([0-9]+)$ index.php?page=$1&bulan=$2&tahun=$3&halaman=$4 [QSA,NC,L]
 # for buku
 RewriteRule ^([-a-z]+)_tag-([0-9]+)$ index.php?page=$1&tag=$2 [QSA,NC,L]
-RewriteRule ^([-a-z]+)_tag-([a-z]+)-halaman-([0-9]+)$ index.php?page=$1&tag=$2&halaman=$3 [QSA,NC,L]
+RewriteRule ^([-a-z]+)_tag-([0-9]+)-halaman-([0-9]+)$ index.php?page=$1&tag=$2&halaman=$3 [QSA,NC,L]
+RewriteRule ^([-a-z]+)_kategori-([0-9]+)-halaman-([0-9]+)$ index.php?page=$1&kategori=$2&halaman=$3 [QSA,NC,L]

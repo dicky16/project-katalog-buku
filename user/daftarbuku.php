@@ -4,16 +4,20 @@
                   from buku 
                   INNER JOIN kategori_buku ON buku.id_kategori_buku = kategori_buku.id_kategori_buku";
           if (isset($_GET['kategori'])) {
-            $kategori_blog = $_GET['kategori'];
-            $sql_id_kategori_blog = "select id_kategori_blog from kategori_blog where kategori_blog='$kategori_blog'";
-            $id_kategori_blog = getDataUser($koneksi, $sql_id_kategori_blog);
-            if ($id_kategori_blog) {
-                $sql_jum .= " WHERE blog.id_kategori_blog=".$id_kategori_blog[0]['id_kategori_blog'];
+            $kategori_buku = $_GET['kategori'];
+            $sql_id_kategori_buku = "select id_kategori_buku from kategori_buku where id_kategori_buku='$kategori_buku'";
+            $id_kategori_buku = getDataUser($koneksi, $sql_id_kategori_buku);
+            if ($id_kategori_buku) {
+                $sql_jum .= " WHERE buku.id_kategori_buku=".$id_kategori_buku[0]['id_kategori_buku'];
             }
           } elseif(isset($_GET['tag'])) {
-            // $bulan = $_GET['bulan'];
-            // $tahun = $_GET['tahun'];
-            // $sql_jum .= " WHERE YEAR(blog.tanggal) = '$tahun' AND MONTH(blog.tanggal) = '$bulan'";
+            $sql_cari_id_buku = "select id_buku from tag_buku where id_tag='".$_GET['tag']."'";
+            $id_buku = getDataUser($koneksi, $sql_cari_id_buku);
+            $sql_jum .=" where";
+            for ($i=0; $i < count($id_buku) - 1; $i++) { 
+              $sql_jum .=" buku.id_buku=".$id_buku[$i]['id_buku']." OR";
+            }
+            $sql_jum .=" buku.id_buku=".$id_buku[count($id_buku) - 1]['id_buku'];
           }
 
           $sql_jum .= " order by `judul`";
@@ -100,20 +104,20 @@
               } else {
                   $sebelum = $halaman-1;
                   $setelah = $halaman+1;
-                  if (isset($_SESSION["katakunci"])) {
-                      $katakunci_kategori = $_SESSION["katakunci"];
+                  if (isset($_GET["tag"])) {
+                      $tag_pagination = $_GET["tag"];
                       if ($halaman!=1) {
                           echo "<li class='page-item'>
               <a class='page-link'
-              href='daftar-buku-halaman-1'>First</a></li>";
+              href='daftar-buku_tag-$tag_pagination-halaman-1'>First</a></li>";
                           echo "<li class='page-item'><a class='page-link'
-              href='daftar-buku-halaman-$sebelum'>
+              href='daftar-buku_tag-$tag_pagination-halaman-$sebelum'>
               «</a></li>";
                       }
                       for ($i=1; $i<=$jum_halaman; $i++) {
                           if ($i!=$halaman) {
                               echo "<li class='page-item'><a class='page-link'
-              href='daftar-buku-halaman-$i'>$i</a></li>";
+              href='daftar-buku_tag-$tag_pagination-halaman-$i'>$i</a></li>";
                           } else {
                               echo "<li class='page-item'>
               <a class='page-link'>$i</a></li>";
@@ -122,12 +126,39 @@
                       if ($halaman!=$jum_halaman) {
                           echo "<li class='page-item'>
               <a class='page-link'
-              href='daftar-buku-halaman-$setelah'>»</a></li>";
+              href='daftar-buku_tag-$tag_pagination-halaman-$setelah'>»</a></li>";
                           echo "<li class='page-item'><a class='page-link'
-              href='daftar-buku-halaman-$jum_halaman'>
+              href='daftar-buku_tag-$tag_pagination-halaman-$jum_halaman'>
               Last</a></li>";
                       }
-                  } else {
+                  } else if (isset($_GET["kategori"])) {
+                    $kategori_pagination = $_GET["kategori"];
+                    if ($halaman!=1) {
+                        echo "<li class='page-item'>
+            <a class='page-link'
+            href='daftar-buku_kategori-$kategori_pagination-halaman-1'>First</a></li>";
+                        echo "<li class='page-item'><a class='page-link'
+            href='daftar-buku_kategori-$kategori_pagination-halaman-$sebelum'>
+            «</a></li>";
+                    }
+                    for ($i=1; $i<=$jum_halaman; $i++) {
+                        if ($i!=$halaman) {
+                            echo "<li class='page-item'><a class='page-link'
+            href='daftar-buku_kategori-$kategori_pagination-halaman-$i'>$i</a></li>";
+                        } else {
+                            echo "<li class='page-item'>
+            <a class='page-link'>$i</a></li>";
+                        }
+                    }
+                    if ($halaman!=$jum_halaman) {
+                        echo "<li class='page-item'>
+            <a class='page-link'
+            href='daftar-buku_kategori-$kategori_pagination-halaman-$setelah'>»</a></li>";
+                        echo "<li class='page-item'><a class='page-link'
+            href='daftar-buku_kategori-$kategori_pagination-halaman-$jum_halaman'>
+            Last</a></li>";
+                    }
+                } else {
                       if ($halaman!=1) {
                           echo "<li class='page-item'><a class='page-link'
               href='daftar-buku-halaman-1'>First</a></li>";
