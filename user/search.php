@@ -10,7 +10,7 @@ if(isset($_POST['data'])) {
     INNER JOIN penerbit ON buku.id_penerbit = penerbit.id_penerbit
     WHERE buku.judul LIKE '%$key%'
     OR penerbit.penerbit LIKE '%$key%'
-    OR kategori_buku.kategori_buku LIKE '%$key%'";
+    OR kategori_buku.kategori_buku LIKE '%$key%' limit 6";
     $data = getDataUser($koneksi, $sql);
     $response = [
         "status" => "success",

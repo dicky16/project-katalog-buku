@@ -179,10 +179,13 @@ $( "#search" ).keyup(function() {
         '</a>'+
         '</li>';
         }
+      } else {
+          hideResult();
       }
     $("#display-search").html(html);
     });
   } else {
+    hideResult();
     $("#display-search").empty();
   }
 });
