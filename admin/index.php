@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("../koneksi/koneksi.php");
+include("../fungsi/fungsi.php");
 if (isset($_GET["include"])) {
     $include = $_GET["include"];
     if ($include=="konfirmasi-login") {
@@ -121,7 +122,18 @@ if (isset($_GET["include"])) {
         } else if($include=="detail-user") {
             include("include/detailuser.php");
         } else if($include=="hapus-user") {
-            include("include/hapususer.php");
+            include("include/hapususer.php"); //end user
+        }
+        else if($include=="slide") { // slider
+            include("include/slider.php");
+        } else if($include=="tambah-slide") {
+            include("include/tambahslider.php");
+        } else if($include=="konfirmasi-slide") {
+            include("include/konfirmasislider.php");
+        } else if($include=="edit-slide") {
+            include("include/editslider.php");
+        } else if($include=="hapus-slide") {
+            include("include/hapusslider.php");
         }
         else if($include=="set-session") {
             include("include/setsession.php");

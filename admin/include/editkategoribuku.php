@@ -35,7 +35,7 @@ if(isset($_GET['id'])) {
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="katgoribuku.php">Kategori Buku</a></li>
+              <li class="breadcrumb-item"><a href="katgori-buku">Kategori Buku</a></li>
               <li class="breadcrumb-item active">Edit Kategori Buku</li>
             </ol>
           </div>

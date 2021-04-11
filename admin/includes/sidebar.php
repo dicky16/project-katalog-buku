@@ -87,6 +87,14 @@ if(isset($_SESSION['level'])) {
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="slide" class="nav-link">
+              <i class="nav-icon fab fa-slideshare"></i>
+              <p>
+                Slider
+              </p>
+            </a>
+          </li>
           <?php if($level=="Superadmin") { ?>
           <li class="nav-item">
             <a href="user" class="nav-link">

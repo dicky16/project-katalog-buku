@@ -21,19 +21,37 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
     <section id="carousel-item">
         <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-              <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-              <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-              <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+            <?php 
+            $active = "active";
+            $actives = "active";
+            $sql_slider = "select * from slider order by id desc limit 5";
+            $data_slider = getDataUser($koneksi, $sql_slider); 
+            if ($data_slider) {
+              $no = 0;
+                foreach ($data_slider as $slider) {
+                    ?>
+              <li data-target="#carouselExampleCaptions" data-slide-to="<?= $no ?>" class="<?= $actives ?>"></li>
+              <?php
+              $no++;
+              $actives = "";
+                } ?>
             </ol>
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="user/slideshow/slide-1.jpg" class="d-block w-100" alt="...">
+            <?php
+            foreach ($data_slider as $slide) {
+                ?>
+              <div class="carousel-item <?= $active ?>">
+                <img src="admin/slider/<?= $slide['gambar'] ?>" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
-                  <h5>First slide label</h5>
-                  <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                  <h5><?= $slide['label'] ?></h5>
+                  <p><?= $slide['isi'] ?></p>
                 </div>
               </div>
-              <div class="carousel-item">
+              <?php
+              $active = "";
+            }
+            }?>
+              <!-- <div class="carousel-item">
                 <img src="user/slideshow/slide-2.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Second slide label</h5>
@@ -46,7 +64,7 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
                   <h5>Third slide label</h5>
                   <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
                 </div>
-              </div>
+              </div> -->
             </div>
             <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -106,14 +124,6 @@ $sql = "select buku.*, kategori_buku.*, penerbit.*
           </div>
     </section><br><br><!-- #product-item -->
     
-    <!-- <section id="quotes-item" class="bg-light" style="min-height: 80px;padding:40px 0px 0px 0px;">
-        <div class="container">
-            <blockquote class="blockquote text-center">
-                <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-            </blockquote>
-        </div>
-    </section><br><br> -->
     <section id="blog-item" class="mb-4">
         <div class="container">
             <h2>Blog Terbaru</h2><br>

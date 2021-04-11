@@ -1,5 +1,4 @@
 <?php
- //akses file koneksi database
  if (isset($_POST['tambahbuku'])) {
      $id_kategoribuku = $_POST['kategori_buku'];
      $judul = $_POST['judul'];
@@ -101,8 +100,6 @@
          $_SESSION['sinopsis'] = $sinopsis;
          $_SESSION['tag'] = $tag;
          
-         //  if (empty($id_kategoribuku)) {
-         //      header("Location:edit-buku-id-".$_GET['id']);
          if (empty($id_kategoribuku)) {
              $_SESSION['notif'] = 'editkosong';
              $_SESSION['jenis'] = 'kategoribuku';

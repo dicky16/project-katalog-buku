@@ -20,7 +20,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="kategoriblog.php">Kategori Blog</a></li>
+              <li class="breadcrumb-item"><a href="kategori-blog">Kategori Blog</a></li>
               <li class="breadcrumb-item active">Tambah Kategori Blog</li>
             </ol>
           </div>
@@ -35,7 +35,7 @@
       <div class="card-header">
         <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Tambah Kategori Blog</h3>
         <div class="card-tools">
-          <a href="kategoriblog.php" class="btn btn-sm btn-warning float-right">
+          <a href="kategori-blog" class="btn btn-sm btn-warning float-right">
           <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
         </div>
       </div>

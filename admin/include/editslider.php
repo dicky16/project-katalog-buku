@@ -1,19 +1,16 @@
+<?php
+if(isset($_GET['id'])) {
+    $sql = "select * from slider where id = '".$_GET['id']."'";
+    $data = getDataUser($koneksi, $sql);
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
 <?php
-if(isset($_SESSION['id_user'])){
-$id_user = $_SESSION['id_user'];
- $sql_d = "select `nama`, `email` from `user`
- where `id_user` = '$id_user'";
-$query_d = mysqli_query($koneksi,$sql_d);
-while($data_d = mysqli_fetch_row($query_d)){
- $nama= $data_d[0];
- $email= $data_d[1];
-}
-}
-?>
-<?php include("includes/head.php") ?> 
+include("includes/head.php");
+?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -28,12 +25,12 @@ while($data_d = mysqli_fetch_row($query_d)){
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3><i class="fas fa-edit"></i> Edit Profil</h3>
+            <h3><i class="fas fa-plus"></i> Edit Slider</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="profil">Profil</a></li>
-              <li class="breadcrumb-item active">Edit Profil</li>
+              <li class="breadcrumb-item"><a href="slide">Data Slider</a></li>
+              <li class="breadcrumb-item active">Edit Slider</li>
             </ol>
           </div>
         </div>
@@ -45,55 +42,56 @@ while($data_d = mysqli_fetch_row($query_d)){
 
     <div class="card card-info">
       <div class="card-header">
-        <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Edit Profil</h3>
+        <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Edit Data Slider</h3>
         <div class="card-tools">
-          <a href="profil" class="btn btn-sm btn-warning float-right"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
+          <a href="slide" class="btn btn-sm btn-warning float-right">
+          <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
         </div>
       </div>
       <!-- /.card-header -->
       <!-- form start -->
-      </br>
+      </br></br>
       <div class="col-sm-10">
-      <?php if((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))){?>
-      <?php if($_SESSION['notif']=="editkosong"){?>
+      <?php if ((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))) {?>
+      <?php if ($_SESSION['notif']=="tambahkosong") {?>
       <div class="alert alert-danger" role="alert">Maaf data
       <?php echo $_SESSION['jenis'];?> wajib di isi</div>
       <?php }?>
       <?php }?>
-
       </div>
-      <form class="form-horizontal" method="post" action="konfirmasi-edit-profil" enctype="multipart/form-data">
-        <div class="card-body">          
+      <form class="form-horizontal" method="POST" action="konfirmasi-slide-id-<?= $data[0]['id'] ?>" enctype="multipart/form-data">
+        <div class="card-body">
+          
           <div class="form-group row">
-            <label for="foto" class="col-sm-12 col-form-label"><span class="text-info">
-            <i class="fas fa-user-circle"></i> <u>PROFIL USER</u></span></label>
-          </div>
-          <div class="form-group row">
-            <label for="foto" class="col-sm-3 col-form-label">Foto Pegawai</label>
+            <label for="foto" class="col-sm-3 col-form-label">Gambar Slider </label>
             <div class="col-sm-7">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" name="foto" id="customFile">
+                <input type="file" class="custom-file-input" name="gambar" id="customFile">
                 <label class="custom-file-label" for="customFile">Choose file</label>
               </div>  
             </div>
           </div>
+          
           <div class="form-group row">
-            <label for="nama" class="col-sm-3 col-form-label">Nama</label>
+            <label for="nim" class="col-sm-3 col-form-label">Label</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="nama" id="nama" value="<?php echo $nama;?>">
+              <input type="text" class="form-control" name="label" id="nim" value="<?php echo isset($_SESSION['label']) ? $_SESSION['label'] : $data[0]['label']; ?>">
             </div>
           </div>
           <div class="form-group row">
-            <label for="email" class="col-sm-3 col-form-label">Email</label>
+            <label for="sinopsis" class="col-sm-3 col-form-label">Isi</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="email" id="email" value="<?php echo $email;?>">
+              <textarea class="form-control" name="isi" id="editor1" rows="12"><?= isset($_SESSION['isi']) ? $_SESSION['isi'] : $data[0]['isi'] ?></textarea>
             </div>
+          </div>          
           </div>
         </div>
+
+      </div>
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-12">
-            <button type="submit" class="btn btn-info float-right"><i class="fas fa-save"></i> Simpan</button>
+            <button type="submit" class="btn btn-info float-right" name="updateslider"><i class="fas fa-plus"></i> Update</button>
           </div>  
         </div>
         <!-- /.card-footer -->
@@ -109,11 +107,10 @@ while($data_d = mysqli_fetch_row($query_d)){
 
 </div>
 <!-- ./wrapper -->
-
-<?php include("includes/script.php") ?>
-<?php 
+<?php
 unset($_SESSION['notif']);
 unset($_SESSION['jenis']);
 ?>
+<?php include("includes/script.php") ?>
 </body>
 </html>

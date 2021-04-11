@@ -34,14 +34,27 @@ session_start();
     border-radius: 2px;
     background-clip: padding-box;
 }
-    /* -webkit-tap-highlight-color: transparent;
-    -webkit-text-size-adjust: 100%;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #333;
-    box-sizing: border-box;
-    position: relative; */
+.position {
+    position: relative;
+    right: 200;
+}
+#search-display
+{
+    position: absolute;
+    width: auto; 
+    background: white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    
+    border: 1px solid gray;
+    
+    /*This is relative to the navbar now*/
+    left: 0;
+    right: 0;
+    top: 20px;
+}
 </style>
 </head>
 <body>
@@ -92,13 +105,16 @@ $sql_kategori_buku = "select kategori_buku.*
                     <a class="nav-link" href="contact-us">Contact Us</a>
                 </li>
             </ul>
-            <form class="form-inline mt-2 mt-md-0">
-
-            <div class="typeahead__container cancel result">
-              <input class="form-control mr-sm-2" id="search" name="search" type="text" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class='icon-search'></i></button>
-              <div id="display-search"></div>
-            </div>
+            <form class="form-inline mt-2 mt-md-0 position">
+                <div class="typeahead__container cancel result">
+                <input class="form-control mr-sm-2" id="search" name="search" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class='icon-search'></i></button>
+                <div class="typeahead__result">
+                    <ul class="typeahead__list">
+                        <div id="display-search"></div>
+                    </ul>
+                </div>                
+                </div>
             </form>
 
         </div>
@@ -140,6 +156,10 @@ if (isset($_GET["page"])) {
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="user/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+hideResult();
+function hideResult() {
+    $(".typeahead__result").hide();
+}
 $( "#search" ).keyup(function() {
   $("#display-search").empty();
   var key = $("#search").val();
@@ -147,22 +167,20 @@ $( "#search" ).keyup(function() {
   if(key) {
     $.post( "user/search.php", { data: key})
       .done(function( data ) {
-      console.log(data);
-      for (let index = 0; index < data.length; index++) {
-        // const element = array[index];
-        
-    $("#display-search").html('<div class="typeahead__result">'+
-      '<ul class="typeahead__list">'+
-      '<li class="typeahead__item typeahead__group-default" data-group="default" data-index="0">'+
-      '<a href="detail-buku-id-'+data[index].id_buku+'">'+
-      '<span class="typeahead__display">'+
-      '<strong>'+data[index].judul+''+
-      '</span>'+
-      '</a>'+
-      '</li>'+
-      '</ul>'+
-      '</div>');
-    }
+      var html = "";
+      if(data) {
+        $(".typeahead__result").show();
+        for (let index = 0; index < data.length; index++) {
+            html = html + '<li class="typeahead__item typeahead__group-default" data-group="default" data-index="0">'+
+        '<a href="detail-buku-id-'+data[index].id_buku+'">'+
+        '<span class="typeahead__display">'+
+        '<strong>'+data[index].judul+'</strong>'+
+        '</span>'+
+        '</a>'+
+        '</li>';
+        }
+      }
+    $("#display-search").html(html);
     });
   } else {
     $("#display-search").empty();

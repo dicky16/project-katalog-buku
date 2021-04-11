@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php include("includes/head.php") ?> 
+<?php
+include("includes/head.php");
+?> 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -16,12 +18,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3><i class="fas fa-plus"></i> Tambah Penerbit</h3>
+            <h3><i class="fas fa-plus"></i> Tambah Slider</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="penerbit">Penerbit</a></li>
-              <li class="breadcrumb-item active">Tambah Penerbit</li>
+              <li class="breadcrumb-item"><a href="slide">Data Slider</a></li>
+              <li class="breadcrumb-item active">Tambah Slider</li>
             </ol>
           </div>
         </div>
@@ -33,14 +35,15 @@
 
     <div class="card card-info">
       <div class="card-header">
-        <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Tambah Penerbit</h3>
+        <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Tambah Data Slider</h3>
         <div class="card-tools">
-          <a href="penerbit" class="btn btn-sm btn-warning float-right"><i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
+          <a href="slide" class="btn btn-sm btn-warning float-right">
+          <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
         </div>
       </div>
       <!-- /.card-header -->
       <!-- form start -->
-      </br>
+      </br></br>
       <div class="col-sm-10">
       <?php if ((!empty($_SESSION['notif']))&&(!empty($_SESSION['jenis']))) {?>
       <?php if ($_SESSION['notif']=="tambahkosong") {?>
@@ -49,25 +52,39 @@
       <?php }?>
       <?php }?>
       </div>
-      <form class="form-horizontal" method="POST" action="konfirmasi-penerbit">
+      <form class="form-horizontal" method="POST" action="konfirmasi-slide" enctype="multipart/form-data">
         <div class="card-body">
+          
           <div class="form-group row">
-            <label for="tag" class="col-sm-3 col-form-label">Penerbit</label>
+            <label for="foto" class="col-sm-3 col-form-label">Gambar Slider </label>
             <div class="col-sm-7">
-              <input type="text" class="form-control" name="penerbit" id="tag" value="">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" name="gambar" id="customFile">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+              </div>  
+            </div>
+          </div>
+          
+          <div class="form-group row">
+            <label for="nim" class="col-sm-3 col-form-label">Label</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" name="label" id="nim" value="<?php echo isset($_SESSION['label']) ? $_SESSION['label'] : ''; ?>">
             </div>
           </div>
           <div class="form-group row">
-            <label for="isi" class="col-sm-3 col-form-label">Alamat</label>
+            <label for="sinopsis" class="col-sm-3 col-form-label">Isi</label>
             <div class="col-sm-7">
-              <textarea class="form-control" name="alamat" id="editor1" rows="12"></textarea>
+              <textarea class="form-control" name="isi" id="editor1" rows="12"><?= isset($_SESSION['isi']) ? $_SESSION['isi'] : '' ?></textarea>
             </div>
+          </div>          
           </div>
         </div>
+
+      </div>
         <!-- /.card-body -->
         <div class="card-footer">
-          <div class="col-sm-10">
-            <button type="submit" class="btn btn-info float-right" name="tambahpenerbit"><i class="fas fa-plus"></i> Tambah</button>
+          <div class="col-sm-12">
+            <button type="submit" class="btn btn-info float-right" name="tambahslider"><i class="fas fa-plus"></i> Tambah</button>
           </div>  
         </div>
         <!-- /.card-footer -->
@@ -83,9 +100,9 @@
 
 </div>
 <!-- ./wrapper -->
-<?php 
+<?php
 unset($_SESSION['notif']);
-unset($_SESSION['jenis']); 
+unset($_SESSION['jenis']);
 ?>
 <?php include("includes/script.php") ?>
 </body>
